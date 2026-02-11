@@ -1,0 +1,44 @@
+[opener]
+open = [
+    { run = 'xdg-open "$@"', orphan = true, desc = "Open with xdg", for = "unix" },
+]
+
+execute = [
+    { run = "$@", orphan = true, desc = "Launch", for = "unix" }
+]
+
+edit = [
+    { run = 'nvim "$@"', desc = "Nvim", block = true, for = "unix" },
+    { run = 'code "$@"', desc = "VSCode", block = true, for = "unix" }
+]
+
+sudo-edit = [
+    { run = 'VISUAL="code --wait" sudo -e "$@"', block = true, desc = "Éditer en Root (VS Code)" },
+    { run = 'VISUAL=nvim EDITOR=nvim sudo -e "$@"', block = true, desc = "Éditer en Root (Nvim)" }
+]
+
+[[open.prepend_rules]]
+mime = "application/executable"
+use = ["execute", "edit"]
+
+[[open.prepend_rules]]
+mime = "application/pie-executable"
+use = ["execute", "edit"]
+
+[[open.prepend_rules]]
+mime = "text/shellscript"
+use = ["execute", "edit"]
+
+[[open.prepend_rules]]
+url = "*"
+use  = [ "open", "edit" ]
+
+[[plugin.prepend_fetchers]]
+id  = "git"
+url = "*"
+run = "git"
+
+[[plugin.prepend_fetchers]]
+id  = "git"
+url = "*/"
+run = "git"

@@ -1,0 +1,90 @@
+@import "theme.css";
+
+* {
+    font-family: "cantarell", "JetBrainsMono Nerd Font Propo";
+    min-height: 0px;
+}
+
+window#waybar {
+    background-color: transparent;
+    /* allows round corner */
+    color: @surface;
+}
+
+window#waybar>box {
+    background-color: @overlay;
+    border-radius: 7px;
+}
+
+/* Workspaces */
+#workspaces button {
+    padding: 5px 5px;
+    background-color: transparent;
+    color: @text;
+    /* Foreground */
+    border-radius: 7px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+#workspaces button.active {
+    color: @pine;
+    font-weight: bold;
+    background-color: @bg-alt;
+    font-size: 13px;
+    
+}
+
+#workspaces button:hover {
+    background: @overlay;
+    border: 1px solid @bg-alt;
+    transition: none;
+    font-size: 13px;
+}
+
+/* Window title */
+#window {
+    font-size: 14px;
+    color: @text;
+    font-weight: bold;
+}
+
+#mpris{
+    font-size: 14px;
+    color: @text;
+    padding-left: 20;
+}
+
+
+/* Right modules */
+#custom-airplane,
+#network,
+#bluetooth,
+#pulseaudio,
+#custom-brightness,
+#battery,
+#clock,
+#language {
+    font-weight: bold;
+    font-size: 14px;
+    color: @text;
+    min-width: 60px;
+}
+
+#clock { 
+    padding-right: 20;
+    min-width: 120px;
+
+}
+
+#custom-airplane,
+#network,
+#bluetooth {
+    font-size: 17px;
+}
+
+#battery.critical {
+    color: @love;
+}
