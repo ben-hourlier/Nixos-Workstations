@@ -1,0 +1,94 @@
+[[mgr.prepend_keymap]]
+on   = [ "&" ]
+run  = "tab_switch 0"
+desc = "Switch to tab 1"
+
+[[mgr.prepend_keymap]]
+on   = [ "é" ]
+run  = "tab_switch 1"
+desc = "Switch to tab 2"
+
+[[mgr.prepend_keymap]]
+on   = [ "\"" ]
+run  = "tab_switch 2"
+desc = "Switch to tab 3"
+
+[[mgr.prepend_keymap]]
+on   = [ "'" ]
+run  = "tab_switch 3"
+desc = "Switch to tab 4"
+
+[[mgr.prepend_keymap]]
+on   = [ "(" ]
+run  = "tab_switch 4"
+desc = "Switch to tab 5"
+
+[[mgr.prepend_keymap]]
+on   = [ "-" ]
+run  = "tab_switch 5"
+desc = "Switch to tab 6"
+
+[[mgr.prepend_keymap]]
+on   = [ "è" ]
+run  = "tab_switch 6"
+desc = "Switch to tab 7"
+
+[[mgr.prepend_keymap]]
+on   = [ "_" ]
+run  = "tab_switch 7"
+desc = "Switch to tab 8"
+
+[[mgr.prepend_keymap]]
+on   = [ "ç" ]
+run  = "tab_switch 8"
+desc = "Switch to tab 9"
+
+[[mgr.prepend_keymap]]
+on   = [ "à" ]
+run  = "tab_switch 9"
+desc = "Switch to tab 10"
+
+[[mgr.prepend_keymap]]
+on   = [ "g","k" ]
+run  = "cd /run/media/ben"
+desc = "Go to USB keys"
+
+[[mgr.prepend_keymap]]
+on   = [ "T" ]
+run  = 'shell "kitty --detach &" --block'
+desc = "Open terminal here"
+
+[[mgr.prepend_keymap]]
+on   = [ "S", "D" ]
+run  = 'shell "sudo rm -rf $@" --block'
+desc = "Sudo - Delete"
+
+[[mgr.prepend_keymap]]
+on   = [ "S", "P" ]
+run  = 'shell "sudo cp -r $@ ." --block'
+desc = "Sudo - Copy/Paste"
+
+[[mgr.prepend_keymap]]
+on   = [ "S", "P" ]
+run  = 'shell "sudo mv -r $@ ." --block'
+desc = "Sudo - Cut/Paste"
+
+[[mgr.prepend_keymap]]
+on   = [ "S", "E" ]
+run  = "open --use=sudo-edit"
+desc = "Sudo edit"
+
+[[mgr.prepend_keymap]]
+on = "<C-d>"
+run = 'shell "ripdrag -a -x \"$@\""'
+desc = "Drag and drop"
+
+[[mgr.prepend_keymap]]
+on = [ "b", "r" ]
+run = "shell trash-restore --block"
+desc = "Restore a file from trash"
+
+[[mgr.prepend_keymap]]
+on = [ "b", "e" ]
+run = "shell trash-empty --block"
+desc = "Empty trash"

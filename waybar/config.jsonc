@@ -1,0 +1,134 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "spacing": 5,
+    "margin-top": 5,
+    "margin-left": 5,
+    "margin-right": 5,
+    // Module positions
+    "modules-left": [
+        "hyprland/workspaces",
+        "mpris"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "custom/airplane",
+        "network",
+        "bluetooth",
+        "pulseaudio",
+        "custom/brightness",
+        "hyprland/language",
+        "battery",
+        "clock"
+    ],
+    // Workspaces
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{id}"
+    },
+    // Window title
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 50,
+        "separate-outputs": false
+    },
+    // Media
+    "mpris": {
+        "format": "{player_icon} <i>{title} - {artist}</i>",
+        "format-paused": "{status_icon} <i>{title} - {artist}</i>",
+        "player-icons": {
+            "default": ""
+        },
+        "status-icons": {
+            "paused": ""
+        },
+        "max-length": 50,
+        "tooltip" : false
+    },
+    // Sound
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": "Muted",
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.5",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip": false
+    },
+    // Network
+    "custom/airplane": {
+        "format": "{}",
+        "exec": "~/.config/waybar/network_status.sh",
+        "tooltip": false,
+        "on-click": "nm-connection-editor"
+    },
+    "network": {
+        "format-wifi": "󰖩",
+        "format-ethernet": "󰈀",
+        "format-linked": "󰈀",
+        "format-disconnected": "󰖪",
+        "tooltip": false,
+        "on-click": "nm-connection-editor"
+    },
+    // Bluetooth
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-connected": "󰂱",
+        "format-no-controller": "",
+        "tooltip": false,
+        "on-click": "overskride"
+    },
+    //Backlight
+    "custom/brightness": {
+        "format": " {percentage}%",
+        "return-type": "json",
+        
+        // On appelle le script avec l'argument "get" qui renvoie le JSON
+        "exec": "~/dotfiles/scripts/brightness.sh get",
+        "signal": 8,
+        
+        "on-scroll-up": "~/dotfiles/scripts/brightness.sh up",
+        "on-scroll-down": "~/dotfiles/scripts/brightness.sh down",
+        "tooltip": false
+    },
+
+    // Battery
+    "battery": {
+        "states": {
+            "warning": 10,
+            "critical": 10
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "   {capacity}%",
+        "format-plugged": "   {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ],
+        "tooltip": false
+    },
+    
+    
+    "hyprland/language": {
+        "format": " {}",
+        "format-ru": "RU",
+        "format-fr": "FR",
+        // "keyboard-name": "at-translated-set-2-keyboard", // Optionnel : force un clavier précis si ça ne s'affiche pas
+        "on-click": "hyprctl switchxkblayout all next"    // Clic pour changer de langue
+    },
+
+    // Clock
+    "clock": {
+        "format": "{:%H:%M  |  %d-%b}",
+        "tooltip": false
+    }
+}
