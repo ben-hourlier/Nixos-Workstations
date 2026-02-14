@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
@@ -32,6 +32,20 @@
     alsa.support32Bit = true;
     pulse.enable = true; # Active la compatibilité PulseAudio (pour pavucontrol, firefox, etc.)
     # jack.enable = true; # Décommente si tu fais de la MAO
+
+    extraConfig = {
+      pipewire."92-low-latency" = {
+        "context.properties" = {
+          "default.clock.allowed-rates" = [ 44100 48000 88200 96000 176400 192000 ];
+        };
+      };
+
+      pipewire-pulse."92-low-latency" = {
+        "context.properties" = {
+          "default.clock.allowed-rates" = [ 44100 48000 88200 96000 176400 192000 ];
+        };
+      };
+    };
   };
 
   hardware.graphics = {

@@ -10,4 +10,13 @@
     "nvim" = { source = ../nvim; recursive = true; };
     "yazi" = { source = ../yazi; recursive = true; };
   };
+
+  xdg.desktopEntries.yazi = {
+    name = "Yazi";
+    exec = "yazi %u";
+    terminal = true;
+    icon = "system-file-manager"; 
+    mimeType = [ "inode/directory" ];
+  };
 }
+

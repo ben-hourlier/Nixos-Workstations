@@ -17,6 +17,7 @@
     polkit_gnome
     pavucontrol
     overskride
+    trash-cli
 
     # Terminaux & Shell
     kitty
@@ -42,6 +43,8 @@
     kdePackages.okular
     loupe
     gthumb
+    gnome-clocks
+    xournalpp
   ];
 
   programs.btop = {

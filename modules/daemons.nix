@@ -40,14 +40,14 @@
     
     # Configuration visuelle (Rose Pine)
     settings = {
-      backgroundColor = "#191724";
-      textColor = "#e0def4";
-      borderColor = "#eb6f92";
-      borderRadius = 5;
-      borderSize = 2;
+      background-color = "#191724";
+      text-color = "#e0def4";
+      border-color = "#eb6f92";
+      border-radius = 5;
+      border-size = 2;
       font = "Cantarell 11";
       padding = "15";
-      defaultTimeout = 5000; # 5 secondes
+      default-timeout = 5000; # 5 secondes
     };
 
     extraConfig = ''

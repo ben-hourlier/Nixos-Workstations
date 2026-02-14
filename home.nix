@@ -11,6 +11,9 @@
     ./modules/daemons.nix
     ./modules/zsh.nix
     ./modules/mime.nix
+    ./modules/neovim.nix
+    ./modules/music.nix
+    ./modules/trash.nix
   ];
 
   # --- INFOS UTILISATEUR ---

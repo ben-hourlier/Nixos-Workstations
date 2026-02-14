@@ -44,7 +44,7 @@
       
       # Raccourcis NixOS
       update = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake .";
-      conf = "code ~/dotfiles"; # Ouvre VSCode dans ta config
+      conf = "code ~/dotfiles && exit"; # Ouvre VSCode dans ta config
       
       # Raccourcis Git
       gs = "git status";
