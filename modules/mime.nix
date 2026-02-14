@@ -4,13 +4,13 @@ let
   # --- 1. DÉFINITION DES VARIABLES ---
   # On centralise les choix ici pour changer facilement plus tard
   browser = [ "firefox.desktop" ];
-  fileManager = [ "org.gnome.yazi.desktop" ]; 
+  fileManager = [ "yazi.desktop" ]; 
   
   # Tes nouveaux outils
   imageViewer = [ "org.gnome.Loupe.desktop" ];      # Loupe
   photoManager = [ "org.gnome.gThumb.desktop" ];    # gThumb
-  videoPlayer = [ "mpv.desktop" ];
-  pdfViewer = [ "org.gnome.Evince.desktop" ];       # Evince
+  videoPlayer = [ "vlc.desktop" ];
+  pdfViewer = [ "org.kde.okular.desktop" ];       # Okular
   textEditor = [ "code.desktop" ];                  # VS Code
   archiveManager = [ "org.gnome.FileRoller.desktop" ];
 
@@ -66,6 +66,7 @@ in
 
       # --- GESTIONNAIRE DE FICHIERS ---
       "inode/directory" = fileManager;
+      "folder/local" = fileManager;
     };
 
     # (Optionnel) "associations" ajoute le logiciel à la liste "Ouvrir avec..."

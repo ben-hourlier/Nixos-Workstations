@@ -49,6 +49,12 @@ run  = "tab_switch 9"
 desc = "Switch to tab 10"
 
 [[mgr.prepend_keymap]]
+on   = [ "<Enter>" ]
+run  = "enter"
+desc = "Enter the child directory"
+
+
+[[mgr.prepend_keymap]]
 on   = [ "g","k" ]
 run  = "cd /run/media/ben"
 desc = "Go to USB keys"
@@ -83,10 +89,19 @@ on = "<C-d>"
 run = 'shell "ripdrag -a -x \"$@\""'
 desc = "Drag and drop"
 
+#######################################
+# BIN MANAGEMENT
+#######################################
+
 [[mgr.prepend_keymap]]
 on = [ "b", "r" ]
-run = "shell trash-restore --block"
-desc = "Restore a file from trash"
+run = "shell trash-restore --sort date --block"
+desc = "Restore a file"
+
+[[mgr.prepend_keymap]]
+on = [ "b", "s" ]
+run = "shell trash-restore-search --block"
+desc = "Search a file"
 
 [[mgr.prepend_keymap]]
 on = [ "b", "e" ]

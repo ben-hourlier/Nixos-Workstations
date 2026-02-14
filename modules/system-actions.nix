@@ -28,7 +28,7 @@ eject-usb-script = pkgs.writeShellScriptBin "eject-usb" ''
 
     # --- 2. SÉLECTION VIA FUZZEL ---
     # On affiche la liste. Fuzzel supporte le Pango markup (<span>) pour griser l'ID technique
-    CHOSEN=$(echo "$DRIVES" | ${pkgs.fuzzel}/bin/fuzzel -d -p "⏏ Éjecter > " --width 30)
+    CHOSEN=$(echo "$DRIVES" | ${pkgs.fuzzel}/bin/fuzzel -d -p "⏏ Eject > ")
 
     if [ -z "$CHOSEN" ]; then exit 0; fi
 
@@ -80,16 +80,7 @@ in
       icon = "system-reboot";
       categories = [ "System" ];
     };
-
-    # --- SUSPEND (Veille) ---
-    suspend = {
-      name = "Suspend";
-      exec = "systemctl suspend";
-      terminal = false;
-      icon = "system-suspend";
-      categories = [ "System" ];
-    };
-
+    
     # --- LOCK (Verrouiller) ---
     lock = {
       name = "Lock Screen";
@@ -114,7 +105,7 @@ in
       # On appelle le script défini plus haut
       exec = "eject-usb";
       terminal = false;
-      icon = "media-eject";
+      icon = "usb";
       categories = [ "System" ];
     };
   };
