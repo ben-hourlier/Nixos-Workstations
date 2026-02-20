@@ -23,8 +23,11 @@ in
     (writeShellScriptBin "ncmpcpp-wrapper" ''
       #!/usr/bin/env bash
 
-      # Quit mdp on closure
-      trap "${pkgs.mpc}/bin/mpc stop" EXIT
+      clean() {
+      ${pkgs.mpc}/bin/mpc stop
+      ${pkgs.mpc}/bin/mpc clear
+      }
+      trap clean EXIT
 
       # Launch ncmpcpp
       ${config.programs.ncmpcpp.package}/bin/ncmpcpp

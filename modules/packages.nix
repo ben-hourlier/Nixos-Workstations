@@ -18,6 +18,7 @@
     pavucontrol
     overskride
     trash-cli
+    socat
 
     # Terminaux & Shell
     kitty
@@ -45,6 +46,7 @@
     gthumb
     gnome-clocks
     xournalpp
+    localsend
   ];
 
   programs.btop = {

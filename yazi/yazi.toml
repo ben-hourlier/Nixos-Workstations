@@ -13,8 +13,8 @@ edit = [
 ]
 
 sudo-edit = [
-    { run = 'VISUAL="code --wait" sudo -e "$@"', block = true, desc = "Éditer en Root (VS Code)" },
-    { run = 'VISUAL=nvim EDITOR=nvim sudo -e "$@"', block = true, desc = "Éditer en Root (Nvim)" }
+    # sudo-edit allows to work on a copy (/tmp or /var/tmp) that will replace the original only in case of changes
+    { run = 'VISUAL=nvim EDITOR=nvim sudo -e "$@"', block = true, desc = "Nvim sudo-edit" }
 ]
 
 [[open.prepend_rules]]
@@ -31,14 +31,14 @@ use = ["execute", "edit"]
 
 [[open.prepend_rules]]
 url = "*"
-use  = [ "open", "edit" ]
+use  = [ "open", "edit", "sudo-edit"]
 
 [[plugin.prepend_fetchers]]
 id  = "git"
-url = "*"
+url = "*" 
 run = "git"
 
 [[plugin.prepend_fetchers]]
 id  = "git"
-url = "*/"
+url = "*/" 
 run = "git"

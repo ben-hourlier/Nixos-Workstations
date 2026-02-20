@@ -10,9 +10,8 @@ let
   imageViewer = [ "org.gnome.Loupe.desktop" ];      # Loupe
   photoManager = [ "org.gnome.gThumb.desktop" ];    # gThumb
   videoPlayer = [ "vlc.desktop" ];
-  pdfViewer = [ "org.kde.okular.desktop" ];       # Okular
+  pdfViewer = [ "org.kde.okular.desktop" ];         # Okular
   textEditor = [ "code.desktop" ];                  # VS Code
-  archiveManager = [ "org.gnome.FileRoller.desktop" ];
 
 in
 {
@@ -20,7 +19,6 @@ in
   xdg.mimeApps = {
     enable = true;
 
-    # "defaultApplications" force l'ouverture avec ce logiciel
     defaultApplications = {
       
       # --- INTERNET & HTML ---
@@ -28,29 +26,28 @@ in
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;
       "x-scheme-handler/about" = browser;
+      "x-scheme-handler/ftp" = browser;
       "x-scheme-handler/unknown" = browser;
 
       # --- DOCUMENTS & PDF ---
       "application/pdf" = pdfViewer;
       "application/x-pdf" = pdfViewer;
-      # Pour éviter que LibreOffice ne vole les PDF :
-      "application/vnd.oasis.opendocument.text" = [ "writer.desktop" ];
 
       # --- IMAGES ---
-      # On couvre les formats les plus courants
       "image/jpeg" = imageViewer;
+      "image/jpg" = imageViewer;
       "image/png" = imageViewer;
       "image/gif" = imageViewer;
       "image/webp" = imageViewer;
       "image/svg+xml" = imageViewer;
-      "image/tiff" = photoManager; # On peut utiliser gThumb pour les formats plus lourds
+      "image/tiff" = imageViewer;
 
       # --- VIDÉO & AUDIO ---
       "video/mp4" = videoPlayer;
       "video/mkv" = videoPlayer;
       "video/x-matroska" = videoPlayer;
       "video/webm" = videoPlayer;
-      "audio/mpeg" = videoPlayer; # Ou un lecteur audio dédié
+      "audio/mpeg" = videoPlayer;
 
       # --- TEXTE & CODE ---
       "text/plain" = textEditor;
@@ -58,21 +55,17 @@ in
       "application/json" = textEditor;
       "application/x-yaml" = textEditor;
 
-      # --- ARCHIVES ---
-      "application/zip" = archiveManager;
-      "application/x-tar" = archiveManager;
-      "application/x-bzip2" = archiveManager;
-      "application/x-gzip" = archiveManager;
-
       # --- GESTIONNAIRE DE FICHIERS ---
       "inode/directory" = fileManager;
       "folder/local" = fileManager;
     };
 
-    # (Optionnel) "associations" ajoute le logiciel à la liste "Ouvrir avec..."
-    # sans le forcer par défaut.
+
+    # Optional association
     associations.added = {
-      "image/jpeg" = photoManager; # Ajoute gThumb en clic droit
+      "image/jpeg" = photoManager;
+      "image/jpg" = photoManager;
+      "image/png" = photoManager;
     };
   };
 }

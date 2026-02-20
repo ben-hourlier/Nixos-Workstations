@@ -45,7 +45,7 @@ window#waybar>box {
 }
 
 /* Window title */
-#window {
+#custom-window {
     font-size: 14px;
     color: @text;
     font-weight: bold;
