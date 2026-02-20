@@ -49,12 +49,6 @@ run  = "tab_switch 9"
 desc = "Switch to tab 10"
 
 [[mgr.prepend_keymap]]
-on   = [ "<Enter>" ]
-run  = "enter"
-desc = "Enter the child directory"
-
-
-[[mgr.prepend_keymap]]
 on   = [ "g","k" ]
 run  = "cd /run/media/ben"
 desc = "Go to USB keys"
