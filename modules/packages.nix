@@ -1,61 +1,75 @@
 { pkgs, ... }:
 
 {
+  # --- System Packages ---
+  
+  # Installs various software packages into the user's environment.
+  # Packages are categorized and sorted alphabetically for easier maintenance.
   home.packages = with pkgs; [
-    # Système & Outils
-    git
+    
+    # --- System & Tools ---
+    fuse
     fuzzel
-    waybar
-    libnotify
+    git
     hypridle
     hyprlock
     hyprpaper
     hyprpicker
     hyprshot
+    libnotify
     networkmanagerapplet
+    overskride
+    pavucontrol
     playerctl
     polkit_gnome
-    pavucontrol
-    overskride
-    trash-cli
     socat
-    fuse
+    trash-cli
+    waybar
 
-    # Terminaux & Shell
-    kitty
+    # --- Terminal & Shell ---
+    cliphist
     fastfetch
     fd
     fzf
     jq
+    kitty
     ripdrag
-    yazi
-    cliphist
     wl-clipboard
+    yazi
 
-    # Applications
+    # --- GUI Applications ---
     firefox
-    google-chrome
-    vscode
-    obsidian
-    vlc
-    ly
     gimp
-    thunderbird
-    pdfarranger
-    kdePackages.okular
-    loupe
-    shotwell
     gnome-clocks
-    xournalpp
+    google-chrome
+    kdePackages.okular
     localsend
+    loupe
+    ly
+    obsidian
+    pdfarranger
+    shotwell
+    thunderbird
+    vlc
+    vscode
+    xournalpp
   ];
 
+
+  # --- Program Configurations ---
+
+  # Configures btop, a resource monitor that displays system usage and stats.
   programs.btop = {
     enable = true;
     settings = {
-      # On force l'utilisation d'un thème nommé "user-theme"
+      # Forces the use of a custom theme named "user-theme".
       color_theme = "user-theme";
-      theme_background = false; # Pour la transparence si tu veux (true pour fond opaque)
+      
+      # Disables the theme background to allow terminal transparency to show through.
+      # (Can be set to true for an opaque background).
+      theme_background = false; 
+      
+      # Enables Vim-style keybindings (h, j, k, l) for internal navigation.
       vim_keys = true;
     };
   };
