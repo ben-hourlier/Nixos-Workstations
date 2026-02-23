@@ -31,7 +31,7 @@ if [ ${#ids[@]} -eq 0 ]; then exit 0; fi
 # --- INTERFACE UTILISATEUR (MENU) ---
 # Envoie la liste des noms au menu 'fuzzel'.
 # --index permet de récupérer la position (0, 1, 2...) de l'élément choisi plutôt que son texte.
-SELECTED_INDEX=$(printf "%s\n" "${display_names[@]}" | fuzzel -d --prompt="Switch: " --width=30 --index)
+SELECTED_INDEX=$(printf "%s\n" "${display_names[@]}" | fuzzel -d --prompt="Switch > " --width=30 --index)
 
 # --- ACTION FINALE ---
 # Si l'utilisateur a sélectionné une fenêtre (n'a pas fait Echap)

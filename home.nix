@@ -13,6 +13,7 @@
     ./modules/mime.nix
     ./modules/music.nix
     ./modules/trash.nix
+    ./modules/backup.nix
   ];
 
   # --- INFOS UTILISATEUR ---
@@ -29,7 +30,7 @@
   # Configuration Hyprland de base
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     extraConfig = ''
       source = ~/.config/hypr/hyprland.conf
     '';
