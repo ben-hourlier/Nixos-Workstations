@@ -1,27 +1,35 @@
 { pkgs, ... }:
 
 let
-  # --- 1. DÉFINITION DES VARIABLES ---
-  # On centralise les choix ici pour changer facilement plus tard
+  # --- Application Variables ---
+  
+  # Centralizes application choices into variables. 
+  # This allows quickly swapping out a default program (like changing the browser) 
+  # in one place without having to modify dozens of individual MIME type entries below.
   browser = [ "firefox.desktop" ];
   fileManager = [ "yazi.desktop" ]; 
   
-  # Tes nouveaux outils
-  imageViewer = [ "org.gnome.Loupe.desktop" ];      # Loupe
-  photoManager = [ "org.gnome.gThumb.desktop" ];    # gThumb
+  imageViewer = [ "org.gnome.Loupe.desktop" ];      
+  photoManager = [ "org.gnome.gThumb.desktop" ];    
   videoPlayer = [ "vlc.desktop" ];
-  pdfViewer = [ "org.kde.okular.desktop" ];         # Okular
-  textEditor = [ "code.desktop" ];                  # VS Code
+  pdfViewer = [ "org.kde.okular.desktop" ];         
+  textEditor = [ "code.desktop" ];                  
 
 in
 {
-  # --- 2. CONFIGURATION XDG ---
+  # --- XDG MIME Configuration ---
+  
+  # Enables the management of XDG MIME applications.
+  # This forces the desktop environment and user applications to respect 
+  # the default file associations defined in this file.
   xdg.mimeApps = {
     enable = true;
 
+    # Defines the primary application used to open specific file types 
+    # (e.g., what happens when double-clicking a file).
     defaultApplications = {
       
-      # --- INTERNET & HTML ---
+      # --- Internet & Web ---
       "text/html" = browser;
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;
@@ -29,11 +37,11 @@ in
       "x-scheme-handler/ftp" = browser;
       "x-scheme-handler/unknown" = browser;
 
-      # --- DOCUMENTS & PDF ---
+      # --- Documents & PDFs ---
       "application/pdf" = pdfViewer;
       "application/x-pdf" = pdfViewer;
 
-      # --- IMAGES ---
+      # --- Images ---
       "image/jpeg" = imageViewer;
       "image/jpg" = imageViewer;
       "image/png" = imageViewer;
@@ -42,26 +50,27 @@ in
       "image/svg+xml" = imageViewer;
       "image/tiff" = imageViewer;
 
-      # --- VIDÉO & AUDIO ---
+      # --- Video & Audio ---
       "video/mp4" = videoPlayer;
       "video/mkv" = videoPlayer;
       "video/x-matroska" = videoPlayer;
       "video/webm" = videoPlayer;
       "audio/mpeg" = videoPlayer;
 
-      # --- TEXTE & CODE ---
+      # --- Text & Code ---
       "text/plain" = textEditor;
       "text/markdown" = textEditor;
       "application/json" = textEditor;
       "application/x-yaml" = textEditor;
 
-      # --- GESTIONNAIRE DE FICHIERS ---
+      # --- File Management ---
       "inode/directory" = fileManager;
       "folder/local" = fileManager;
     };
 
-
-    # Optional association
+    # Defines secondary application associations.
+    # These programs will not open the file by default, but they will be prioritized 
+    # and appear directly in the "Open With..." context menu for these file types.
     associations.added = {
       "image/jpeg" = photoManager;
       "image/jpg" = photoManager;

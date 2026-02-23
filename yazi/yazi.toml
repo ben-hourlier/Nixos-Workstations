@@ -1,3 +1,5 @@
+# --- Openers ---
+
 [opener]
 open = [
     { run = 'xdg-open "$@"', orphan = true, desc = "Open with xdg", for = "unix" },
@@ -13,9 +15,13 @@ edit = [
 ]
 
 sudo-edit = [
-    # sudo-edit allows to work on a copy (/tmp or /var/tmp) that will replace the original only in case of changes
+    # Allows editing a temporary copy (/tmp or /var/tmp) that safely replaces 
+    # the original file only if changes are successfully saved.
     { run = 'VISUAL=nvim EDITOR=nvim sudo -e "$@"', block = true, desc = "Nvim sudo-edit" }
 ]
+
+
+# --- Opening Rules ---
 
 [[open.prepend_rules]]
 mime = "application/executable"
@@ -32,6 +38,9 @@ use = ["execute", "edit"]
 [[open.prepend_rules]]
 url = "*"
 use  = [ "open", "edit", "sudo-edit"]
+
+
+# --- Plugin Fetchers ---
 
 [[plugin.prepend_fetchers]]
 id  = "git"

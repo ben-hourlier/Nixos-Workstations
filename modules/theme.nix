@@ -1,14 +1,28 @@
 { pkgs, ... }:
+
 let
+  # --- External Resources ---
+  
+  # Fetches additional plugins for the Yazi file manager directly from GitHub.
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
     rev = "main";
     hash = "sha256-0K6qGgbGt8N6HgGNEmn2FDLar6hCPiPBbvOsrTjSubM=";
   };
+
+  # --- Custom Shell Scripts ---
+  
+  # Imports custom scripts required for theme management and UI launching.
+  themeSwitchScript = import ./scripts/theme-switch.nix { inherit pkgs; };
+  launchWaybarScript = import ./scripts/launch-waybar.nix { inherit pkgs; };
+
 in
 {
-# 1. Le curseur (Standard GNOME)
+  # --- Cursor Setup ---
+  
+  # Configures the standard GNOME Adwaita cursor globally.
+  # Both GTK and X11 integrations are enabled to ensure consistency across all apps.
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -17,7 +31,12 @@ in
     size = 24;
   };
 
-  # 2. Configuration GTK
+
+  # --- GTK Configuration ---
+  
+  # Configures the GTK environment (font, theme, and icons).
+  # 'adw-gtk3' is used to make legacy GTK3 applications match the modern 
+  # libadwaita styling used by newer GNOME applications.
   gtk = {
     enable = true;
     font = {
@@ -34,132 +53,69 @@ in
     };
   };
 
-  # 3. Configuration Qt (SIMPLIFIÉE)
-  # Plus de Kvantum ni de Qt5ct. On utilise le style Adwaita natif.
+
+  # --- Qt Configuration ---
+  
+  # Simplifies Qt theming by instructing Qt applications to natively integrate 
+  # with the GNOME/GTK style. This avoids the need for external rendering engines 
+  # like Kvantum or Qt5ct.
   qt = {
     enable = true;
     
-    # Indique à Qt d'utiliser le système de style de GNOME/GTK
+    # Instructs Qt to use the GNOME/GTK styling system.
     platformTheme.name = "adwaita"; 
     
-    # Le style visuel : Adwaita (qui gère nativement le mode Dark/Light)
+    # Uses the Adwaita visual style (which natively supports dark/light mode switching).
     style.name = "adwaita";
   };
 
-  # 4. Variables d'environnement de thème
+
+  # --- Environment Variables ---
+  
+  # Sets necessary environment variables to enforce modern Wayland usage 
+  # and fix specific graphical toolkit behaviors.
   home.sessionVariables = {
-    # On nettoie les anciennes variables de force brute
+    # Forces applications (like Qt ones) to use the Wayland backend instead of XWayland.
     QT_QPA_PLATFORM = "wayland";
     
-    # On s'assure que Qt utilise bien le décorateur de fenêtres Wayland
-    # (Parfois nécessaire pour que les bordures soient jolies)
+    # Ensures Qt uses the compositor's window decorations rather than its own, 
+    # preventing ugly or duplicate window borders in Hyprland.
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     
-    # Force le mode auto pour Adwaita (suit le gsettings color-scheme)
+    # Forces the Adwaita theme to automatically follow the system's color-scheme 
+    # preference (set via gsettings) without relying on desktop portals.
     ADW_DISABLE_PORTAL = "1"; 
   };
 
-  # 5. Paquets
-  home.packages = with pkgs; [
-    # Fonts & Thèmes GTK
-    cantarell-fonts
-    nerd-fonts.jetbrains-mono
-    lmodern
 
+  # --- Theme & UI Packages ---
+  
+  # Installs fonts, GTK/Qt themes, and dependencies required by the UI scripts.
+  # Sorted alphabetically for easier maintenance.
+  home.packages = with pkgs; [
     adw-gtk3
-    papirus-icon-theme
-    
-    # --- LES NOUVEAUX PAQUETS QT ---
-    # Ces paquets permettent à Qt de ressembler à Adwaita (Gnome)
     adwaita-qt
     adwaita-qt6
-    
-    # Dépendances du script
-    glib
-    gsettings-desktop-schemas
-    libnotify
-
-
-    # --- TON SCRIPT DE SWITCH ---
-    # (Il n'a pas besoin de changer, car Adwaita-qt écoute "gsettings set ... color-scheme")
-    (pkgs.writeShellScriptBin "theme-switch" ''
-      #!/usr/bin/env bash
-      
-      # Fix pour les schémas
-      export XDG_DATA_DIRS=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:$XDG_DATA_DIRS
-      
-      STATE_FILE="$HOME/.config/theme_state"
-      if [ ! -f "$STATE_FILE" ]; then echo "dark" > "$STATE_FILE"; fi
-      CURRENT=$(cat "$STATE_FILE")
-
-      if [ "$CURRENT" == "dark" ]; then
-          NEXT="light"
-          GTK="adw-gtk3"
-          ICON="Papirus-Light"
-          SCHEME="prefer-light"
-          WALLPAPER="$HOME/dotfiles/themes/wallpaper-light.png"
-      else
-          NEXT="dark"
-          GTK="adw-gtk3-dark"
-          ICON="Papirus-Dark"
-          SCHEME="prefer-dark"
-          WALLPAPER="$HOME/dotfiles/themes/wallpaper-dark.png"
-      fi
-
-      # Liens config
-      ln -sf "$HOME/dotfiles/themes/$NEXT/kitty.conf" "$HOME/.config/kitty/theme.conf"
-      ln -sf "$HOME/dotfiles/themes/$NEXT/waybar.css" "$HOME/.config/waybar/theme.css"
-      ln -sf "$HOME/dotfiles/themes/$NEXT/fuzzel.ini" "$HOME/.config/fuzzel/theme.ini"
-      ln -sf "$HOME/dotfiles/themes/$NEXT/hyprlock.conf" "$HOME/.config/hypr/config/hyprlock-theme.conf"
-      ln -sf "$HOME/dotfiles/themes/$NEXT/hyprland.conf" "$HOME/.config/hypr/config/theme.conf"
-      ln -sf "$HOME/dotfiles/themes/$NEXT/btop.theme" "$HOME/.config/btop/themes/user-theme.theme"
-      ln -sf "$WALLPAPER" "$HOME/.config/hypr/current_wallpaper.png"
-
-      # Application via GSettings (C'est ça qui va déclencher le changement Qt)
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface gtk-theme "$GTK"
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface icon-theme "$ICON"
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme "$SCHEME"
-      
-      # Changement Wallpaper
-      ${pkgs.hyprland}/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"
-
-      # Reloads
-      pkill -SIGUSR1 kitty
-      pkill waybar && launch-waybar
-
-      echo "$NEXT" > "$STATE_FILE"
-      ${pkgs.libnotify}/bin/notify-send "Thème changé" "Mode $NEXT activé"
-    '')
-
-    (pkgs.writeShellScriptBin "launch-waybar" ''
-      #!/usr/bin/env bash
-    
-      
-      # Chemins
-      CONFIG="$HOME/.config/waybar/config.jsonc"
-      STYLE="$HOME/.config/waybar/style.css"
-      TEMP_CONFIG="/tmp/waybar_config.jsonc"
-      
-      # 2. Détection HDMI
-      if hyprctl monitors | grep -q "HDMI-A-1"; then
-          # CAS HDMI : On crée une config temporaire qui FORCE l'écran HDMI
-          # On prend ton config.jsonc et on injecte la ligne "output": "HDMI-A-1" au début
-          sed 's/^{/{\n"output": "HDMI-A-1",/' "$CONFIG" > "$TEMP_CONFIG"
-          
-          waybar -c "$TEMP_CONFIG" -s "$STYLE" &
-      else
-          # CAS NORMAL : On utilise ta config normale (qui s'affiche partout)
-          waybar -c "$CONFIG" -s "$STYLE" &
-      fi
-    '')
+    cantarell-fonts
+    glib                        # Required for gsettings commands
+    gsettings-desktop-schemas   # Required for theme-switch schema validation
+    launchWaybarScript
+    libnotify                   # Required for notification popups
+    lmodern
+    nerd-fonts.jetbrains-mono
+    papirus-icon-theme
+    themeSwitchScript
   ];
 
+
+  # --- Yazi Configuration ---
   
+  # Enables the Yazi terminal file manager and its Zsh shell integration.
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
   };
 
-  # --- INSTALLATION DES FICHIERS ---
+  # Installs the external Git plugin into Yazi's configuration directory.
   xdg.configFile."yazi/plugins/git.yazi".source = "${yazi-plugins}/git.yazi";
 }

@@ -1,3 +1,5 @@
+/* --- Imports & Fonts --- */
+
 @import "theme.css";
 
 * {
@@ -5,23 +7,26 @@
     min-height: 0px;
 }
 
+
+/* --- Main Bar --- */
+
 window#waybar {
     background-color: transparent;
-    /* allows round corner */
     color: @surface;
 }
 
-window#waybar>box {
+window#waybar > box {
     background-color: @overlay;
     border-radius: 7px;
 }
 
-/* Workspaces */
+
+/* --- Left Modules (Workspaces & Media) --- */
+
 #workspaces button {
     padding: 5px 5px;
     background-color: transparent;
     color: @text;
-    /* Foreground */
     border-radius: 7px;
     margin-left: 5px;
     margin-top: 5px;
@@ -34,7 +39,6 @@ window#waybar>box {
     font-weight: bold;
     background-color: @bg-alt;
     font-size: 13px;
-    
 }
 
 #workspaces button:hover {
@@ -44,21 +48,24 @@ window#waybar>box {
     font-size: 13px;
 }
 
-/* Window title */
+#mpris {
+    font-size: 14px;
+    color: @text;
+    padding-left: 20px;
+}
+
+
+/* --- Center Modules (Window Title) --- */
+
 #custom-window {
     font-size: 14px;
     color: @text;
     font-weight: bold;
 }
 
-#mpris{
-    font-size: 14px;
-    color: @text;
-    padding-left: 20;
-}
 
+/* --- Right Modules (System Tray & Stats) --- */
 
-/* Right modules */
 #custom-airplane,
 #network,
 #bluetooth,
@@ -74,9 +81,8 @@ window#waybar>box {
 }
 
 #clock { 
-    padding-right: 20;
+    padding-right: 20px;
     min-width: 120px;
-
 }
 
 #custom-airplane,

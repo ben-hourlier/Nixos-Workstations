@@ -1,78 +1,48 @@
 { pkgs, ... }:
 
 let
-  # --- SCRIPT POUR ÉJECTER LES CLÉS USB ---
-  # Ce script liste les périphériques USB montés et ouvre Fuzzel pour en choisir un.
-eject-usb-script = pkgs.writeShellScriptBin "eject-usb" ''
-    #!/usr/bin/env bash
-
-    # --- 1. DÉTECTION INTELLIGENTE (JSON + JQ) ---
-    # On utilise lsblk en JSON pour garder le lien Parent -> Enfant
-    # .tran == "usb" : on ne regarde que les périphériques USB
-    # $parent : on stocke les infos du disque physique (Modèle, Taille)
-    # .children[] : on descend dans les partitions
-    # select(.mountpoint) : on ne garde que ce qui est monté
-    
-    DRIVES=$(lsblk -J -p -o NAME,SIZE,TRAN,MODEL,MOUNTPOINT | ${pkgs.jq}/bin/jq -r '
-      .blockdevices[] 
-      | select(.tran == "usb") as $parent
-      | ($parent.children[]?) 
-      | select(.mountpoint != null) 
-      | "\($parent.model) (\($parent.size)) <span>mount: \(.mountpoint)</span> <span color=\"gray\">[\(.name)]</span>"
-    ')
-
-    if [ -z "$DRIVES" ]; then
-      ${pkgs.libnotify}/bin/notify-send --category="system_alert" "Eject" "No USB key found"
-      exit 0
-    fi
-
-    # --- 2. SÉLECTION VIA FUZZEL ---
-    # On affiche la liste. Fuzzel supporte le Pango markup (<span>) pour griser l'ID technique
-    CHOSEN=$(echo "$DRIVES" | ${pkgs.fuzzel}/bin/fuzzel -d -p "⏏ Eject > ")
-
-    if [ -z "$CHOSEN" ]; then exit 0; fi
-
-    # --- 3. EXTRACTION DU DEVICE ---
-    # On récupère ce qui est entre crochets [] à la fin de la ligne : /dev/sdb1
-    # sed extrait tout ce qui est entre [ et ]
-    PARTITION=$(echo "$CHOSEN" | sed -n 's/.*\[\(.*\)\].*/\1/p')
-
-    # --- 4. SÉCURISATION ET DÉMONTAGE ---
-    # Étape cruciale : on force l'écriture des données en cache
-    sync
-
-    # Démontage de la partition (ex: /dev/sdb1)
-    if ${pkgs.udisks2}/bin/udisksctl unmount -b "$PARTITION"; then
-       
-       # Recherche du parent pour couper l'alimentation (ex: sdb1 -> sdb)
-       PARENT=$(lsblk -no PKNAME "$PARTITION")
-       
-       ${pkgs.udisks2}/bin/udisksctl power-off -b "/dev/$PARENT"
-       
-       ${pkgs.libnotify}/bin/notify-send --category="system_alert" "Success" "USB key ejected"
-    else
-       ${pkgs.libnotify}/bin/notify-send --category="system_alert" "Error" "Caution : impossible to eject USB key"
-    fi
-  '';
+  # --- Custom Shell Scripts ---
+  
+  # Imports the standalone executable script from a dedicated external file.
+  # This modular approach keeps the main configuration clean and makes adding new scripts easier.
+  ejectUsbScript = import ./scripts/eject-usb.nix { inherit pkgs; };
+  trashScript = import ./scripts/trash.nix { inherit pkgs; };
+  brightnessScript = import ./scripts/brightness.nix { inherit pkgs; };
+  displayNamesScript = import ./scripts/display-names.nix { inherit pkgs; };
+  networkStatusScript = import ./scripts/network-status.nix { inherit pkgs; };
+  windowNamesScript = import ./scripts/window-names.nix { inherit pkgs; };
+  windowSwitcherScript = import ./scripts/window-switcher.nix { inherit pkgs; };
 
 in
 {
-  # On installe le script d'éjection pour qu'il soit trouvable
-  home.packages = [ eject-usb-script ];
+  # --- System Packages ---
+  
+  # Installs the custom scripts defined above into the user's environment.
+  home.packages = [ 
+    ejectUsbScript 
+    trashScript
+    brightnessScript
+    displayNamesScript
+    networkStatusScript
+    windowNamesScript
+    windowSwitcherScript
+  ];
 
-  # Création des entrées .desktop pour Fuzzel
+
+  # --- Custom Desktop Entries ---
+
+  # Creates application launchers for system actions, making them searchable 
+  # and executable directly from application launchers like Fuzzel or Rofi.
   xdg.desktopEntries = {
     
-    # --- POWER OFF ---
     shutdown = {
       name = "Power Off";
       exec = "systemctl poweroff";
       terminal = false;
-      icon = "system-shutdown"; # Icône standard Papirus
+      icon = "system-shutdown"; 
       categories = [ "System" ];
     };
 
-    # --- REBOOT ---
     reboot = {
       name = "Reboot";
       exec = "systemctl reboot";
@@ -81,16 +51,14 @@ in
       categories = [ "System" ];
     };
     
-    # --- LOCK (Verrouiller) ---
     lock = {
       name = "Lock Screen";
-      exec = "hyprlock"; # Ou 'pidof hyprlock || hyprlock'
+      exec = "hyprlock"; 
       terminal = false;
       icon = "system-lock-screen";
       categories = [ "System" ];
     };
 
-    # --- LOGOUT (Hyprland) ---
     logout = {
       name = "Log Out";
       exec = "hyprctl dispatch exit";
@@ -99,11 +67,10 @@ in
       categories = [ "System" ];
     };
 
-    # --- EJECT USB ---
     eject = {
       name = "Eject USB";
-      # On appelle le script défini plus haut
-      exec = "eject-usb";
+      # Calls the custom script created via writeShellScriptBin above.
+      exec = "eject-usb"; 
       terminal = false;
       icon = "usb";
       categories = [ "System" ];

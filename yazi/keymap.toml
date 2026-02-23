@@ -1,3 +1,5 @@
+# --- Tab Switching ---
+
 [[mgr.prepend_keymap]]
 on   = [ "&" ]
 run  = "tab_switch 0"
@@ -48,8 +50,11 @@ on   = [ "à" ]
 run  = "tab_switch 9"
 desc = "Switch to tab 10"
 
+
+# --- Navigation & Execution ---
+
 [[mgr.prepend_keymap]]
-on   = [ "g","k" ]
+on   = [ "g", "k" ]
 run  = "cd /run/media/ben"
 desc = "Go to USB keys"
 
@@ -57,6 +62,9 @@ desc = "Go to USB keys"
 on   = [ "T" ]
 run  = 'shell "kitty --detach &" --block'
 desc = "Open terminal here"
+
+
+# --- Sudo Operations ---
 
 [[mgr.prepend_keymap]]
 on   = [ "S", "D" ]
@@ -69,7 +77,7 @@ run  = 'shell "sudo cp -r $@ ." --block'
 desc = "Sudo - Copy/Paste"
 
 [[mgr.prepend_keymap]]
-on   = [ "S", "P" ]
+on   = [ "S", "M" ]
 run  = 'shell "sudo mv -r $@ ." --block'
 desc = "Sudo - Cut/Paste"
 
@@ -78,14 +86,16 @@ on   = [ "S", "E" ]
 run  = "open --use=sudo-edit"
 desc = "Sudo edit"
 
+
+# --- Miscellaneous ---
+
 [[mgr.prepend_keymap]]
 on = "<C-d>"
 run = 'shell "ripdrag -a -x \"$@\""'
 desc = "Drag and drop"
 
-#######################################
-# BIN MANAGEMENT
-#######################################
+
+# --- Bin Management (Trash) ---
 
 [[mgr.prepend_keymap]]
 on = [ "b", "r" ]

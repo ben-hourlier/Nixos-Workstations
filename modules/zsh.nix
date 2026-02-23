@@ -1,76 +1,90 @@
 { pkgs, ... }:
 
 {
-  # 1. STARSHIP (Le Prompt)
-  # C'est la ligne de commande jolie et rapide
+  # --- Prompt (Starship) ---
+
+  # Configures Starship, a fast and highly customizable cross-shell prompt.
   programs.starship = {
     enable = true;
     settings = {
-      add_newline = false; # Pas de ligne vide inutile au début
-      format = "$directory$git_branch$character"; # Minimaliste : Dossier > Git > Flèche
+      # Prevents printing an unnecessary empty line before the prompt.
+      add_newline = false; 
       
-      # Configuration des couleurs (Rosé Pine)
+      # Defines a minimalist prompt format: Directory > Git Branch > Arrow.
+      format = "$directory$git_branch$character"; 
+      
+      # Applies the "Rosé Pine" aesthetic color palette to the prompt elements.
       directory = {
-        style = "bold #ebbcba"; # Rose (Rose Pine Dawn/Main compatible)
+        style = "bold #ebbcba"; # Rose (Compatible with Rosé Pine Dawn/Main)
         truncation_length = 3;
         truncation_symbol = "…/";
       };
       
       git_branch = {
-        style = "bold #c4a7e7"; # Iris (Violet)
+        style = "bold #c4a7e7"; # Iris (Purple)
         symbol = " ";
       };
       
       character = {
-        success_symbol = "[➜](bold #9ccfd8)"; # Foam (Bleu/Vert)
-        error_symbol = "[✗](bold #eb6f92)";   # Love (Rouge)
+        success_symbol = "[➜](bold #9ccfd8)"; # Foam (Blue/Green)
+        error_symbol = "[✗](bold #eb6f92)";   # Love (Red)
       };
     };
   };
 
-  # 2. ZSH (Le Shell)
+
+  # --- Shell (Zsh) ---
+
+  # Configures Zsh as the primary interactive shell environment.
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     
-    # LE GRAS DU SUJET : Productivité
-    autosuggestion.enable = true;    # Suggère la fin de ta commande en gris
-    syntaxHighlighting.enable = true; # Colorie la commande en vert/rouge
+    # Enhances productivity by suggesting the remainder of a command 
+    # (in grey text) based on command history.
+    autosuggestion.enable = true;    
+    
+    # Provides real-time syntax highlighting for commands as they are typed.
+    syntaxHighlighting.enable = true; 
 
-    # Tes alias (Raccourcis)
+    # Defines custom shell aliases for quicker command execution.
+    # Sorted alphabetically for easier maintenance.
     shellAliases = {
-      ll = "ls -la";
       c = "clear";
-      
-      # Raccourcis NixOS
-      update = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake .";
-      conf = "code ~/dotfiles && exit"; # Ouvre VSCode dans ta config
-      
-      # Raccourcis Git
-      gs = "git status";
+      conf = "code ~/dotfiles && exit"; 
       ga = "git add .";
       gc = "git commit -m";
       gp = "git push";
+      gs = "git status";
+      ll = "ls -la";
+      update = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake .";
     };
 
-    # Historique (Pour retrouver tes commandes d'il y a 3 mois)
+    # Configures the shell's command history settings.
     history = {
       size = 10000;
       path = "$HOME/.zsh_history";
       ignoreDups = true;
+      # Shares command history dynamically across all active terminal sessions.
       share = true;
     };
 
-    # Plugins utiles (via Oh My Zsh, mais géré par Nix)
+    # Integrates specific Oh-My-Zsh plugins efficiently via Nix.
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "sudo" ];
-      # Git permet d'afficher les informations Git
-      # Sudo permet d'ajouter sudo devant la commande en pressant deux fois "esc"
+      plugins = [ 
+        "git"   # Provides numerous git aliases and prompt functions.
+        "sudo"  # Allows prepending 'sudo' to the current command by quickly pressing ESC twice.
+      ];
     };
   };
   
-  # Historique des commandes accessible avec ctrl+r
+  
+  # --- Terminal Tools (FZF) ---
+
+  # Enables the FZF fuzzy finder and integrates it directly into Zsh.
+  # This dramatically improves the reverse history search (triggered via Ctrl+R) 
+  # by replacing it with a full-screen, interactive fuzzy search menu.
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;

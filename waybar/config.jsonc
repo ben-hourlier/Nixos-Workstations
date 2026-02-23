@@ -1,4 +1,6 @@
 {
+    // --- Global Configuration ---
+    
     "layer": "top",
     "position": "top",
     "height": 40,
@@ -6,7 +8,9 @@
     "margin-top": 5,
     "margin-left": 5,
     "margin-right": 5,
-    // Module positions
+    
+    // --- Module Positioning ---
+    
     "modules-left": [
         "hyprland/workspaces",
         "mpris"
@@ -24,21 +28,15 @@
         "battery",
         "clock"
     ],
-    // Workspaces
+
+    // --- Left Modules ---
+    
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
         "format": "{id}"
     },
-    // Window title
-    "custom/window": {
-        "format": "{}",
-        "return-type": "json",
-        "exec": "~/dotfiles/scripts/window-names.sh",
-        "max-length": 50,
-        "separate-outputs": false
-    },
-    // Media
+    
     "mpris": {
         "format": "{player_icon} <i>{title} - {artist}</i>",
         "format-paused": "{status_icon} <i>{title} - {artist}</i>",
@@ -49,25 +47,30 @@
             "paused": ""
         },
         "max-length": 50,
-        "tooltip" : false
-    },
-    // Sound
-    "pulseaudio": {
-        "format": " {volume}%",
-        "format-muted": "Muted",
-        "on-click": "pavucontrol",
-        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.5",
-        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
         "tooltip": false
     },
-    // Network
+
+    // --- Center Modules ---
+    
+    "custom/window": {
+        "format": "{}",
+        "return-type": "json",
+        // Calls the custom Nix script package
+        "exec": "window-names",
+        "max-length": 50,
+        "separate-outputs": false
+    },
+
+    // --- Right Modules ---
+    
     "custom/airplane": {
         "format": "{}",
-        "exec": "~/.config/waybar/network_status.sh",
+        // Calls the custom Nix script package
+        "exec": "network-status",
         "tooltip": false,
         "on-click": "nm-connection-editor"
     },
+    
     "network": {
         "format-wifi": "󰖩",
         "format-ethernet": "󰈀",
@@ -76,7 +79,7 @@
         "tooltip": false,
         "on-click": "nm-connection-editor"
     },
-    // Bluetooth
+    
     "bluetooth": {
         "format": "󰂯",
         "format-disabled": "󰂲",
@@ -86,21 +89,35 @@
         "tooltip": false,
         "on-click": "overskride"
     },
-    //Backlight
+    
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": " Muted",
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.5",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip": false
+    },
+    
     "custom/brightness": {
         "format": " {percentage}%",
         "return-type": "json",
-        
-        // On appelle le script avec l'argument "get" qui renvoie le JSON
-        "exec": "~/dotfiles/scripts/brightness.sh get",
+        // Calls the custom Nix script package with the "get" argument
+        "exec": "brightness get",
         "signal": 8,
-        
-        "on-scroll-up": "~/dotfiles/scripts/brightness.sh up",
-        "on-scroll-down": "~/dotfiles/scripts/brightness.sh down",
+        "on-scroll-up": "brightness up",
+        "on-scroll-down": "brightness down",
         "tooltip": false
     },
+    
+    "hyprland/language": {
+        "format": " {}",
+        "format-ru": "RU",
+        "format-fr": "FR",
+        "on-click": "hyprctl switchxkblayout all next"
+    },
 
-    // Battery
     "battery": {
         "states": {
             "warning": 10,
@@ -119,16 +136,6 @@
         "tooltip": false
     },
     
-    
-    "hyprland/language": {
-        "format": " {}",
-        "format-ru": "RU",
-        "format-fr": "FR",
-        // "keyboard-name": "at-translated-set-2-keyboard", // Optionnel : force un clavier précis si ça ne s'affiche pas
-        "on-click": "hyprctl switchxkblayout all next"    // Clic pour changer de langue
-    },
-
-    // Clock
     "clock": {
         "format": "{:%H:%M  |  %d-%b}",
         "tooltip": false

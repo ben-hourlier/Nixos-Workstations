@@ -2,40 +2,7 @@
 
 {
   
-  systemd.user.services.rclone-gdrive = {
-    Unit = {
-      Description = "Montage Rclone pour Google Drive";
-      # On attend que le réseau soit actif avant d'essayer de monter
-      Wants = [ "network-online.target" ];
-      After = [ "network-online.target" ];
-    };
-    Install.WantedBy = [ "default.target" ];
-    Service = {
-      Type = "notify";
-      # Création automatique du dossier s'il n'existe pas
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/GoogleDrive";
-      
-      # La commande de montage avec l'optimisation VFS
-      ExecStart = ''
-        ${pkgs.rclone}/bin/rclone mount gdrive: %h/GoogleDrive \
-          --vfs-cache-mode full \
-          --dir-cache-time 72h \
-          --vfs-cache-max-size 50G \
-          --vfs-read-chunk-size 128M \
-          --vfs-read-chunk-size-limit off
-      '';
-      
-      # Démontage propre lors de l'arrêt du service
-      ExecStop = "/run/wrappers/bin/fusermount -u %h/GoogleDrive";
-      
-      # Redémarrage automatique en cas de coupure wifi/plantage
-      Restart = "on-failure";
-      RestartSec = "10s";
-    };
-
-    # Active le service au démarrage de la session utilisateur
-    
-  };
+ 
 
   # Le déclencheur (Timer)
   systemd.user.timers.icloudpd-sync = {
