@@ -5,6 +5,20 @@
 { config, pkgs, inputs, lib, ... }:
 
 {
+
+
+  # Création du point de montage
+  fileSystems."/mnt/backup-disk" = {
+    device = "/dev/disk/by-uuid/F6DA6DEADA6DA817"; # Remplace par ton UUID
+    fsType = "ntfs"; # Ou ntfs, etc., selon ce que lsblk a renvoyé
+    options = [ 
+      "users"     # Permet aux utilisateurs de manipuler le disque
+      "nofail"    # Le PC démarre même si le disque est débranché (important !)
+      "noatime"   # Optimise les performances en n'écrivant pas l'heure de lecture
+    ];
+  };
+
+  
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -127,6 +141,8 @@
   neovim 
   udisks2
   ddcutil
+  rclone
+  icloudpd
   ];
 
   programs.dconf.enable = true;
@@ -166,7 +182,7 @@
   
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
 
   services.displayManager.ly = {

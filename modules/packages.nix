@@ -19,6 +19,7 @@
     overskride
     trash-cli
     socat
+    fuse
 
     # Terminaux & Shell
     kitty
@@ -43,7 +44,7 @@
     pdfarranger
     kdePackages.okular
     loupe
-    gthumb
+    shotwell
     gnome-clocks
     xournalpp
     localsend

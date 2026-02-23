@@ -13,10 +13,10 @@
 
   xdg.desktopEntries.yazi = {
     name = "Yazi";
-    exec = "yazi %u";
-    terminal = true;
-    icon = "system-file-manager"; 
-    mimeType = [ "inode/directory" ];
+      exec = "kitty -e yazi %u";
+      terminal = false;
+      icon = "system-file-manager";
+      mimeType = [ "inode/directory" ];
   };
 }
 
