@@ -8,6 +8,9 @@
   home.packages = with pkgs; [
     
     # --- System & Tools ---
+    blueman
+    bluez
+    brightnessctl
     fuse
     fuzzel
     git
@@ -18,12 +21,13 @@
     hyprshot
     libnotify
     networkmanagerapplet
-    overskride
+    networkmanager-vpnc
     pavucontrol
     playerctl
     polkit_gnome
     socat
     trash-cli
+    vpnc
     waybar
 
     # --- Terminal & Shell ---
@@ -51,12 +55,12 @@
     shotwell
     thunderbird
     vlc
-    vscode
     xournalpp
   ];
 
 
   # --- Program Configurations ---
+
 
   # Configures btop, a resource monitor that displays system usage and stats.
   programs.btop = {

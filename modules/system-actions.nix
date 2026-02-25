@@ -5,13 +5,13 @@ let
   
   # Imports the standalone executable script from a dedicated external file.
   # This modular approach keeps the main configuration clean and makes adding new scripts easier.
-  ejectUsbScript = import ./scripts/eject-usb.nix { inherit pkgs; };
-  trashScript = import ./scripts/trash.nix { inherit pkgs; };
-  brightnessScript = import ./scripts/brightness.nix { inherit pkgs; };
-  displayNamesScript = import ./scripts/display-names.nix { inherit pkgs; };
-  networkStatusScript = import ./scripts/network-status.nix { inherit pkgs; };
-  windowNamesScript = import ./scripts/window-names.nix { inherit pkgs; };
-  windowSwitcherScript = import ./scripts/window-switcher.nix { inherit pkgs; };
+  ejectUsbScript = import ../scripts/eject-usb.nix { inherit pkgs; };
+  trashScript = import ../scripts/trash.nix { inherit pkgs; };
+  brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
+  displayNamesScript = import ../scripts/display-names.nix { inherit pkgs; };
+  networkStatusScript = import ../scripts/network-status.nix { inherit pkgs; };
+  windowNamesScript = import ../scripts/window-names.nix { inherit pkgs; };
+  windowSwitcherScript = import ../scripts/window-switcher.nix { inherit pkgs; };
 
 in
 {
