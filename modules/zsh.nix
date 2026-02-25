@@ -51,13 +51,16 @@
     # Sorted alphabetically for easier maintenance.
     shellAliases = {
       c = "clear";
-      conf = "code ~/dotfiles && exit"; 
+      conf = "code ~/.dotfiles && exit"; 
       ga = "git add .";
       gc = "git commit -m";
       gp = "git push";
       gs = "git status";
       ll = "ls -la";
-      update = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake .";
+      updatel = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#laptop1";
+      updated = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#desktop1";
+      vpn = "sudo vpnc n7-vpn.conf";
+      vpnd = "sudo vpnc-disconnect";
     };
 
     # Configures the shell's command history settings.

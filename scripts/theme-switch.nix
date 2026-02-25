@@ -19,22 +19,22 @@ pkgs.writeShellScriptBin "theme-switch" ''
       GTK="adw-gtk3"
       ICON="Papirus-Light"
       SCHEME="prefer-light"
-      WALLPAPER="$HOME/dotfiles/themes/wallpaper-light.png"
+      WALLPAPER="$HOME/.dotfiles/themes/wallpaper-light.png"
   else
       NEXT="dark"
       GTK="adw-gtk3-dark"
       ICON="Papirus-Dark"
       SCHEME="prefer-dark"
-      WALLPAPER="$HOME/dotfiles/themes/wallpaper-dark.png"
+      WALLPAPER="$HOME/.dotfiles/themes/wallpaper-dark.png"
   fi
 
   # Symlinks application configurations to match the selected theme.
-  ln -sf "$HOME/dotfiles/themes/$NEXT/kitty.conf" "$HOME/.config/kitty/theme.conf"
-  ln -sf "$HOME/dotfiles/themes/$NEXT/waybar.css" "$HOME/.config/waybar/theme.css"
-  ln -sf "$HOME/dotfiles/themes/$NEXT/fuzzel.ini" "$HOME/.config/fuzzel/theme.ini"
-  ln -sf "$HOME/dotfiles/themes/$NEXT/hyprlock.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
-  ln -sf "$HOME/dotfiles/themes/$NEXT/hyprland.conf" "$HOME/.config/hypr/theme.conf"
-  ln -sf "$HOME/dotfiles/themes/$NEXT/btop.theme" "$HOME/.config/btop/themes/user-theme.theme"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/kitty.conf" "$HOME/.config/kitty/theme.conf"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/waybar.css" "$HOME/.config/waybar/theme.css"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/fuzzel.ini" "$HOME/.config/fuzzel/theme.ini"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/hyprlock.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/hyprland.conf" "$HOME/.config/hypr/theme.conf"
+  ln -sf "$HOME/.dotfiles/themes/$NEXT/btop.theme" "$HOME/.config/btop/themes/user-theme.theme"
   ln -sf "$WALLPAPER" "$HOME/.config/hypr/current_wallpaper.png"
 
   # Applies the theme globally using GSettings (triggers updates for GTK and Qt).
