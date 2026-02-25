@@ -5,12 +5,15 @@
 # or a desktop with external monitors (using ddcutil via I2C), and adjusts the brightness accordingly.
 pkgs.writeShellScriptBin "brightness" ''
   #!/usr/bin/env bash
+  round(){
+    echo $(( ($1 + $2/2) / $2 * $2))
+  }
 
   # Defines the cache file location (stored in RAM/tmp for speed and volatility).
   BACKLIGHT_DIR="/sys/class/backlight"
 
 
-  if ${pkgs.coreutils}/bin/ls $BACKLIGHT_DIR/* >/dev/null 2>&1; then
+  if ${pkgs.coreutils}/bin/ls $BACKLIGHT_DIR/* &> /dev/null; then
     # Laptop mode
     STEP=5
     CURRENT=$(${pkgs.brightnessctl}/bin/brightnessctl -m | ${pkgs.gawk}/bin/awk -F, '{print $4}' | ${pkgs.coreutils}/bin/tr -d '%')
@@ -39,6 +42,8 @@ pkgs.writeShellScriptBin "brightness" ''
           exit 0
           ;;
   esac
+
+  NEW_VAL=$(round $NEW_VAL $STEP)
 
   # --- 3. Hardware Application ---
   

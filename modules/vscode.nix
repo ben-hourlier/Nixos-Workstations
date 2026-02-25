@@ -8,6 +8,7 @@
       ms-python.python
       ms-vscode.cpptools
       oracle.oracle-java
+      tamasfe.even-better-toml
 
       mvllow.rose-pine
     ];
