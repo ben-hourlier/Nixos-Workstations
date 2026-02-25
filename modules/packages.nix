@@ -52,10 +52,10 @@
     ly
     obsidian
     pdfarranger
+    portfolio
     shotwell
     thunderbird
     vlc
-    xournalpp
   ];
 
 
