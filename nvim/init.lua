@@ -15,9 +15,17 @@ opt.smartcase = true          -- ...except if explicit capital
 opt.tabstop = 4               -- Tabulation size
 opt.shiftwidth = 4            -- Indentation size
 opt.expandtab = true          -- Transform tabulation into spaces
-opt.termguicolors = true      -- True colors
 opt.wrap = true               -- Auto line break (word wrap)
 opt.linebreak = true          -- Do break on a word
+
+-- Desactivate 24-bits color to force terminal colors
+opt.termguicolors = false
+
+-- Transparent background
+vim.cmd("highlight Normal ctermbg=NONE guibg=NONE")
+vim.cmd("highlight NonText ctermbg=NONE guibg=NONE")
+vim.cmd("highlight LineNr ctermbg=NONE guibg=NONE")
+vim.cmd("highlight SignColumn ctermbg=NONE guibg=NONE")
 
 opt.clipboard = "unnamedplus" -- Synchronize clipboard with OS
 
