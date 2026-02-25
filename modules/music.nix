@@ -19,7 +19,7 @@ let
   # Imports the standalone wrapper script for ncmpcpp.
   # The 'config' attribute must be inherited so the script can locate 
   # the exact path of the installed ncmpcpp package.
-  ncmpcppWrapper = import ./scripts/ncmpcpp-wrapper.nix { inherit pkgs config; };
+  ncmpcppWrapper = import ../scripts/ncmpcpp-wrapper.nix { inherit pkgs config; };
 
 in
 {

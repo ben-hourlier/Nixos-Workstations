@@ -8,14 +8,14 @@ let
     owner = "yazi-rs";
     repo = "plugins";
     rev = "main";
-    hash = "sha256-0K6qGgbGt8N6HgGNEmn2FDLar6hCPiPBbvOsrTjSubM=";
+    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII=";
   };
 
   # --- Custom Shell Scripts ---
   
   # Imports custom scripts required for theme management and UI launching.
-  themeSwitchScript = import ./scripts/theme-switch.nix { inherit pkgs; };
-  launchWaybarScript = import ./scripts/launch-waybar.nix { inherit pkgs; };
+  themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; };
+  launchWaybarScript = import ../scripts/launch-waybar.nix { inherit pkgs; };
 
 in
 {

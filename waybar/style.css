@@ -80,6 +80,12 @@ window#waybar > box {
     min-width: 60px;
 }
 
+#custom-airplane,
+#network,
+#bluetooth {
+    min-width: 30px;
+}
+
 #clock { 
     padding-right: 20px;
     min-width: 120px;

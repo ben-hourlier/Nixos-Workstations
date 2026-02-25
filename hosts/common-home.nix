@@ -6,16 +6,15 @@
   # Splits the Home Manager configuration into smaller, modular files.
   # This keeps the main file clean and makes specific settings easier to find and manage.
   imports = [
-    ./modules/theme.nix
-    ./modules/web-apps.nix
-    ./modules/packages.nix
-    ./modules/files.nix
-    ./modules/system-actions.nix
-    ./modules/daemons.nix
-    ./modules/zsh.nix
-    ./modules/mime.nix
-    ./modules/music.nix
-    ./modules/backup.nix
+    ../modules/daemons.nix
+    ../modules/files.nix
+    ../modules/mime.nix
+    ../modules/packages.nix
+    ../modules/system-actions.nix
+    ../modules/theme.nix
+    ../modules/vscode.nix
+    ../modules/web-apps.nix
+    ../modules/zsh.nix
   ];
 
 
@@ -24,12 +23,6 @@
   # Defines the primary user account managed by Home Manager.
   home.username = "ben";
   home.homeDirectory = "/home/ben";
-
-  # Determines the release version from which default settings are inherited.
-  # Similar to the NixOS stateVersion, this should generally be left at the version 
-  # of the initial installation to avoid breaking changes in user-level databases or paths.
-  home.stateVersion = "25.11";
-
 
   # --- Core Setup ---
   
