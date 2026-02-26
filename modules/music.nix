@@ -81,14 +81,6 @@ in
         type "pipewire"
         name "PipeWire Sound Server"
       }
-      
-      # Creates a FIFO output stream used by terminal visualizers (like ncmpcpp or cava).
-      audio_output {
-        type "fifo"
-        name "visualizer"
-        path "/tmp/mpd.fifo"
-        format "44100:16:2"
-      }
     '';
   };
 
