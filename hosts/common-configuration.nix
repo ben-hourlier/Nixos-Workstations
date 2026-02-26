@@ -2,6 +2,9 @@
 
 {
   # --- Core System & Nix Settings ---
+  imports = [
+    ../modules/backup.nix
+  ];
 
   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
