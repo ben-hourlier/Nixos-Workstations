@@ -1,9 +1,26 @@
 { config, pkgs, inputs, ... }:
 
-{
+let
+  monitor = "eDP-1";
+
+in {
   imports = [
     ../common-home.nix
   ];
+
+  # --- Hyprland workspaces ---
+
+  xdg.configFile."hypr/monitors.conf".text = ''
+    # --- Monitor Configuration ---
+
+    monitor = ${monitor}, 1920x1080, 0x0, 1.2
+
+
+    # --- Workspace Rules ---
+
+    workspace = 1, monitor:${monitor}, default:true
+  '';
+
 
   # --- User Information ---
 

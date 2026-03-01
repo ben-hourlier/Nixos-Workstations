@@ -14,7 +14,8 @@ pkgs.writeShellScriptBin "theme-switch" ''
   if [ ! -f "$STATE_FILE" ]; then echo "dark" > "$STATE_FILE"; fi
   CURRENT=$(cat "$STATE_FILE")
 
-  if [ "$CURRENT" == "dark" ]; then
+
+  if [[ ($1 == "set" && $CURRENT == "light") || ($1 != "set" && $CURRENT == "dark") ]]; then
       NEXT="light"
       GTK="adw-gtk3"
       ICON="Papirus-Light"
@@ -47,7 +48,7 @@ pkgs.writeShellScriptBin "theme-switch" ''
 
   # Reloads services to apply the new configurations instantly.
   pkill -SIGUSR1 kitty
-  pkill waybar && launch-waybar
+  pkill waybar; launch-waybar
 
   echo "$NEXT" > "$STATE_FILE"
   ${pkgs.libnotify}/bin/notify-send "Theme Switched" "Mode $NEXT enabled"
