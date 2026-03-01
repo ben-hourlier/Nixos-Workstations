@@ -3,7 +3,6 @@
 {
   # --- Core System & Nix Settings ---
   imports = [
-    ../modules/backup.nix
   ];
 
   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
@@ -11,6 +10,14 @@
   
   # Allows the installation of proprietary software, such as the NVIDIA drivers.
   nixpkgs.config.allowUnfree = true;
+
+  networking.firewall = {
+    enable = true;
+    
+    # Open port for Local Send
+    allowedTCPPorts = [ 53317 ]; 
+    allowedUDPPorts = [ 53317 ];
+  };
 
 
   # --- Bootloader & Kernel ---
