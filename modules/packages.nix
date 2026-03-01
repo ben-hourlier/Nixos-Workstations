@@ -32,11 +32,13 @@
 
     # --- Terminal & Shell ---
     cliphist
+    exiftool
     fastfetch
     fd
     fzf
     jq
     kitty
+    parted
     ripdrag
     wl-clipboard
     yazi
@@ -54,6 +56,7 @@
     pdfarranger
     portfolio
     shotwell
+    speedcrunch
     thunderbird
     vlc
   ];

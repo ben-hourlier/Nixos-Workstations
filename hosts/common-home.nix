@@ -30,8 +30,7 @@
   
   # Enables Home Manager to manage its own installation and environment.
   # This is required for Home Manager to work correctly as a standalone module or flake.
-  programs.home-manager.enable = true;
-  
+  programs.home-manager.enable = true;  
 
   # --- Window Manager (Hyprland) ---
   

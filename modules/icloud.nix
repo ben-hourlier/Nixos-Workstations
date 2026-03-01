@@ -1,9 +1,6 @@
 {pkgs, ...}:
 
 {
-  
- 
-
   # Le déclencheur (Timer)
   systemd.user.timers.icloudpd-sync = {
     Unit = {
@@ -11,13 +8,14 @@
     };
     Install.WantedBy = [ "timers.target" ];
     Timer = {
-        OnCalendar = "*-*-* 02:00:00"; 
+        OnCalendar = "weekly"; 
         Persistent = true; 
       };
   };
 
   # L'action (Service)
   systemd.user.services.icloudpd-sync = {
+    
     Unit = {
       Description = "Synchronisation iCloud Photos vers PC (Miroir)";
       
@@ -25,6 +23,7 @@
       Wants = [ "network-online.target" ];
       After = [ "network-online.target" ];
     };
+
     Service = {
       Type = "oneshot";
       # Crée le dossier s'il n'existe pas
