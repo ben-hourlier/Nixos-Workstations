@@ -20,7 +20,7 @@
       "window.autoDetectColorScheme" = true;
       "editor.fontFamily" = "JetBrainsMono Nerd Font";
       "editor.fontSize" = 14;
-      "editor.fontLigatures" = true;
+      "editor.fontLigatures" = false;
     };
   };
 }
