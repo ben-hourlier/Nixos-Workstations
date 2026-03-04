@@ -59,6 +59,9 @@
       ll = "ls -la";
       updatel = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#laptop1";
       updated = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#desktop1";
+      ndev = "nix develop -c $SHELL";
+
+      ndf = "nix run github:jarvis-ed1th/expense-report-creator";
       vpn = "sudo vpnc n7-vpn.conf";
       vpnd = "sudo vpnc-disconnect";
     };

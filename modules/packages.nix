@@ -53,6 +53,7 @@
     loupe
     ly
     obsidian
+    onlyoffice-desktopeditors
     pdfarranger
     portfolio
     shotwell
