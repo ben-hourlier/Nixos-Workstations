@@ -14,7 +14,7 @@ pkgs.writeShellScriptBin "eject-usb" ''
     | select(.tran == "usb") as $parent
     | ($parent.children[]?) 
     | select(.mountpoint != null) 
-    | "\($parent.model) (\($parent.size)) <span>mount: \(.mountpoint)</span> <span color=\"gray\">[\(.name)]</span>"
+    | "\($parent.model) (\($parent.size))"
   ')
 
   if [ -z "$DRIVES" ]; then
