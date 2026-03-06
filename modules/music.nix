@@ -19,6 +19,7 @@ let
   # Imports the standalone wrapper script for ncmpcpp.
   # The 'config' attribute must be inherited so the script can locate 
   # the exact path of the installed ncmpcpp package.
+  loudGain = import ../scripts/loudgain.nix { inherit pkgs; };
   ncmpcppWrapper = import ../scripts/ncmpcpp-wrapper.nix { inherit pkgs config; };
 
 in
@@ -28,13 +29,14 @@ in
   # Installs various audio management, tagging, and effect tools.
   home.packages = with pkgs; [
     python313Packages.deemix
-    mpc
-    picard
     chromaprint
-    loudgain
     easyeffects
-    exiftool
+    flac
+    loudgain
+    loudGain
+    mpc
     ncmpcppWrapper
+    picard
   ];
 
 
