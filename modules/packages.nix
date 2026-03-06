@@ -42,6 +42,7 @@
     ripdrag
     wl-clipboard
     yazi
+    yt-dlp
 
     # --- GUI Applications ---
     firefox
