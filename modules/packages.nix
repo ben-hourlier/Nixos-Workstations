@@ -45,6 +45,7 @@
     yt-dlp
 
     # --- GUI Applications ---
+    audacity
     firefox
     gimp
     gnome-clocks
@@ -61,11 +62,19 @@
     speedcrunch
     thunderbird
     vlc
+
+    # --- Code ---
+    jdk21_headless
+    libgcc
+
+    taskwarrior3
+    taskwarrior-tui
+    uair
+    timewarrior
   ];
 
 
   # --- Program Configurations ---
-
 
   # Configures btop, a resource monitor that displays system usage and stats.
   programs.btop = {

@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ./virtualization-configuration.nix
     ./backup.nix
+    ./lute.nix
 
     ../common-configuration.nix
   ];
