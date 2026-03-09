@@ -65,7 +65,7 @@ window#waybar > box {
 
 
 /* --- Right Modules (System Tray & Stats) --- */
-
+#custom-uair,
 #custom-airplane,
 #network,
 #bluetooth,
