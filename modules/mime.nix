@@ -52,6 +52,8 @@ in
 
       # --- Video & Audio ---
       "video/mp4" = videoPlayer;
+      "audio/wav" = videoPlayer;
+      "audio/flac" = videoPlayer;
       "video/mkv" = videoPlayer;
       "video/x-matroska" = videoPlayer;
       "video/webm" = videoPlayer;

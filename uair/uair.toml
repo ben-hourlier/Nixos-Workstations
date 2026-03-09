@@ -1,0 +1,19 @@
+[defaults]
+# Ce format est très important : c'est ce qui s'affichera dans ta Waybar
+format = "{name} {time}\n"
+
+# -- SESSION DE TRAVAIL (25 minutes) --
+[[sessions]]
+id = "work"
+name = "🍅"
+duration = "1m"
+# Quand le pomodoro se termine, on envoie une notification ET on coupe le time tracker !
+command = "notify-send --category='system_alert' 'Pomodoro Terminé !' 'Prends 5 minutes de pause.' && timew stop"
+
+# -- PETITE PAUSE (5 minutes) --
+[[sessions]]
+id = "rest"
+name = "☕"
+duration = "1m"
+command = "notify-send --category='system_alert' 'Pause Terminée !' 'Prêt pour un autre Pomodoro ?'"
+

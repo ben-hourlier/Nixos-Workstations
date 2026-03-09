@@ -15,6 +15,7 @@
     "kitty" = { source = ../kitty; recursive = true; };
     "nvim" = { source = ../nvim; recursive = true; };
     "yazi" = { source = ../yazi; recursive = true; };
+    "uair" = { source = ../uair; recursive = true; };
   };
 
 

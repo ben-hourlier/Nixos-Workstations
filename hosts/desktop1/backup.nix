@@ -1,4 +1,4 @@
-{onfig, pkgs, ... }:
+{config, pkgs, ... }:
 
 {
   # --- System Environment ---

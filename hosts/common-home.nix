@@ -32,6 +32,11 @@
   # This is required for Home Manager to work correctly as a standalone module or flake.
   programs.home-manager.enable = true;  
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
   # --- Window Manager (Hyprland) ---
   
   # Configures the Hyprland Wayland compositor.
