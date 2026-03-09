@@ -3,13 +3,31 @@
 {
   programs.vscode = {
     enable = true;
+    package = pkgs.vscode-fhs;
     extensions = with pkgs.vscode-extensions; [
-      jnoortheen.nix-ide
-      ms-python.python
+      
+      # C
       ms-vscode.cpptools
-      oracle.oracle-java
-      tamasfe.even-better-toml
 
+      # Java
+      oracle.oracle-java
+      redhat.java
+      tamasfe.even-better-toml
+      vscjava.vscode-gradle
+      vscjava.vscode-java-debug
+      vscjava.vscode-java-dependency
+      vscjava.vscode-java-pack
+      vscjava.vscode-java-test
+      vscjava.vscode-maven
+      
+
+      # Nix
+      jnoortheen.nix-ide
+
+      # Phython
+      ms-python.python
+
+      # Theme
       mvllow.rose-pine
     ];
 
@@ -21,6 +39,11 @@
       "editor.fontFamily" = "JetBrainsMono Nerd Font";
       "editor.fontSize" = 14;
       "editor.fontLigatures" = false;
+      "jdk.telemetry.enabled"= false;
+      "git.openRepositoryInParentFolders"= "never";
+      "github.copilot.enable" = {
+        "*" = false;
+       };
     };
   };
 }

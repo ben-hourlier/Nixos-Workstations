@@ -19,6 +19,7 @@
         "custom/window"
     ],
     "modules-right": [
+        "custom/uair",
         "custom/airplane",
         "network",
         "bluetooth",
@@ -62,6 +63,14 @@
     },
 
     // --- Right Modules ---
+
+    "custom/uair": {
+    "exec": "uair",
+    "return-type": "text",
+    "on-click": "uairctl toggle",
+    "on-click-right": "uairctl next",
+    "on-click-middle": "uairctl prev"
+    },
     
     "custom/airplane": {
         "format": "{}",
