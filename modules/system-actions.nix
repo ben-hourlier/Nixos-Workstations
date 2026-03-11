@@ -10,6 +10,7 @@ let
   brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
   displayNamesScript = import ../scripts/display-names.nix { inherit pkgs; };
   networkStatusScript = import ../scripts/network-status.nix { inherit pkgs; };
+  timeTrackerScript = import ../scripts/time-tracker.nix { inherit pkgs; };
   windowNamesScript = import ../scripts/window-names.nix { inherit pkgs; };
   windowSwitcherScript = import ../scripts/window-switcher.nix { inherit pkgs; };
 
@@ -24,6 +25,7 @@ in
     brightnessScript
     displayNamesScript
     networkStatusScript
+    timeTrackerScript
     windowNamesScript
     windowSwitcherScript
   ];

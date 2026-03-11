@@ -40,6 +40,8 @@
     kitty
     parted
     ripdrag
+    timewarrior
+    uair
     wl-clipboard
     yazi
     yt-dlp
@@ -66,11 +68,6 @@
     # --- Code ---
     jdk21_headless
     libgcc
-
-    taskwarrior3
-    taskwarrior-tui
-    uair
-    timewarrior
   ];
 
 
