@@ -5,7 +5,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
     PERCENT=$(uairctl fetch {percent})
 
     if [[ $STATE == "work-paused" ]]; then
-        if [[ $PERCENT == "101" ]]; then
+        if [[ $PERCENT == "100" ]]; then
             PRINT="Start\nContinue\nNext"
         else
             PRINT="Resume Work\nNext"
