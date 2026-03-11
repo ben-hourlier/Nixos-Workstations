@@ -47,6 +47,7 @@
     yt-dlp
 
     # --- GUI Applications ---
+    anki-bin
     audacity
     firefox
     gimp
