@@ -1,0 +1,24 @@
+loop_on_end = true
+
+[defaults]
+# Ce format est très important : c'est ce qui s'affichera dans ta Waybar
+format = "{name} {time}\n"
+
+# -- SESSION DE TRAVAIL (25 minutes) --
+[[sessions]]
+id = "work"
+name = "Work:"
+duration = "1m"
+# Quand le pomodoro se termine, on envoie une notification ET on coupe le time tracker !
+command = "notify-send --category='system_alert' 'Deepwork session over' 'Time for a break.' && pw-play $HOME/.dotfiles/themes/deepwork-alarm.mp3 && timew stop"
+paused_state_text = "work-paused"
+resumed_state_text = "work-resumed"
+
+# -- PETITE PAUSE (5 minutes) --
+[[sessions]]
+id = "break"
+name = "Break:"
+duration = "1m"
+command = "notify-send --category='system_alert' 'Break over' 'Prepare a new session for deepwork.'"
+paused_state_text = "break-paused"
+resumed_state_text = "break-resumed"
