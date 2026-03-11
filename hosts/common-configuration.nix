@@ -19,6 +19,9 @@
     allowedUDPPorts = [ 53317 ];
   };
 
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  networking.networkmanager.dns = "none";
+
 
   # --- Bootloader & Kernel ---
   

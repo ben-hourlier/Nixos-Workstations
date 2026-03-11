@@ -9,13 +9,13 @@
   # This allows dynamically generated state files (created by the apps themselves) 
   # to safely coexist with these Nix-managed configurations.
   xdg.configFile = {
-    "hypr" = { source = ../hypr; recursive = true; };
-    "waybar" = { source = ../waybar; recursive = true; };
-    "fuzzel" = { source = ../fuzzel; recursive = true; };
-    "kitty" = { source = ../kitty; recursive = true; };
-    "nvim" = { source = ../nvim; recursive = true; };
-    "yazi" = { source = ../yazi; recursive = true; };
-    "uair" = { source = ../uair; recursive = true; };
+    "fuzzel" = { source = ../settings/fuzzel; recursive = true; };
+    "hypr" = { source = ../settings/hypr; recursive = true; };
+    "kitty" = { source = ../settings/kitty; recursive = true; };
+    "nvim" = { source = ../settings/nvim; recursive = true; };
+    "uair" = { source = ../settings/uair; recursive = true; };
+    "waybar" = { source = ../settings/waybar; recursive = true; };
+    "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
 

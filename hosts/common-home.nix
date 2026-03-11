@@ -37,6 +37,8 @@
     VISUAL = "nvim";
   };
 
+  xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/GoogleDrive/02-AREAS/timewarrior";
+
   # --- Window Manager (Hyprland) ---
   
   # Configures the Hyprland Wayland compositor.
