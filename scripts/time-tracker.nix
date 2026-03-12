@@ -1,38 +1,54 @@
 { pkgs }:
 
 pkgs.writeShellScriptBin "time-tracker" ''
-    STATE=$(uairctl fetch {state})
-    PERCENT=$(uairctl fetch {percent})
 
-    if [[ $STATE == "work-paused" ]]; then
-        if [[ $PERCENT == "100" ]]; then
-            PRINT="Start\nContinue\nNext"
-        else
-            PRINT="Resume Work\nNext"
-        fi
-    elif [[ $STATE == "work-resumed" ]]; then
-        PRINT="Pause Work\nNext"
-    elif [[ $STATE == "break-paused" ]]; then
-        PRINT="Resume Break\nNext"
+    if [[ -f /tmp/timer_mode ]]; then
+        PRINT="Stop timer"
     else
-        PRINT="Pause Break\nNext"
+        STATE=$(uairctl fetch '{state}')
+        PERCENT=$(uairctl fetch '{percent}')
+
+        if [[ $STATE == "work-paused" ]]; then
+            if [[ $PERCENT == "100" ]]; then
+                PRINT="Start work session\nStart timer\nContinue previous session\nNext"
+            else
+                PRINT="Resume work session\nNext"
+            fi
+        elif [[ $STATE == "work-resumed" ]]; then
+            PRINT="Pause work session\nNext"
+        elif [[ $STATE == "break-paused" ]]; then
+            PRINT="Resume break\nNext"
+        else
+            PRINT="Pause break\nNext"
+        fi
     fi
 
     CHOSEN=$(echo -e "$PRINT" | fuzzel -d -p "> ")
 
-    if [[ $CHOSEN == "Start" ]]; then
-        ARGS=$(fuzzel -d --prompt-only "")
+    # 2. ACTIONS
+    if [[ $CHOSEN == "Start work session" ]]; then
+        ARGS=$(fuzzel -d --prompt-only "Tags: ")
         timew start $ARGS
         uairctl resume
-    elif [[ $CHOSEN == "Resume Work" || $CHOSEN == "Continue" ]]; then
+
+    elif [[ $CHOSEN == "Start timer" ]]; then
+        ARGS=$(fuzzel -d --prompt-only "Tags: ")
+        timew start $ARGS
+        touch /tmp/timer_mode
+
+    elif [[ $CHOSEN == "Stop timer" ]]; then
+        rm -f /tmp/timer_mode
+        timew stop
+
+    elif [[ $CHOSEN == "Resume work session" || $CHOSEN == "Continue previous session" ]]; then
         timew continue
         uairctl resume
-    elif [[ $CHOSEN == "Pause Work" ]]; then
+    elif [[ $CHOSEN == "Pause work session" ]]; then
         timew stop
         uairctl pause
-    elif [[ $CHOSEN == "Resume Break" ]]; then
+    elif [[ $CHOSEN == "Resume break" ]]; then
         uairctl resume
-    elif [[ $CHOSEN == "Pause Work" ]]; then
+    elif [[ $CHOSEN == "Pause break" ]]; then
         uairctl pause
     elif [[ $CHOSEN == "Next" ]]; then
         timew stop

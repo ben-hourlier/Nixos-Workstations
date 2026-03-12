@@ -65,7 +65,8 @@
     // --- Right Modules ---
 
     "custom/uair": {
-        "exec": "uair",
+        "exec": "time-tracker-display",
+        "restart-interval" :2,
         "return-type": "text",
         "on-click": "time-tracker",
         "tooltip": false
