@@ -49,6 +49,7 @@
     # --- GUI Applications ---
     anki-bin
     audacity
+    calibre
     firefox
     gimp
     gnome-clocks

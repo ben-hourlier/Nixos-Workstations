@@ -126,4 +126,21 @@
       RestartSec = "10s";
     };
   };
+
+  # --- Uair ---
+  systemd.user.services.uair = {
+    Unit = {
+      Description = "uair timer daemon";
+      After = [ "graphical-session.target" ]; 
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.uair}/bin/uair";
+      Restart = "always";
+      RestartSec = "3";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }
