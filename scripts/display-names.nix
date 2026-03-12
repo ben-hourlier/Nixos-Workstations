@@ -19,19 +19,24 @@ pkgs.writeShellScriptBin "display-names" ''
                 *) FINAL_NAME=$(echo "$TITLE" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1') ;;
             esac
             ;;
-                
         "obsidian")
             FINAL_NAME="Obsidian"
             ;;
+
+        # WEB-APPS
         *deezer*)
             FINAL_NAME="Deezer"
+            ;;
+        *netflix*)
+            FINAL_NAME="Netflix"
             ;;
         *todoist*)
             FINAL_NAME="Todoist"
             ;;
         *whatsapp*)
             FINAL_NAME="Whatsapp"
-            ;;    
+            ;;  
+
         *)
             # Default fallback: Capitalizes the initial title
             FINAL_NAME=$(echo "$INITIAL" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
