@@ -19,6 +19,6 @@ pkgs.writeShellScriptBin "time-tracker-display" ''
             echo "$(uairctl fetch '{name} {time}\n')"
         fi
 
-        sleep1
+        sleep 1
     done
 ''
