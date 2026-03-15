@@ -1,26 +1,24 @@
 loop_on_end = true
 
 [defaults]
-# Ce format est très important : c'est ce qui s'affichera dans ta Waybar
 format = "{name} {time}\n"
 
-# -- SESSION DE TRAVAIL (25 minutes) --
+# -- WORK SESSION --
 [[sessions]]
 id = "work"
 name = "Work:"
 duration = "60m"
-# Quand le pomodoro se termine, on envoie une notification ET on coupe le time tracker !
-command = "notify-send --category='system_alert' 'Deepwork session over' 'Time for a break.' && pw-play $HOME/.dotfiles/themes/deepwork-alarm.mp3 && timew stop"
+command = "sh -c 'notify-send --category=\"system_alert\" \"Deepwork session over\" \"Time for a break.\" && pw-play $HOME/.dotfiles/themes/deepwork-alarm.mp3 && timew stop'"
 paused_state_text = "work-paused"
 resumed_state_text = "work-resumed"
 time_format = "%*-Hh%Mm"
 
-# -- PETITE PAUSE (5 minutes) --
+# -- BREAK --
 [[sessions]]
 id = "break"
 name = "Break:"
 duration = "10m"
-command = "notify-send --category='system_alert' 'Break over' 'Prepare a new session for deepwork.' && pw-play $HOME/.dotfiles/themes/deepwork-alarm.mp3"
+command = "sh -c 'notify-send --category=\"system_alert\" \"Break over\" \"Prepare a new session for deepwork.\" && pw-play $HOME/.dotfiles/themes/deepwork-alarm.mp3'"
 paused_state_text = "break-paused"
 resumed_state_text = "break-resumed"
 time_format = "%*-Hh%Mm"

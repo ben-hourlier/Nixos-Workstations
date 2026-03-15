@@ -36,6 +36,7 @@
     fastfetch
     fd
     fzf
+    handlr
     jq
     kitty
     parted
