@@ -13,7 +13,8 @@ let
   photoManager = [ "org.gnome.gThumb.desktop" ];    
   videoPlayer = [ "vlc.desktop" ];
   pdfViewer = [ "org.kde.okular.desktop" ];         
-  textEditor = [ "code.desktop" ];                  
+  textEditor = [ "code.desktop" ];
+  office = [ "onlyoffice-desktopeditors.desktop"];
 
 in
 {
@@ -40,6 +41,7 @@ in
       # --- Documents & PDFs ---
       "application/pdf" = pdfViewer;
       "application/x-pdf" = pdfViewer;
+      "application/openxmlformats-officedocument.wordprocessingml.document" = office;
 
       # --- Images ---
       "image/jpeg" = imageViewer;
