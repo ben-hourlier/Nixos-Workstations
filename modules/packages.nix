@@ -62,6 +62,7 @@
     onlyoffice-desktopeditors
     pdfarranger
     portfolio
+    qbittorrent
     shotwell
     speedcrunch
     thunderbird
