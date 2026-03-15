@@ -95,7 +95,14 @@
       # 6. Synchronize the repository to Google Drive via rclone. 
       kopia repository sync-to rclone --remote-path="gdrive:/kopia" --rclone-exe="${pkgs.rclone}/bin/rclone" 
 
-      # 7. Execute routine maintenance tasks on the repository. 
+      # 7. Execute routine maintenance tasks on the repository.
+      kopia policy set --global \
+        --keep-latest 5 \
+        --keep-hourly 0 \
+        --keep-daily 7 \
+        --keep-weekly 4 \
+        --keep-monthly 6 \
+        --keep-annual 1
       kopia maintenance run 
     ''; 
   }; 
