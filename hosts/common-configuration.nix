@@ -196,6 +196,9 @@
     };
   };
 
+virtualisation.virtualbox.host.enable = true;
+users.extraGroups.vboxusers.members = [ "ben" ];
+
 
   # --- VPN Configuration ---
 
