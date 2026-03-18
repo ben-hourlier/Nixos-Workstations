@@ -55,10 +55,10 @@
     gimp
     gnome-clocks
     google-chrome
-    kdePackages.okular
     localsend
     loupe
     ly
+    masterpdfeditor4
     obsidian
     onlyoffice-desktopeditors
     pdfarranger

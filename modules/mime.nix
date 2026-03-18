@@ -12,7 +12,7 @@ let
   imageViewer = [ "org.gnome.Loupe.desktop" ];      
   photoManager = [ "org.gnome.gThumb.desktop" ];    
   videoPlayer = [ "vlc.desktop" ];
-  pdfViewer = [ "org.kde.okular.desktop" ];         
+  pdfViewer = [ "masterpdfeditor4.desktop" ];         
   textEditor = [ "code.desktop" ];
   office = [ "onlyoffice-desktopeditors.desktop"];
 
