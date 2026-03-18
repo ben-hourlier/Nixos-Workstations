@@ -1,6 +1,9 @@
 { pkgs }:
 
 pkgs.writeShellScriptBin "time-tracker" ''
+    if [ ! findmnt /home/ben/GoogleDrive -t fuse.rclone > /dev/null ]; then
+        notify-send --category="system_alert" "Error" "Gdrive not mounted"
+    fi
 
     if [[ -f /tmp/timer_mode ]]; then
         PRINT="Stop timer"
