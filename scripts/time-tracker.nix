@@ -13,7 +13,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
 
         if [[ $STATE == "work-paused" ]]; then
             if [[ $PERCENT == "100" ]]; then
-                PRINT="Start work session\nStart timer\nContinue previous session\nNext"
+                PRINT="Start work session\nContinue previous session\nStart timer\nDisplay current timer\nNext"
             else
                 PRINT="Resume work session\nNext"
             fi
@@ -37,6 +37,9 @@ pkgs.writeShellScriptBin "time-tracker" ''
     elif [[ $CHOSEN == "Start timer" ]]; then
         ARGS=$(fuzzel -d --prompt-only "Tags: ")
         timew start $ARGS
+        touch /tmp/timer_mode
+
+    elif [[ $CHOSEN == "Display current timer" ]]; then
         touch /tmp/timer_mode
 
     elif [[ $CHOSEN == "Stop timer" ]]; then
