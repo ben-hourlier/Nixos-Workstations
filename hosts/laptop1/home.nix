@@ -13,7 +13,7 @@ in {
   xdg.configFile."hypr/monitors.conf".text = ''
     # --- Monitor Configuration ---
 
-    monitor = ${monitor}, 1920x1080, 0x0, 1.2
+    monitor = ${monitor}, 1920x1080, 0x0, 1.0
 
 
     # --- Workspace Rules ---
