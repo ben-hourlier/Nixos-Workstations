@@ -55,6 +55,7 @@
     gimp
     gnome-clocks
     google-chrome
+    kcc
     kdePackages.okular
     localsend
     loupe
