@@ -30,6 +30,9 @@ pkgs.writeShellScriptBin "display-names" ''
         *netflix*)
             FINAL_NAME="Netflix"
             ;;
+        *calendar.notion*)
+            FINAL_NAME="Notion Calendar"
+            ;;
         *todoist*)
             FINAL_NAME="Todoist"
             ;;
