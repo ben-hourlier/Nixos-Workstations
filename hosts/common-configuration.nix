@@ -13,9 +13,13 @@
 
   networking.firewall = {
     enable = true;
+    # Here the equivalent for "enable=true" in this section
+    # iptables -F
+    # iptables -P INPUT DROP
+    # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
     
     # Open port for Local Send
-    allowedTCPPorts = [ 53317 ]; 
+    allowedTCPPorts = [ 53317 ]; # eq : iptables -A INPUT -p TCP --dport 53317 -j ACCEPT
     allowedUDPPorts = [ 53317 ];
   };
 
@@ -191,6 +195,9 @@
       };
     };
   };
+
+virtualisation.virtualbox.host.enable = true;
+users.extraGroups.vboxusers.members = [ "ben" ];
 
 
   # --- VPN Configuration ---

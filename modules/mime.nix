@@ -12,7 +12,7 @@ let
   imageViewer = [ "org.gnome.Loupe.desktop" ];      
   photoManager = [ "org.gnome.gThumb.desktop" ];    
   videoPlayer = [ "vlc.desktop" ];
-  pdfViewer = [ "org.kde.okular.desktop" ];         
+  pdfViewer = [ "masterpdfeditor4.desktop" ];         
   textEditor = [ "code.desktop" ];
   office = [ "onlyoffice-desktopeditors.desktop"];
 
@@ -41,7 +41,7 @@ in
       # --- Documents & PDFs ---
       "application/pdf" = pdfViewer;
       "application/x-pdf" = pdfViewer;
-      "application/openxmlformats-officedocument.wordprocessingml.document" = office;
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = office;
 
       # --- Images ---
       "image/jpeg" = imageViewer;
