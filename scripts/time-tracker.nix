@@ -13,7 +13,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
 
         if [[ $STATE == "work-paused" ]]; then
             if [[ $PERCENT == "100" ]]; then
-                PRINT="Start work session\nContinue previous session\nStart timer\nDisplay current timer\nNext"
+                PRINT="Start work session\nContinue previous session\nStart timer\nContinue previous timer\nNext"
             else
                 PRINT="Resume work session\nNext"
             fi
@@ -39,7 +39,8 @@ pkgs.writeShellScriptBin "time-tracker" ''
         timew start $ARGS
         touch /tmp/timer_mode
 
-    elif [[ $CHOSEN == "Display current timer" ]]; then
+    elif [[ $CHOSEN == "Continue previous timer" ]]; then
+        timew continue
         touch /tmp/timer_mode
 
     elif [[ $CHOSEN == "Stop timer" ]]; then
