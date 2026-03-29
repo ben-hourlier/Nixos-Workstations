@@ -18,7 +18,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
                 PRINT="Resume work session\nNext"
             fi
         elif [[ $STATE == "work-resumed" ]]; then
-            PRINT="Pause work session\nNext"
+            PRINT="Pause work session\nCancel\nNext"
         elif [[ $STATE == "break-paused" ]]; then
             PRINT="Resume break\nNext"
         else
@@ -59,6 +59,9 @@ pkgs.writeShellScriptBin "time-tracker" ''
         uairctl pause
     elif [[ $CHOSEN == "Next" ]]; then
         timew stop
+        uairctl next
+    elif [[ $CHOSEN == "Cancel" ]]; then
+        timew cancel
         uairctl next
     fi
 ''

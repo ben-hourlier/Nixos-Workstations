@@ -6,6 +6,9 @@ pkgs.writeShellScriptBin "time-tracker-display" ''
 
     while true; do
         STATUS=$(timew)
+        STATE=$(uairctl fetch '{state}')
+        PERCENT=$(uairctl fetch '{percent}')
+
         if [[ -f /tmp/timer_mode ]]; then
             if [[ "$STATUS" == *"Tracking"* ]]; then
                 if [[ "$STATUS" =~ Total[[:space:]]+([0-9]+:[0-9]+):[0-9]+ ]]; then
@@ -16,8 +19,12 @@ pkgs.writeShellScriptBin "time-tracker-display" ''
                 echo "$(uairctl fetch '{name} {time}\n')"
             fi
         else
-            if [[ "$STATUS" == *"Tracking"* ]]; then
-                touch /tmp/timer_mode
+            if [[ $STATE == "work-paused" ]]; then
+                if [[ $PERCENT == "100" ]]; then
+                    if [[ "$STATUS" == *"Tracking"* ]]; then
+                        touch /tmp/timer_mode
+                    fi
+                fi
             fi
 
             echo "$(uairctl fetch '{name} {time}\n')"
