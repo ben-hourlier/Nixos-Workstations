@@ -9,7 +9,7 @@ pkgs.writeShellScriptBin "loudgain-auto" ''
   echo "1) Ignore albums already tagged"
   read -p "Choice (Y/n): " choice
 
-  if [[ "$choice" != "y" && "$choice" != "Y" ]]; then
+  if [[ "$choice" = "n" && "$choice" = "N" ]]; then
       mode="force"
   else
       mode="skip"
