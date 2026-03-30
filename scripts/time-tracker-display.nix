@@ -5,8 +5,11 @@ pkgs.writeShellScriptBin "time-tracker-display" ''
     trap "exit" INT TERM QUIT EXIT
 
     while true; do
+        STATUS=$(timew)
+        STATE=$(uairctl fetch '{state}')
+        PERCENT=$(uairctl fetch '{percent}')
+
         if [[ -f /tmp/timer_mode ]]; then
-            STATUS=$(timew)
             if [[ "$STATUS" == *"Tracking"* ]]; then
                 if [[ "$STATUS" =~ Total[[:space:]]+([0-9]+:[0-9]+):[0-9]+ ]]; then
                     echo "Work: ''${BASH_REMATCH[1]}"
@@ -16,6 +19,14 @@ pkgs.writeShellScriptBin "time-tracker-display" ''
                 echo "$(uairctl fetch '{name} {time}\n')"
             fi
         else
+            if [[ $STATE == "work-paused" ]]; then
+                if [[ $PERCENT == "100" ]]; then
+                    if [[ "$STATUS" == *"Tracking"* ]]; then
+                        touch /tmp/timer_mode
+                    fi
+                fi
+            fi
+
             echo "$(uairctl fetch '{name} {time}\n')"
         fi
 
