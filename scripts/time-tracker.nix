@@ -6,7 +6,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
     fi
 
     if [[ -f /tmp/timer_mode ]]; then
-        PRINT="Stop timer"
+        PRINT="Stop timer\nCancel"
     else
         STATE=$(uairctl fetch '{state}')
         PERCENT=$(uairctl fetch '{percent}')
@@ -15,7 +15,7 @@ pkgs.writeShellScriptBin "time-tracker" ''
             if [[ $PERCENT == "100" ]]; then
                 PRINT="Start work session\nContinue previous session\nStart timer\nContinue previous timer\nNext"
             else
-                PRINT="Resume work session\nNext"
+                PRINT="Resume work session\nCancel\nNext"
             fi
         elif [[ $STATE == "work-resumed" ]]; then
             PRINT="Pause work session\nCancel\nNext"
