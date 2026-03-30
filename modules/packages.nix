@@ -73,7 +73,7 @@
     # --- Code ---
     jdk21_headless
     julia_111-bin
-    libgcc
+    gcc
   ];
 
 
