@@ -97,10 +97,8 @@ in
     adwaita-qt
     adwaita-qt6
     cantarell-fonts
-    glib                        # Required for gsettings commands
     gsettings-desktop-schemas   # Required for theme-switch schema validation
     launchWaybarScript
-    libnotify                   # Required for notification popups
     lmodern
     nerd-fonts.jetbrains-mono
     papirus-icon-theme
