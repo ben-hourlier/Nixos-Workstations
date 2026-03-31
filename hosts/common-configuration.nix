@@ -2,8 +2,6 @@
 
 {
   # --- Core System & Nix Settings ---
-  imports = [
-  ];
 
   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -115,8 +113,6 @@
   # Forces certain applications (like Electron apps) to run natively 
   # on Wayland instead of relying on XWayland, improving crispness and performance.
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    XDG_SESSION_TYPE = "wayland";
   };
 
   # Pulls Hyprland directly from its flake input to always get the latest features.
@@ -178,9 +174,12 @@
   # Core tools required globally on the system, even for the root user. 
   # Personal GUI apps should go in Home Manager.
   environment.systemPackages = with pkgs; [
+    glib
+    glib-networking
     neovim 
     udisks2     # Required for the udisks2 service to function
     rclone      # Cloud storage syncing
+    xdg-utils
   ];
 
   programs.git = {
@@ -196,8 +195,10 @@
     };
   };
 
-virtualisation.virtualbox.host.enable = true;
-users.extraGroups.vboxusers.members = [ "ben" ];
+
+  services.flatpak.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "ben" ];
 
 
   # --- VPN Configuration ---
