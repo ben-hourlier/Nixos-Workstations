@@ -63,6 +63,10 @@
       updated = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#desktop1";
       ndev = "nix develop -c $SHELL";
 
+      # --- Server ---
+      sshs = "ssh ben@192.168.1.200";
+      sshse = "ssh -p 2222 ben@jarvis-edith-ben@duckdns.org";
+
       # --- Specific ---
       ndf = "nix run github:jarvis-ed1th/expense-report-creator";
       vpn = "sudo vpnc n7-vpn.conf";
