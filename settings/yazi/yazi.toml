@@ -2,7 +2,7 @@
 
 [opener]
 open = [
-    { run = 'handlr open "$@"', orphan = true, desc = "Open with handlr", for = "unix" },
+    { run = 'xdg-open "$@"', orphan = true, desc = "Open with xdg", for = "unix" },
 ]
 
 execute = [

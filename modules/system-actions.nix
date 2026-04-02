@@ -1,10 +1,6 @@
 { pkgs, ... }:
 
 let
-  # --- Custom Shell Scripts ---
-  
-  # Imports the standalone executable script from a dedicated external file.
-  # This modular approach keeps the main configuration clean and makes adding new scripts easier.
   ejectUsbScript = import ../scripts/eject-usb.nix { inherit pkgs; };
   trashScript = import ../scripts/trash.nix { inherit pkgs; };
   brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
@@ -17,9 +13,10 @@ let
 
 in
 {
+  # =============================================================================
   # --- System Packages ---
+  # =============================================================================
   
-  # Installs the custom scripts defined above into the user's environment.
   home.packages = [ 
     ejectUsbScript 
     trashScript
@@ -32,11 +29,10 @@ in
     windowSwitcherScript
   ];
 
-
+  # =============================================================================
   # --- Custom Desktop Entries ---
+  # =============================================================================
 
-  # Creates application launchers for system actions, making them searchable 
-  # and executable directly from application launchers like Fuzzel or Rofi.
   xdg.desktopEntries = {
     
     shutdown = {
@@ -73,7 +69,6 @@ in
 
     eject = {
       name = "Eject USB";
-      # Calls the custom script created via writeShellScriptBin above.
       exec = "eject-usb"; 
       terminal = false;
       icon = "usb";

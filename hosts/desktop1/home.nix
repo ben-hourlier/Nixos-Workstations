@@ -1,17 +1,19 @@
 { config, pkgs, inputs, ... }:
+
 let
   monitor1 = "HDMI-A-2";
   monitor2 = "HDMI-A-1";
-
 in {
   imports = [
-    ./virtualization-home.nix
+    ./modules/virtualization-home.nix
     
     ../common-home.nix
 
-    ../../modules/icloud.nix
     ../../modules/music.nix
   ];
+
+  home.stateVersion = "25.11";
+
 
   # --- Hyprland workspaces ---
   
@@ -33,12 +35,4 @@ in {
     workspace = 4, monitor:${monitor2}, default:true
     workspace = 5, monitor:${monitor2}
   '';
-
-
-  # --- User Information ---
-
-  # Determines the release version from which default settings are inherited.
-  # Similar to the NixOS stateVersion, this should generally be left at the version 
-  # of the initial installation to avoid breaking changes in user-level databases or paths.
-  home.stateVersion = "25.11";
 }

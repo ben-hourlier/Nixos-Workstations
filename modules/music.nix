@@ -1,51 +1,44 @@
 { config, pkgs, lib, ... }:
 
 let
-  # --- Local Variables ---
-
-  # Defines the primary directory for music storage.
   musicDir = "${config.home.homeDirectory}/Music";
 
   # Defines the configuration structure for Deemix.
   deemixConfig = {
     downloadLocation = "${config.home.homeDirectory}/Downloads/Music";
     createM3U8File = false;
-    maxBitrate = "9";
+    maxBitrate = "9"; # flac
     writeTags = true;
   };
 
-  # --- Custom Shell Scripts ---
-  
-  # Imports the standalone wrapper script for ncmpcpp.
-  # The 'config' attribute must be inherited so the script can locate 
-  # the exact path of the installed ncmpcpp package.
-  loudGain = import ../scripts/loudgain.nix { inherit pkgs; };
+  loudGainScript = import ../scripts/loudgain.nix { inherit pkgs; };
   ncmpcppWrapper = import ../scripts/ncmpcpp-wrapper.nix { inherit pkgs config; };
 
 in
 {
-  # --- Music Packages ---
+  # =============================================================================
+  # --- Music packages ---
+  # =============================================================================
   
-  # Installs various audio management, tagging, and effect tools.
   home.packages = with pkgs; [
-    python313Packages.deemix
     chromaprint
     easyeffects
     flac
     loudgain
-    loudGain
+    loudGainScript
     mpc
     ncmpcppWrapper
     picard
+    python313Packages.deemix
   ];
 
-
-  # --- Application Configurations (Activation) ---
+  # Enables MPRIS support for MPD.
+  # This allows MPD to be controlled via global media keys or standard 
+  # media controllers (like playerctld or Waybar modules).
+  services.mpd-mpris.enable = true;
   
-  # Dynamically generates the Deemix configuration file during Home Manager activation.
-  # Home Manager typically creates read-only symlinks for configurations. However, 
-  # Deemix requires write access to its config file and will crash if it is read-only.
-  # This script writes the JSON file directly and modifies its permissions to 644.
+  # Generation of the config file for deemix without symlink, because it must
+  # have the right to write.
   home.activation.configureDeemix = lib.hm.dag.entryAfter ["writeBoundary"] ''
     CONFIG_DIR="${config.home.homeDirectory}/.config/deemix"
     CONFIG_FILE="$CONFIG_DIR/config.json"
@@ -62,10 +55,10 @@ in
     chmod 644 "$CONFIG_FILE"
   '';
 
-
+  # =============================================================================
   # --- Audio Engine (MPD) ---
-  
-  # Configures the Music Player Daemon (MPD) backend.
+  # =============================================================================
+
   services.mpd = {
     enable = true;
     musicDirectory = musicDir;
@@ -86,15 +79,12 @@ in
     '';
   };
 
-  # Enables MPRIS support for MPD.
-  # This allows MPD to be controlled via global media keys or standard 
-  # media controllers (like playerctld or Waybar modules).
-  services.mpd-mpris.enable = true;
 
 
-  # --- User Interface (NCMPCPP) ---
+  # =============================================================================
+  # --- NCMPCPP config ---
+  # =============================================================================
   
-  # Configures the ncmpcpp terminal-based music player.
   programs.ncmpcpp = {
     enable = true;
     
@@ -158,21 +148,16 @@ in
   };
 
 
+  # =============================================================================
   # --- Desktop Entries ---
+  # =============================================================================
 
-  # Creates a custom application launcher for the ncmpcpp player.
   xdg.desktopEntries.ncmpcpp = {
     name = "Ncmpcpp";
     genericName = "Music Player";
     comment = "Minimalist MPD Player";
-    
-    # Executes the custom wrapper script instead of the raw binary.
-    # This guarantees that MPD playback stops immediately when the player window is closed.
     exec = "ncmpcpp-wrapper";
-    
-    # Flags the application to be launched inside the default terminal emulator.
     terminal = true; 
-    
     icon = "org.gnome.Music"; 
     categories = [ "Audio" "AudioVideo" "Player" "ConsoleOnly" ];
     type = "Application";

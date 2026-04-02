@@ -1,9 +1,10 @@
 { pkgs, ... }:
 
 {
-  # ==========================================
-  # VIRTUALIZATION INFRASTRUCTURE (KVM/QEMU)
-  # ==========================================
+  # =============================================================================
+  # --- Virtualization Infrastructure (KVM/QEMU) ---
+  # =============================================================================
+
   environment.systemPackages = with pkgs; [
     virt-manager
     virtiofsd
@@ -20,10 +21,6 @@
         # Software TPM emulator implementation.
         # This is a strict cryptographic requirement for Windows 11 to boot and update.
         swtpm.enable = true;
-        
-        # NOTE: The explicit 'ovmf' block has been removed.
-        # Modern NixOS channels automatically provide the required UEFI firmware 
-        # out-of-the-box when QEMU is enabled.
 
         verbatimConfig = ''
         cgroup_device_acl = [
@@ -38,7 +35,6 @@
       };
     };
     
-    
     # Enables USB redirection protocols.
     # Allows hot-plugging physical USB devices (mice, keyboards, drives) into the VM.
     spiceUSBRedirection.enable = true;
@@ -46,20 +42,17 @@
 
   services.qemuGuest.enable = true;
 
-  # ==========================================
-  # HARDWARE ISOLATION (VFIO PASSTHROUGH)
-  # ==========================================
+  # =============================================================================
+  # --- Hardware Isolation (VFIO Passthrough) ---
+  # =============================================================================
 
   boot = {
-    # 1. KERNEL PARAMETERS
-    # ------------------------------------------
+
     # 'intel_iommu=on' enables the Input-Output Memory Management Unit at boot.
     # 'iommu=pt' (Passthrough) optimizes host performance by only translating
     # memory addresses for devices explicitly assigned to virtual machines.
     kernelParams = [ "intel_iommu=on" "iommu=pt" ];
 
-    # 2. EARLY MODULE LOADING
-    # ------------------------------------------
     # Injects the Virtual Function I/O framework into the initial ramdisk.
     # This guarantees VFIO claims the hardware before the standard host OS video 
     # drivers (nouveau/nvidia) can attach to it.
@@ -69,8 +62,6 @@
       "vfio_iommu_type1"
     ];
 
-    # 3. DEVICE TARGETING (FULL IOMMU GROUP)
-    # ------------------------------------------
     # Explicitly binds all four endpoints of the NVIDIA GTX 1660 SUPER 
     # (Video, Audio, USB, and Serial bus) to the vfio-pci stub driver.
     # Failing to isolate the entire group will cause the passthrough to abort.

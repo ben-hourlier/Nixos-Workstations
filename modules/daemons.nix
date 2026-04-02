@@ -1,19 +1,9 @@
 { pkgs, ... }:
 
 {
-  # --- Storage & Removable Media ---
-
-  # Automounts USB drives and other removable media silently in the background.
-  # The tray icon and notifications are disabled to keep the UI minimal and distraction-free.
-  services.udiskie = {
-    enable = true;
-    tray = "never";
-    automount = true;
-    notify = false;
-  };
-
-
+  # =============================================================================
   # --- Security & Authentication ---
+  # =============================================================================
 
   # Configures the graphical authentication agent for Polkit.
   # This is required for GUI applications to prompt for a password when elevated privileges 
@@ -35,58 +25,10 @@
     };
   };
 
-
-  # --- Background Services ---
-
-  # Enables the playerctld daemon.
-  # This provides an MPRIS interface, allowing media players (like Spotify or Firefox) 
-  # to be controlled globally via standard media keys or custom keyboard shortcuts.
-  services.playerctld.enable = true;
-
-  # Manages clipboard history.
-  # This allows storing and recalling previous clipboard entries (both text and images) 
-  # rather than only keeping the most recently copied item.
-  services.cliphist.enable = true;
-
-  # Manages system inactivity and idle states.
-  # This daemon triggers actions like screen locking, display turning off, or system suspend 
-  # after a predefined period of user inactivity.
-  services.hypridle.enable = true;
-
-
-  # --- Notifications ---
-
-  # Configures Mako, a lightweight Wayland notification daemon.
-  services.mako = {
-    enable = true;
-    
-    # Applies the "Rosé Pine" aesthetic theme for the notification popups.
-    settings = {
-      background-color = "#191724";
-      text-color = "#e0def4";
-      border-color = "#eb6f92";
-      border-radius = 5;
-      border-size = 2;
-      font = "Cantarell 11";
-      padding = "15";
-      default-timeout = 5000; # Dismisses notifications automatically after 5 seconds.
-    };
-
-    # Defines advanced filtering rules.
-    # By default, all standard notifications are hidden (invisible=1) to prevent distractions.
-    # Only critical system alerts (like low battery or custom scripts) categorized 
-    # under "system_alert" are permitted to show on screen.
-    extraConfig = ''
-      # Hide everything by default
-      invisible=1
-
-      # Whitelist specific critical categories
-      [category="system_alert"]
-      invisible=0
-    '';
-  };
-
-  # --- Cloud Storage & Sync ---
+  
+  # =============================================================================
+  # --- Cloud Storage ---
+  # =============================================================================
 
   # Mounts a Google Drive remote using rclone as a background user service.
   # This ensures cloud files are accessible locally as a standard filesystem.
@@ -125,5 +67,67 @@
       Restart = "on-failure";
       RestartSec = "10s";
     };
+  };
+
+
+  # =============================================================================
+  # --- Notifications ---
+  # =============================================================================
+
+  # Configures Mako, a lightweight Wayland notification daemon.
+  services.mako = {
+    enable = true;
+    
+    # Applies the "Rosé Pine" aesthetic theme for the notification popups.
+    settings = {
+      background-color = "#191724";
+      text-color = "#e0def4";
+      border-color = "#eb6f92";
+      border-radius = 5;
+      border-size = 2;
+      font = "Cantarell 11";
+      padding = "15";
+      default-timeout = 5000; # Dismisses notifications automatically after 5 seconds.
+    };
+
+    # Defines advanced filtering rules.
+    # By default, all standard notifications are hidden (invisible=1) to prevent distractions.
+    # Only critical "system_alert" are permitted to show on screen.
+    extraConfig = ''
+      # Hide everything by default
+      invisible=1
+
+      # Whitelist specific critical categories
+      [category="system_alert"]
+      invisible=0
+    '';
+  };
+
+
+  # =============================================================================
+  # --- Other Background Services ---
+  # =============================================================================
+
+  # Enables the playerctld daemon.
+  # This provides an MPRIS interface, allowing media players (like Spotify or Firefox) 
+  # to be controlled globally via standard media keys or custom keyboard shortcuts.
+  services.playerctld.enable = true;
+
+  # Manages clipboard history.
+  # This allows storing and recalling previous clipboard entries (both text and images) 
+  # rather than only keeping the most recently copied item.
+  services.cliphist.enable = true;
+
+  # Manages system inactivity and idle states.
+  # This daemon triggers actions like screen locking, display turning off, or system suspend 
+  # after a predefined period of user inactivity.
+  services.hypridle.enable = true;
+
+  # Using udisks2 to automatically mount external drives when pluged
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    tray = "never";
+    notify = false;
   };
 }

@@ -1,13 +1,47 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, unstable, system, ... }:
 
 {
+  # =============================================================================
   # --- Core System & Nix Settings ---
+  # =============================================================================
+
+  # --- Nix Settings ---
 
   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   # Allows the installation of proprietary software, such as the NVIDIA drivers.
   nixpkgs.config.allowUnfree = true;
+
+  nix.settings = {
+    # Increases the download buffer size to prevent "download buffer is full" errors.
+    # This is particularly useful when fetching large source files or binary blobs 
+    # on systems with high-speed internet connections.
+    download-buffer-size = 250000000; # ~250MB
+
+    # Optimization: limits the number of parallel downloads to avoid saturating 
+    # the connection and memory during heavy network usage.
+    max-substitution-jobs = 8;
+  };
+
+
+  # --- Maintenance ---
+
+  nix.gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 7d"; };
+
+
+  # --- Bootloader & Kernel ---
+  
+  # Uses systemd-boot instead of GRUB. It is faster, simpler, 
+  # and perfectly suited for modern UEFI systems.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+
+  # --- Network ---
+
+  # NetworkManager is the most robust way to handle both Ethernet and Wi-Fi connections.
+  networking.networkmanager.enable = true;
 
   networking.firewall = {
     enable = true;
@@ -21,42 +55,27 @@
     allowedUDPPorts = [ 53317 ];
   };
 
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
-  networking.networkmanager.dns = "none";
 
+  # --- DNS ---
 
-  # --- Bootloader & Kernel ---
-  
-  # Uses systemd-boot instead of GRUB. It is faster, simpler, 
-  # and perfectly suited for modern UEFI systems.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  networking.nameservers = [ 
+    "9.9.9.9" # Quad9
+    "1.1.1.1" # Cloudflare
+    "8.8.8.8" # Google
+  ];
+  networking.networkmanager.dns = "none"; # prevents the use of dhcp dns
 
 
   # --- File Systems & Storage ---
-  
-  # Automatically mounts removable drives (like USB sticks) when plugged in.
-  services.udisks2.enable = true;
-
-  nix.settings = {
-    # Increases the download buffer size to prevent "download buffer is full" errors.
-    # This is particularly useful when fetching large source files or binary blobs 
-    # on systems with high-speed internet connections.
-    download-buffer-size = 250000000; # ~250MB
-
-    # Optimization: limits the number of parallel downloads to avoid saturating 
-    # the connection and memory during heavy network usage.
-    max-substitution-jobs = 8;
-  };
 
   # Enables zRAM swap, which creates a compressed swap device directly in RAM.
-  # This optimizes memory usage by compressing less-used pages instead of 
-  # swapping them to the slower disk, significantly improving system responsiveness.
   zramSwap = {
     enable = true;
     # Sets the maximum compression ratio or limit. 
     # By default, NixOS uses a sensible percentage of total RAM.
     memoryPercent = 50; 
+    # Highest priority for using zram instead of swapfile if possible.
+    priority = 100;
   };
 
   # Configures a dedicated swap file to prevent Out-Of-Memory (OOM) errors 
@@ -64,13 +83,18 @@
   # Unlike a physical partition, a swap file can be easily adjusted or removed later.
   swapDevices = [ {
     device = "/var/lib/swapfile";
-    # Allocates 8GB of swap space. This is a safe value for most systems 
+    # Allocates 8GiB of swap space. This is a safe value for most systems 
     # to handle heavy multitasking comfortably.
     size = 8 * 1024; 
   } ];
 
+  # Number between 0 and 100 indicating the agressivity of swap, low number allows the most kept in RAM
+  boot.kernel.sysctl."vm.swappiness" = 20;
 
+
+# =============================================================================
 # --- Time, Locale & Keymaps ---
+# =============================================================================
   
   time.timeZone = "Europe/Paris";
 
@@ -95,30 +119,24 @@
     layout = "fr";
     variant = "";
   };
+
   console.keyMap = "fr";
 
-
+  # =============================================================================
   # --- User Configuration ---
+  # =============================================================================
   
-  # Zsh must be enabled system-wide before it can be set as the default shell.
   programs.zsh.enable = true;
 
 
   # --- Desktop Environment & Display ---
   
-  # Polkit is required for GUI applications to request elevated privileges 
-  # (like GParted asking for a password via a popup).
+  # Polkit is required for GUI applications to request elevated privileges
   security.polkit.enable = true;
 
-  # Forces certain applications (like Electron apps) to run natively 
-  # on Wayland instead of relying on XWayland, improving crispness and performance.
-  environment.sessionVariables = {
-  };
-
-  # Pulls Hyprland directly from its flake input to always get the latest features.
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = inputs.hyprland.packages.${system}.hyprland;
   };
 
   # Uses Ly as the Display Manager. It is a very lightweight, terminal-based 
@@ -164,23 +182,28 @@
     };
   };
 
-
+  # =============================================================================
   # --- System Packages & Programs ---
+  # =============================================================================
+
+  # --- Core tools ---
+
+  environment.systemPackages = with pkgs; [
+    glib
+    neovim
+    rclone
+    xdg-utils
+  ];
+
+  # Service allowing easy management of external drives (udisksctl)
+  services.udisks2.enable = true;
   
   # Dconf is a low-level configuration system used by GTK apps. 
   # Enabling it here ensures GTK themes and settings (often set via Home Manager) apply correctly.
   programs.dconf.enable = true;
 
-  # Core tools required globally on the system, even for the root user. 
-  # Personal GUI apps should go in Home Manager.
-  environment.systemPackages = with pkgs; [
-    glib
-    glib-networking
-    neovim 
-    udisks2     # Required for the udisks2 service to function
-    rclone      # Cloud storage syncing
-    xdg-utils
-  ];
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "ben" ];
 
   programs.git = {
     enable = true;
@@ -196,12 +219,7 @@
   };
 
 
-  services.flatpak.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "ben" ];
-
-
-  # --- VPN Configuration ---
+  # --- N7 VPN Configuration ---
 
   environment.etc."vpnc/n7-vpn.conf".text = ''
     IPSec secret IndiaNovemberPapaTango
@@ -211,7 +229,4 @@
     IKE Authmode psk
     Xauth username bhr9274
   '';
-
-  # --- Maintenance ---
-  nix.gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 7d"; };
 }
