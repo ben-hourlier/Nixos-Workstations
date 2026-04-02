@@ -1,12 +1,10 @@
 { pkgs, ... }:
 
 {
+  # =============================================================================
   # --- Web Applications (PWA / Chrome Apps) ---
+  # =============================================================================
 
-  # Creates standalone desktop entries for frequently used web applications.
-  # By leveraging Google Chrome's '--app' flag, these websites are launched in their own 
-  # isolated, chromeless windows. This integrates them seamlessly into the desktop environment, 
-  # making them feel and behave like native applications rather than browser tabs.
   xdg.desktopEntries = {
 
     deezer = {

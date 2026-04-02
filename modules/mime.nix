@@ -1,24 +1,19 @@
 { pkgs, ... }:
 
 let
-  # --- Application Variables ---
-  
-  # Centralizes application choices into variables. 
-  # This allows quickly swapping out a default program (like changing the browser) 
-  # in one place without having to modify dozens of individual MIME type entries below.
   browser = [ "firefox.desktop" ];
   fileManager = [ "yazi.desktop" ]; 
-  
   imageViewer = [ "org.gnome.Loupe.desktop" ];      
-  photoManager = [ "org.gnome.gThumb.desktop" ];    
-  videoPlayer = [ "vlc.desktop" ];
-  pdfViewer = [ "masterpdfeditor4.desktop" ];         
-  textEditor = [ "code.desktop" ];
   office = [ "onlyoffice-desktopeditors.desktop"];
-
+  pdfViewer = [ "masterpdfeditor4.desktop" ]; 
+  photoManager = [ "org.gnome.gThumb.desktop" ];
+  textEditor = [ "code.desktop" ];
+  videoPlayer = [ "vlc.desktop" ];
 in
 {
+  # =============================================================================
   # --- XDG MIME Configuration ---
+  # =============================================================================
   
   # Enables the management of XDG MIME applications.
   # This forces the desktop environment and user applications to respect 
@@ -26,8 +21,7 @@ in
   xdg.mimeApps = {
     enable = true;
 
-    # Defines the primary application used to open specific file types 
-    # (e.g., what happens when double-clicking a file).
+    # Defines the primary application used to open specific file types
     defaultApplications = {
       
       # --- Internet & Web ---
@@ -70,15 +64,6 @@ in
       # --- File Management ---
       "inode/directory" = fileManager;
       "folder/local" = fileManager;
-    };
-
-    # Defines secondary application associations.
-    # These programs will not open the file by default, but they will be prioritized 
-    # and appear directly in the "Open With..." context menu for these file types.
-    associations.added = {
-      "image/jpeg" = photoManager;
-      "image/jpg" = photoManager;
-      "image/png" = photoManager;
     };
   };
 }
