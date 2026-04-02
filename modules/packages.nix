@@ -1,53 +1,76 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 
-{
-  # --- System Packages ---
-  
-  # Installs various software packages into the user's environment.
-  # Packages are categorized and sorted alphabetically for easier maintenance.
-  home.packages = with pkgs; [
+let
+  # Fetches additional plugins for the Yazi file manager directly from GitHub.
+  yazi-plugins = pkgs.fetchFromGitHub {
+    owner = "yazi-rs";
+    repo = "plugins";
+    rev = "main";
+    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII=";
+  };
+in {  
+  home.packages = (with pkgs; [
     
-    # --- System & Tools ---
-    blueman
-    bluez
+    # =============================================================================
+    # --- Stable ---
+    # =============================================================================
+    
+    # --- System ---
+
+    bluez # bluetooth protocol
     brightnessctl
-    fuse
+    fuse # allows complex mount system
+    libnotify
+    networkmanagerapplet
+    pavucontrol
+    playerctl
+    socat
+    vpnc
+    
+
+    # --- Desktop Environment ---
+
+    blueman
     fuzzel
-    git
     hypridle
     hyprlock
     hyprpaper
     hyprpicker
     hyprshot
-    libnotify
-    networkmanagerapplet
-    networkmanager-vpnc
-    pavucontrol
-    playerctl
+    kitty
     polkit_gnome
-    socat
-    trash-cli
-    vpnc
     waybar
 
-    # --- Terminal & Shell ---
+
+    # --- Tools ---
+
     cliphist
-    exiftool
     fastfetch
     fd
     fzf
-    handlr
     jq
-    kitty
     parted
     ripdrag
     timewarrior
+    trash-cli
     uair
     wl-clipboard
-    yazi
+
+  ]) ++ (with unstable; [
+
+    # =============================================================================
+    # --- Unstable ---
+    # =============================================================================
+
+    # --- Shell ---
+
+    exiftool
+    git
     yt-dlp
 
+
     # --- GUI Applications ---
+
     anki-bin
     audacity
     calibre
@@ -70,29 +93,34 @@
     thunderbird
     vlc
 
+
     # --- Code ---
+
     jdk21_headless
     julia_111-bin
     gcc
     gemini-cli
-  ];
+  ]);
 
 
-  # --- Program Configurations ---
+  # =============================================================================
+  # --- Program Configurations (Stable) ---
+  # =============================================================================
 
-  # Configures btop, a resource monitor that displays system usage and stats.
   programs.btop = {
     enable = true;
     settings = {
-      # Forces the use of a custom theme named "user-theme".
       color_theme = "user-theme";
-      
-      # Disables the theme background to allow terminal transparency to show through.
-      # (Can be set to true for an opaque background).
       theme_background = false; 
-      
-      # Enables Vim-style keybindings (h, j, k, l) for internal navigation.
       vim_keys = true;
     };
   };
+
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  # Installs the external Git plugin into Yazi's configuration directory.
+  xdg.configFile."yazi/plugins/git.yazi".source = "${yazi-plugins}/git.yazi";
 }

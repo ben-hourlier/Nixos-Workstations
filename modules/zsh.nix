@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
 {
+  # =============================================================================
   # --- Prompt (Starship) ---
+  # =============================================================================
 
   # Configures Starship, a fast and highly customizable cross-shell prompt.
   programs.starship = {
@@ -33,40 +35,40 @@
   };
 
 
+  # =============================================================================
   # --- Shell (Zsh) ---
+  # =============================================================================
 
-  # Configures Zsh as the primary interactive shell environment.
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    
-    # Enhances productivity by suggesting the remainder of a command 
-    # (in grey text) based on command history.
-    autosuggestion.enable = true;    
-    
-    # Provides real-time syntax highlighting for commands as they are typed.
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true; 
 
-    # Defines custom shell aliases for quicker command execution.
-    # Sorted alphabetically for easier maintenance.
     shellAliases = {
+
+      # --- Global ---
       c = "clear";
       conf = "code ~/.dotfiles && exit"; 
+
+      # --- Git ---
       ga = "git add .";
       gc = "git commit -m";
       gp = "git push";
       gs = "git status";
       ll = "ls -la";
+
+      # --- Nix ---
       updatel = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#laptop1";
       updated = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#desktop1";
       ndev = "nix develop -c $SHELL";
 
+      # --- Specific ---
       ndf = "nix run github:jarvis-ed1th/expense-report-creator";
       vpn = "sudo vpnc n7-vpn.conf";
       vpnd = "sudo vpnc-disconnect";
     };
 
-    # Configures the shell's command history settings.
     history = {
       size = 10000;
       path = "$HOME/.zsh_history";
@@ -75,7 +77,6 @@
       share = true;
     };
 
-    # Integrates specific Oh-My-Zsh plugins efficiently via Nix.
     oh-my-zsh = {
       enable = true;
       plugins = [ 
@@ -85,8 +86,9 @@
     };
   };
   
-  
-  # --- Terminal Tools (FZF) ---
+  # =============================================================================
+  # --- Terminal Tools ---
+  # =============================================================================
 
   # Enables the FZF fuzzy finder and integrates it directly into Zsh.
   # This dramatically improves the reverse history search (triggered via Ctrl+R) 

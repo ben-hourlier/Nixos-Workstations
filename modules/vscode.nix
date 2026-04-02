@@ -1,10 +1,12 @@
-{ pkgs, ... }:
+{ unstable, ... }:
 
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode-fhs;
-    extensions = with pkgs.vscode-extensions; [
+    package = unstable.vscode-fhs;
+    extensions = with unstable.vscode-extensions; [
+      # Global
+      github.copilot-chat
       
       # C
       ms-vscode.cpptools
@@ -19,7 +21,6 @@
       vscjava.vscode-java-pack
       vscjava.vscode-java-test
       vscjava.vscode-maven
-      
 
       # Nix
       jnoortheen.nix-ide

@@ -1,28 +1,16 @@
 { pkgs, ... }:
 
-let
-  # --- External Resources ---
-  
-  # Fetches additional plugins for the Yazi file manager directly from GitHub.
-  yazi-plugins = pkgs.fetchFromGitHub {
-    owner = "yazi-rs";
-    repo = "plugins";
-    rev = "main";
-    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII=";
-  };
-
-  # --- Custom Shell Scripts ---
-  
-  # Imports custom scripts required for theme management and UI launching.
+let  
   themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; };
   launchWaybarScript = import ../scripts/launch-waybar.nix { inherit pkgs; };
-
 in
 {
+  # =============================================================================
+  # --- Main Theme Configuration ---
+  # =============================================================================
+
   # --- Cursor Setup ---
   
-  # Configures the standard GNOME Adwaita cursor globally.
-  # Both GTK and X11 integrations are enabled to ensure consistency across all apps.
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -34,9 +22,6 @@ in
 
   # --- GTK Configuration ---
   
-  # Configures the GTK environment (font, theme, and icons).
-  # 'adw-gtk3' is used to make legacy GTK3 applications match the modern 
-  # libadwaita styling used by newer GNOME applications.
   gtk = {
     enable = true;
     font = {
@@ -56,9 +41,6 @@ in
 
   # --- Qt Configuration ---
   
-  # Simplifies Qt theming by instructing Qt applications to natively integrate 
-  # with the GNOME/GTK style. This avoids the need for external rendering engines 
-  # like Kvantum or Qt5ct.
   qt = {
     enable = true;
     
@@ -70,28 +52,10 @@ in
   };
 
 
-  # --- Environment Variables ---
+  # =============================================================================
+  # --- Packages ---
+  # =============================================================================
   
-  # Sets necessary environment variables to enforce modern Wayland usage 
-  # and fix specific graphical toolkit behaviors.
-  home.sessionVariables = {
-    # Forces applications (like Qt ones) to use the Wayland backend instead of XWayland.
-    QT_QPA_PLATFORM = "wayland";
-    
-    # Ensures Qt uses the compositor's window decorations rather than its own, 
-    # preventing ugly or duplicate window borders in Hyprland.
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    
-    # Forces the Adwaita theme to automatically follow the system's color-scheme 
-    # preference (set via gsettings) without relying on desktop portals.
-    ADW_DISABLE_PORTAL = "1"; 
-  };
-
-
-  # --- Theme & UI Packages ---
-  
-  # Installs fonts, GTK/Qt themes, and dependencies required by the UI scripts.
-  # Sorted alphabetically for easier maintenance.
   home.packages = with pkgs; [
     adw-gtk3
     adwaita-qt
@@ -105,15 +69,4 @@ in
     themeSwitchScript
   ];
 
-
-  # --- Yazi Configuration ---
-  
-  # Enables the Yazi terminal file manager and its Zsh shell integration.
-  programs.yazi = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  # Installs the external Git plugin into Yazi's configuration directory.
-  xdg.configFile."yazi/plugins/git.yazi".source = "${yazi-plugins}/git.yazi";
 }

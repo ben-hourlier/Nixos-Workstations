@@ -1,13 +1,12 @@
-{ ... }:
+{ config, ... }:
 
 {
-  # --- Dotfiles & Directory Mapping ---
+  # =============================================================================
+  # --- Dotfiles ---
+  # =============================================================================
 
-  # Maps local configuration directories into the user's '~/.config/' directory.
   # The 'recursive = true' option ensures that individual files within these directories 
-  # are symlinked individually rather than replacing the entire target directory. 
-  # This allows dynamically generated state files (created by the apps themselves) 
-  # to safely coexist with these Nix-managed configurations.
+  # are symlinked individually rather than replacing the entire target directory.
   xdg.configFile = {
     "fuzzel" = { source = ../settings/fuzzel; recursive = true; };
     "hypr" = { source = ../settings/hypr; recursive = true; };
@@ -18,14 +17,13 @@
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
+  xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/GoogleDrive/02-AREAS/timewarrior";
 
-  # --- Custom Desktop Entries ---
 
-  # Creates a custom application launcher (.desktop file) for Yazi.
-  # Since Yazi is a terminal-based file manager, the desktop environment doesn't 
-  # inherently know how to open it. This entry explicitly instructs the system 
-  # to launch Yazi inside the 'kitty' terminal emulator whenever a directory 
-  # is opened (handling the 'inode/directory' MIME type).
+  # =============================================================================
+  # --- Custom desktop entries ---
+  # =============================================================================
+
   xdg.desktopEntries.yazi = {
     name = "Yazi";
     exec = "kitty -e yazi %u";
