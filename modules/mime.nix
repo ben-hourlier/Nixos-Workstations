@@ -5,7 +5,7 @@ let
   fileManager = [ "yazi.desktop" ]; 
   imageViewer = [ "org.gnome.Loupe.desktop" ];      
   office = [ "onlyoffice-desktopeditors.desktop"];
-  pdfViewer = [ "masterpdfeditor4.desktop" ]; 
+  pdfViewer = [ "org.kde.okular.desktop" ]; 
   photoManager = [ "org.gnome.gThumb.desktop" ];
   textEditor = [ "code.desktop" ];
   videoPlayer = [ "vlc.desktop" ];
