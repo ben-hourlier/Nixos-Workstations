@@ -21,6 +21,7 @@
         # Software TPM emulator implementation.
         # This is a strict cryptographic requirement for Windows 11 to boot and update.
         swtpm.enable = true;
+        package = pkgs.qemu_kvm;
 
         verbatimConfig = ''
         cgroup_device_acl = [

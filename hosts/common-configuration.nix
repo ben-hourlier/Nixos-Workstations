@@ -51,8 +51,8 @@
     # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
     
     # Open port for Local Send
-    allowedTCPPorts = [ 53317 ]; # eq : iptables -A INPUT -p TCP --dport 53317 -j ACCEPT
-    allowedUDPPorts = [ 53317 ];
+    allowedTCPPorts = [ 53317 8384 22000 ]; # eq : iptables -A INPUT -p TCP --dport 53317 -j ACCEPT
+    allowedUDPPorts = [ 53317 22000 21027 ];
   };
 
 
