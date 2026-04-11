@@ -130,4 +130,21 @@
     tray = "never";
     notify = false;
   };
+
+  services.syncthing = {
+    enable = true;
+
+    settings = {
+      devices = {
+        "server1-nixos" = { id = "7MKESMN-KXBFLXB-AGTPU3Y-T7NGGKE-LBJTTCC-62OI4JN-VXR3O44-XQOPDQR"; };
+      };
+
+      folders = {
+        "sync" = {
+          path = "/home/ben/sync";
+          devices = [ "server1-nixos" ];
+        };
+      };
+    };
+  };
 }

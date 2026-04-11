@@ -7,6 +7,7 @@
     extensions = with unstable.vscode-extensions; [
       # Global
       github.copilot-chat
+      tomoki1207.pdf
       
       # C
       ms-vscode.cpptools
