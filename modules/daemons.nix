@@ -136,7 +136,7 @@
 
     settings = {
       devices = {
-        "server1-nixos" = { id = "7MKESMN-KXBFLXB-AGTPU3Y-T7NGGKE-LBJTTCC-62OI4JN-VXR3O44-XQOPDQR"; };
+        "server1-nixos" = { id = "74NJCHR-TGQ5CMN-3EKMXTL-TMY7G3I-YAIBI3U-EN44WAU-WBLTHW7-7HKZ4QH"; };
       };
 
       folders = {
