@@ -25,50 +25,6 @@
     };
   };
 
-  
-  # =============================================================================
-  # --- Cloud Storage ---
-  # =============================================================================
-
-  # Mounts a Google Drive remote using rclone as a background user service.
-  # This ensures cloud files are accessible locally as a standard filesystem.
-  systemd.user.services.rclone-gdrive = {
-    Unit = {
-      Description = "Rclone Mount for Google Drive";
-      # Ensures the service only attempts to start after the network is fully online.
-      Wants = [ "network-online.target" ];
-      After = [ "network-online.target" ];
-    };
-    
-    # Starts the service automatically when the user session begins.
-    Install.WantedBy = [ "default.target" ];
-    
-    Service = {
-      Type = "notify";
-      
-      # Automatically creates the mount directory if it does not already exist.
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/GoogleDrive";
-      
-      # Executes the mount command with Virtual File System (VFS) optimizations.
-      # Caching is heavily utilized to minimize API calls and improve read/write performance.
-      ExecStart = ''
-        ${pkgs.rclone}/bin/rclone mount gdrive: %h/GoogleDrive \
-          --vfs-cache-mode full \
-          --dir-cache-time 72h \
-          --vfs-cache-max-size 50G \
-          --vfs-read-chunk-size 128M \
-          --vfs-read-chunk-size-limit off
-      '';
-      
-      # Safely unmounts the drive when the service is stopped or restarted.
-      ExecStop = "/run/wrappers/bin/fusermount -u %h/GoogleDrive";
-      
-      # Automatically restarts the service in case of a crash or temporary network loss.
-      Restart = "on-failure";
-      RestartSec = "10s";
-    };
-  };
-
 
   # =============================================================================
   # --- Notifications ---
@@ -112,15 +68,7 @@
   # This provides an MPRIS interface, allowing media players (like Spotify or Firefox) 
   # to be controlled globally via standard media keys or custom keyboard shortcuts.
   services.playerctld.enable = true;
-
-  # Manages clipboard history.
-  # This allows storing and recalling previous clipboard entries (both text and images) 
-  # rather than only keeping the most recently copied item.
   services.cliphist.enable = true;
-
-  # Manages system inactivity and idle states.
-  # This daemon triggers actions like screen locking, display turning off, or system suspend 
-  # after a predefined period of user inactivity.
   services.hypridle.enable = true;
 
   # Using udisks2 to automatically mount external drives when pluged
