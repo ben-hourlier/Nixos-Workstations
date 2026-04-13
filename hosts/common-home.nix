@@ -15,8 +15,6 @@
     ../modules/vscode.nix
     ../modules/web-apps.nix
     ../modules/zsh.nix
-
-    ../packages/actual-budget.nix
   ];
 
   # =============================================================================
