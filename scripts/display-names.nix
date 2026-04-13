@@ -9,17 +9,17 @@ pkgs.writeShellScriptBin "display-names" ''
     INITIAL=$2
     TITLE=$3
 
-    case $CLASS in
-        "kitty")
-            case $TITLE in
-                Yazi*)    FINAL_NAME="Yazi" ;;
+    case ''${INITIAL,,} in
+        *kitty*)
+            case ''${TITLE,,} in
+                yazi*)    FINAL_NAME="Yazi" ;;
                 ncmpcpp*) FINAL_NAME="Ncmpcpp" ;;
                 */* | *~*) FINAL_NAME="Kitty" ;;
                 # Capitalizes the first letter of each word
                 *) FINAL_NAME=$(echo "$TITLE" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1') ;;
             esac
             ;;
-        "obsidian")
+        *obsidian*)
             FINAL_NAME="Obsidian"
             ;;
 

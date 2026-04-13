@@ -56,16 +56,6 @@
   };
 
 
-  # --- DNS ---
-
-  networking.nameservers = [ 
-    "9.9.9.9" # Quad9
-    "1.1.1.1" # Cloudflare
-    "8.8.8.8" # Google
-  ];
-  networking.networkmanager.dns = "none"; # prevents the use of dhcp dns
-
-
   # --- File Systems & Storage ---
 
   # Enables zRAM swap, which creates a compressed swap device directly in RAM.
