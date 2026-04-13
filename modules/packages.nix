@@ -66,6 +66,7 @@ in {
 
     exiftool
     git
+    sshfs
     yt-dlp
 
 
@@ -74,6 +75,7 @@ in {
     anki-bin
     audacity
     calibre
+    discord
     firefox
     gimp
     gnome-clocks

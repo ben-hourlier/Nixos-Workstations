@@ -11,7 +11,6 @@
     ./hardware-configuration.nix
 
     ./modules/virtualization-configuration.nix
-    ./modules/backup.nix
 
     ../common-configuration.nix
   ];
@@ -23,18 +22,6 @@
   system.stateVersion = "25.11"; 
 
   networking.hostName = "desktop1-nixos";
-
-
-  # --- Bootloader & Kernel ---
-
-  # Forces the AMD GPU module to load during the initial ramdisk phase.
-  # This ensures the display initializes as early as possible during the boot process.
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  
-  # Loads the i2c-dev module required by ddcutil to control 
-  # monitor brightness directly from the software.
-  boot.kernelModules = [ "i2c-dev" ];
-
 
   # --- Hardware & Drivers ---
   
@@ -64,21 +51,6 @@
     # Kept empty since Home Manager is used. 
     # User-specific packages belong in home.nix.
     packages = with pkgs; [];
-  };
-
-
-  # =============================================================================
-  # --- File system & Storage ---
-  # =============================================================================
-
-  # Dedicated backup drive.
-  fileSystems."/mnt/backup-disk" = {
-    device = "/dev/disk/by-uuid/401b830e-5c6e-4aff-bab2-1bc557764a96"; 
-    options = [ 
-      "users"     # Allows normal users to interact with the drive without sudo.
-      "nofail"    # CRITICAL: Prevents a kernel panic if the drive is disconnected during boot.
-      "noatime"   # Disables writing access times to the disk, prolonging its lifespan and speeding up reads.
-    ];
   };
 
 
