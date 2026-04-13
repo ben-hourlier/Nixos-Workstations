@@ -55,6 +55,8 @@
     allowedUDPPorts = [ 53317 22000 21027 ];
   };
 
+  services.tailscale.enable = true;
+
 
   # --- File Systems & Storage ---
 
