@@ -11,9 +11,9 @@ let
   videoPlayer = [ "vlc.desktop" ];
 in
 {
-  # =============================================================================
+  # ====================================================================
   # --- XDG MIME Configuration ---
-  # =============================================================================
+  # ====================================================================
   
   # Enables the management of XDG MIME applications.
   # This forces the desktop environment and user applications to respect 
