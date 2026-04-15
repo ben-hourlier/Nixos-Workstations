@@ -65,6 +65,7 @@ window#waybar > box {
 
 
 /* --- Right Modules (System Tray & Stats) --- */
+#custom-vpn,
 #custom-uair,
 #custom-airplane,
 #network,
