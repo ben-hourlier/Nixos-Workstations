@@ -34,6 +34,13 @@
   # Configures X11/Wayland to use both NVIDIA and AMD drivers for the dual-GPU setup.
   services.xserver.videoDrivers = ["amdgpu"];
 
+  # --- Wake On Lan ---
+
+  systemd.network.links."10-wol" = {
+    matchConfig.MACAddress = "2c:f0:5d:aa:98:13";
+    linkConfig.WakeOnLan = "magic";
+  };
+
 
   # ====================================================================
   # --- User configuration ---
@@ -41,16 +48,29 @@
 
   users.users.ben = {
     isNormalUser = true;
-    description = "ben";
     shell = pkgs.zsh;
     # 'wheel' grants sudo privileges.
     # 'networkmanager' allows changing network settings without a password.
     # 'i2c' grants permission to use ddcutil without root.
     extraGroups = [ "networkmanager" "wheel" "i2c" "libvirtd" "kvm"];
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM66hTYZVuVKYEHQjebXBpKmgsHqSZF9fHBDs9r4igY+ laptop1"
+    ];
     
     # Kept empty since Home Manager is used. 
     # User-specific packages belong in home.nix.
     packages = with pkgs; [];
+  };
+
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
   };
 
 
