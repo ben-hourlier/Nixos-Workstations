@@ -20,6 +20,7 @@
     ],
     "modules-right": [
         "custom/uair",
+        "custom/vpn",
         "custom/airplane",
         "network",
         "bluetooth",
@@ -69,6 +70,13 @@
         "return-type": "text",
         "on-click": "time-tracker",
         "tooltip": false
+    },
+
+    "custom/vpn": {
+        "exec": "ip a show tailscale0 | grep -q 'inet 100.' && echo '(VPN)' || echo ''",
+        "return-type": "text",
+        "tooltip": false,
+        "interval": 3
     },
     
     "custom/airplane": {

@@ -211,7 +211,12 @@
     };
   };
 
+# Activer le programme Wireshark
+programs.wireshark.enable = true;
+programs.wireshark.package = pkgs.wireshark; # ou pkgs.wireshark-qt
 
+# S'assurer que votre utilisateur appartient au groupe 'wireshark'
+users.users.ben.extraGroups = [ "wireshark" ];
   # --- N7 VPN Configuration ---
 
   environment.etc."vpnc/n7-vpn.conf".text = ''
