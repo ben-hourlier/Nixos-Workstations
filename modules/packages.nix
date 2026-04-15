@@ -64,9 +64,11 @@ in {
 
     # --- Shell ---
 
+    dnsutils
     exiftool
     git
     sshfs
+    wol
     yt-dlp
 
 
