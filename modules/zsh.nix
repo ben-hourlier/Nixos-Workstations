@@ -45,6 +45,10 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true; 
 
+    initContent = ''
+      bindkey '^H' backward-kill-word
+    '';
+
     shellAliases = {
 
       # --- Global ---
@@ -66,7 +70,7 @@
       # --- Server ---
       sshs = "ssh ben@192.168.1.200";
       sshse = "ssh -p 2222 ben@jarvis-edith-ben.duckdns.org";
-      wold = "wol 2c:f0:5d:aa:98:13"
+      wold = "wol 2c:f0:5d:aa:98:13";
 
       # --- Specific ---
       ndf = "nix run github:jarvis-ed1th/expense-report-creator";
