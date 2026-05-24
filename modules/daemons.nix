@@ -84,11 +84,11 @@
 
     settings = {
       devices = {
-        "server1-nixos" = { id = "74NJCHR-TGQ5CMN-3EKMXTL-TMY7G3I-YAIBI3U-EN44WAU-WBLTHW7-7HKZ4QH"; };
+        "server1-nixos" = { id = "AADWYR5-FCCJLK7-Z2JUM2F-PSPAO2W-KSGOWUN-Z3KC3BH-7WAOPQV-2EYN4QT"; };
       };
 
       folders = {
-        "sync" = {
+        "Sync" = {
           path = "/home/ben/Sync";
           devices = [ "server1-nixos" ];
         };
