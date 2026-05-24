@@ -6,7 +6,7 @@ let
     owner = "yazi-rs";
     repo = "plugins";
     rev = "main";
-    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII=";
+    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII="; 
   };
 in {  
   home.packages = (with pkgs; [
@@ -48,13 +48,16 @@ in {
     fastfetch
     fd
     fzf
+    gnumake
     jq
     parted
+    readline
     ripdrag
     timewarrior
     trash-cli
     uair
     wl-clipboard
+    zoxide
 
   ]) ++ (with unstable; [
 
@@ -103,7 +106,6 @@ in {
     jdk21_headless
     julia_111-bin
     gcc
-    gemini-cli
   ]);
 
 
