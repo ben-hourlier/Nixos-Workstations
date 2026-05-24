@@ -47,6 +47,7 @@
 
     initContent = ''
       bindkey '^H' backward-kill-word
+      eval "$(zoxide init zsh)"
     '';
 
     shellAliases = {
