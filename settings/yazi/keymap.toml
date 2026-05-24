@@ -94,6 +94,12 @@ on = "<C-d>"
 run = 'shell "ripdrag -a -x \"$@\""'
 desc = "Drag and drop"
 
+[[mgr.prepend_keymap]]
+on = "R"
+run = 'search --via=rg'
+desc = "Drag and drop"
+
+
 
 # --- Bin Management (Trash) ---
 

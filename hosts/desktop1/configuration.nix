@@ -23,6 +23,7 @@
 
   networking.hostName = "desktop1-nixos";
 
+  
   # --- Hardware & Drivers ---
   
   # Enables OpenGL/Vulkan support for the graphics cards.
