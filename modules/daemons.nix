@@ -89,7 +89,7 @@
 
       folders = {
         "sync" = {
-          path = "/home/ben/sync";
+          path = "/home/ben/Sync";
           devices = [ "server1-nixos" ];
         };
       };
