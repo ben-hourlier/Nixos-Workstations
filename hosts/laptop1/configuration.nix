@@ -20,11 +20,6 @@
   networking.hostName = "laptop1-nixos";
 
 
-  # --- Hardware & Drivers ---
-
-  hardware.bluetooth.enable = true;
-
-
   # ====================================================================
   # --- User configuration ---
   # ====================================================================

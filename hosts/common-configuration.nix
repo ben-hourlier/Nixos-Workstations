@@ -55,7 +55,10 @@
     allowedUDPPorts = [ 53317 22000 21027 ];
   };
 
-  services.tailscale.enable = true;
+
+  # --- Hardware & Drivers ---
+
+  hardware.bluetooth.enable = true;
 
 
   # --- File Systems & Storage ---
@@ -115,11 +118,8 @@
   console.keyMap = "fr";
 
   # ====================================================================
-  # --- User Configuration ---
+  # --- System Packages & Programs ---
   # ====================================================================
-  
-  programs.zsh.enable = true;
-
 
   # --- Desktop Environment & Display ---
   
@@ -131,17 +131,17 @@
     package = inputs.hyprland.packages.${system}.hyprland;
   };
 
-  # Uses Ly as the Display Manager. It is a very lightweight, terminal-based 
-  # login screen that works perfectly with Wayland compositors.
   services.displayManager.ly = {
     enable = true;
     settings = {
-      animation = "none";      # Keeps the login screen minimal and distraction-free.
-      clear_password = true;   # Instantly clears the field if the password is mistyped.
-      numlock = true;          # Essential to type the PIN/password immediately.
-      vi_mode = false;         # Disables vi mode to use standard arrow keys for navigation.
+      animation = "none";
+      clear_password = true;
+      numlock = true;
+      vi_mode = false;
     };
   };
+
+  programs.zsh.enable = true;
 
 
   # --- Audio & Sound (PipeWire) ---
@@ -174,9 +174,6 @@
     };
   };
 
-  # ====================================================================
-  # --- System Packages & Programs ---
-  # ====================================================================
 
   # --- Core tools ---
 
@@ -195,9 +192,6 @@
   # Enabling it here ensures GTK themes and settings (often set via Home Manager) apply correctly.
   programs.dconf.enable = true;
 
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "ben" ];
-
   programs.git = {
     enable = true;
     config = {
@@ -211,12 +205,17 @@
     };
   };
 
-# Activer le programme Wireshark
-programs.wireshark.enable = true;
-programs.wireshark.package = pkgs.wireshark; # ou pkgs.wireshark-qt
+  services.tailscale.enable = true;
 
-# S'assurer que votre utilisateur appartient au groupe 'wireshark'
-users.users.ben.extraGroups = [ "wireshark" ];
+  programs.wireshark.enable = true;
+  users.users.ben.extraGroups = [ "wireshark" ];
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true; # Create an alias from docker to podman
+  defaultNetwork.settings.dns_enabled = true; # Allows container to communicate by names
+  };
+
   # --- N7 VPN Configuration ---
 
   environment.etc."vpnc/n7-vpn.conf".text = ''

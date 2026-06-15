@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ pkgs, system, ... }:
 
 {
   # ====================================================================
@@ -19,7 +19,9 @@
   # It is NOT the version of NixOS currently running. Changing this value 
   # after the initial installation can break things (like database formats or 
   # default file locations). It must be left exactly as it was during the first installation.
-  system.stateVersion = "25.11"; 
+  system.stateVersion = "25.11";
+
+  nixpkgs.config.hostPlatform = system;
 
   networking.hostName = "desktop1-nixos";
 
@@ -35,11 +37,28 @@
   # Configures X11/Wayland to use both NVIDIA and AMD drivers for the dual-GPU setup.
   services.xserver.videoDrivers = ["amdgpu"];
 
+
   # --- Wake On Lan ---
 
   systemd.network.links."10-wol" = {
     matchConfig.MACAddress = "2c:f0:5d:aa:98:13";
     linkConfig.WakeOnLan = "magic";
+  };
+
+  
+  # --- Network fallback ---
+
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8"];
+  networking.useDHCP = false;
+  networking.interfaces."eth0".ipv4 = {
+    addresses = [{
+      address = "192.168.42.30";
+      prefixLength = 24;
+    }];
+    routes = [{
+      address = "0.0.0.0";
+      prefixLength = 0; 
+      via = "192.168.42.1"; }];
   };
 
 
@@ -64,7 +83,7 @@
     packages = with pkgs; [];
   };
 
-
+  # Configuration of /etc/ssh/sshd_config
   services.openssh = {
     enable = true;
     settings = {
