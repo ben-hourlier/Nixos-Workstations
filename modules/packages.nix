@@ -1,12 +1,12 @@
-{ pkgs, unstable, ... }:
+{ pkgs, unstable, inputs, system, ... }:
 
 let
   # Fetches additional plugins for the Yazi file manager directly from GitHub.
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "main";
-    hash = "sha256-hn6oEFCLhACPh8T/qoPVHbX8Npsjd1EDXsZlm9SzIII="; 
+    rev = "c2c16c83dd6c754c38893030848a162bb2422ca2";
+    hash = "sha256-BdisAHsLHNqtuDu8rtBZZaqiTeL60pQOWKsRct35VZM="; 
   };
 in {  
   home.packages = (with pkgs; [
@@ -57,6 +57,7 @@ in {
     trash-cli
     uair
     wl-clipboard
+    zip unzip
     zoxide
 
   ]) ++ (with unstable; [
@@ -106,11 +107,13 @@ in {
     jdk21_headless
     julia_111-bin
     gcc
+  ]) ++ ([
+    inputs.antigravity.packages.${system}.default
   ]);
 
 
   # ====================================================================
-  # --- Program Configurations (Stable) ---
+  # --- Program Configurations ---
   # ====================================================================
 
   programs.btop = {
@@ -125,6 +128,7 @@ in {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    package = unstable.yazi;
   };
 
   # Installs the external Git plugin into Yazi's configuration directory.
