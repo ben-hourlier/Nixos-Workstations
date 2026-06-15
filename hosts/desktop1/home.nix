@@ -4,6 +4,7 @@ let
   monitor1 = "HDMI-A-2";
   monitor2 = "HDMI-A-1";
 in {
+
   imports = [
     ./modules/virtualization-home.nix
     

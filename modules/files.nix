@@ -17,7 +17,7 @@
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
-  xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/sync/02-AREAS/timewarrior";
+  xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/Sync/02-AREAS/timewarrior";
 
 
   # ====================================================================

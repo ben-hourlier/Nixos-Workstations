@@ -13,37 +13,33 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    antigravity.url = "github:jacopone/antigravity-nix";
   };
 
 
   # ====================================================================
   # --- Flake Outputs ---
   # ====================================================================
-  
 
   outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... } @ inputs:
 
-    let
-      system = "x86_64-linux";
-      
-      unstable = import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-    in {
-      # Variables pkgs, config and lib are automatically given to home.nix and configuration.nix
-      # (or equivalent). To add other variables, use SpecialArgs or extraSpecialArgs
+    {
       nixosConfigurations = {
 
-        # --- Desktop Configuration ---
-        
-        # Built using: sudo nixos-rebuild switch --flake .#desktop1
-        desktop1 = nixpkgs-stable.lib.nixosSystem {
+        desktop1 =  
+        let
+
+          system = "x86_64-linux";
+    
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+
+        in nixpkgs-stable.lib.nixosSystem {
           specialArgs = { inherit inputs unstable system; };
           modules = [
-            { nixpkgs.hostPlatform = system; }
-            
             ./hosts/desktop1/configuration.nix
 
             home-manager.nixosModules.home-manager
@@ -57,14 +53,17 @@
         };
 
 
-        # --- Laptop Configuration ---
-        
-        # Built using: sudo nixos-rebuild switch --flake .#laptop1
-        laptop1 = nixpkgs-stable.lib.nixosSystem {
-          specialArgs = { inherit inputs system; };
+        laptop1 = 
+        let 
+          system = "x86_64-linux";
+
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in nixpkgs-stable.lib.nixosSystem {
+          specialArgs = { inherit inputs unstable system; };
           modules = [
-            { nixpkgs.hostPlatform = system; }
-            
             ./hosts/laptop1/configuration.nix
 
             home-manager.nixosModules.home-manager
