@@ -75,10 +75,10 @@ in
       audio_output {
         type "pipewire"
         name "PipeWire Sound Server"
+        buffer_time "5000000"
       }
     '';
   };
-
 
 
   # ====================================================================
