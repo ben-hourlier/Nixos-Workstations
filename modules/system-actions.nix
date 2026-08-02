@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  # compInventory = import ../scripts/inventory.nix { inherit pkgs; };
   ejectUsbScript = import ../scripts/eject-usb.nix { inherit pkgs; };
   trashScript = import ../scripts/trash.nix { inherit pkgs; };
   brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
@@ -18,6 +19,7 @@ in
   # ====================================================================
   
   home.packages = [ 
+    # compInventory
     ejectUsbScript 
     trashScript
     brightnessScript
@@ -74,5 +76,12 @@ in
       icon = "usb";
       categories = [ "System" ];
     };
+
+    # inventory = {
+    #   name = "Components Inventory";
+    #   exec = "comp-inventory";
+    #   terminal = true;
+    #   icon = "tools";
+    # };
   };
 }
