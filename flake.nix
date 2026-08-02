@@ -34,7 +34,12 @@
     
           unstable = import nixpkgs-unstable {
             inherit system;
-            config.allowUnfree = true;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "ventoy-1.1.12"
+              ];
+            };
           };
 
         in nixpkgs-stable.lib.nixosSystem {
@@ -59,7 +64,12 @@
 
           unstable = import nixpkgs-unstable {
             inherit system;
-            config.allowUnfree = true;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "ventoy-1.1.12"
+              ];
+            };
           };
         in nixpkgs-stable.lib.nixosSystem {
           specialArgs = { inherit inputs unstable system; };
