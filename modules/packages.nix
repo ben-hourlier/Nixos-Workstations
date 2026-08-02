@@ -99,6 +99,7 @@ in {
     shotwell
     speedcrunch
     thunderbird
+    ventoy-full
     vlc
 
 
@@ -107,6 +108,8 @@ in {
     jdk21_headless
     julia_111-bin
     gcc
+    python3
+
   ]) ++ ([
     inputs.antigravity.packages.${system}.default
   ]);
