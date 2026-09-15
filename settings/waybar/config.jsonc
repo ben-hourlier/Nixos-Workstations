@@ -128,9 +128,8 @@
     },
     
     "hyprland/language": {
-        "format": " {}",
-        "format-ru": "RU",
-        "format-fr": "FR",
+        "format": " {short}",
+        "keyboard-name": "at-translated-set-2-keyboard",
         "on-click": "hyprctl switchxkblayout all next"
     },
 
