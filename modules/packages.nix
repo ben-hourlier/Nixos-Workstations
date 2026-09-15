@@ -77,8 +77,9 @@ in {
 
 
     # --- GUI Applications ---
-
+    
     anki-bin
+    appimage-run
     audacity
     calibre
     discord
