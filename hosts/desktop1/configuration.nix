@@ -34,7 +34,7 @@
   # Enables the I2C bus hardware to allow communication with the monitors.
   hardware.i2c.enable = true;
 
-  # Configures X11/Wayland to use both NVIDIA and AMD drivers for the dual-GPU setup.
+  # Configures X11/Wayland to use "amdgpu" and/or "nvidia"
   services.xserver.videoDrivers = ["amdgpu"];
 
 
@@ -46,20 +46,34 @@
   };
 
   
-  # --- Network fallback ---
+  # ====================================================================
+  # --- Fallbacks ---
+  # ====================================================================
+  
+  # --- Network Fallback ---
 
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8"];
-  networking.useDHCP = false;
-  networking.interfaces."eth0".ipv4 = {
-    addresses = [{
-      address = "192.168.42.30";
-      prefixLength = 24;
-    }];
-    routes = [{
-      address = "0.0.0.0";
-      prefixLength = 0; 
-      via = "192.168.42.1"; }];
-  };
+  # networking.nameservers = [ "1.1.1.1" "8.8.8.8"];
+  # networking.useDHCP = false;
+  # networking.interfaces."eth0".ipv4 = {
+  #   addresses = [{
+  #     address = "192.168.42.30";
+  #     prefixLength = 24;
+  #   }];
+  #   routes = [{
+  #     address = "0.0.0.0";
+  #     prefixLength = 0; 
+  #     via = "192.168.42.1"; }];
+  # };
+
+  
+  # --- Nvidia Fallback ---
+
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   powerManagement.enable = false;
+  #   open = false; 
+  #   nvidiaSettings = true;
+  # };
 
 
   # ====================================================================
