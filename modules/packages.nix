@@ -53,6 +53,7 @@ in {
     parted
     readline
     ripdrag
+    sops
     timewarrior
     trash-cli
     uair
