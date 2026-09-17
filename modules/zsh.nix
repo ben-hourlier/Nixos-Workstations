@@ -48,6 +48,7 @@
     initContent = ''
       bindkey '^H' backward-kill-word
       eval "$(zoxide init zsh)"
+      export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
     '';
 
     shellAliases = {
@@ -69,8 +70,8 @@
       ndev = "nix develop -c $SHELL";
 
       # --- Server ---
-      sshs = "ssh ben@192.168.1.200";
-      sshse = "ssh -p 2222 ben@jarvis-edith-ben.duckdns.org";
+      updates = "nixos-rebuild switch --flake .#server1-nixos --target-host ben@192.168.42.200 --sudo --ask-sudo-password";
+      sshs = "ssh ben@192.168.42.200";
       wold = "wol 2c:f0:5d:aa:98:13";
 
       # --- Specific ---
