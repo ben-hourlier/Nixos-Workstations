@@ -65,8 +65,8 @@
       ll = "ls -la";
 
       # --- Nix ---
-      updatel = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#laptop1";
-      updated = "cd ~/.dotfiles && git add . && sudo nixos-rebuild switch --flake .#desktop1";
+      updatel = "cd ~/Dev/FocusOS && git add . && sudo nixos-rebuild switch --flake .#laptop1";
+      updated = "cd ~/Dev/FocusOS && git add . && sudo nixos-rebuild switch --flake .#desktop1";
       ndev = "nix develop -c $SHELL";
 
       # --- Server ---

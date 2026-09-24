@@ -1,4 +1,4 @@
-{ pkgs, unstable, inputs, system, ... }:
+{ pkgs, inputs, ... }:
 
 let
   # Fetches additional plugins for the Yazi file manager directly from GitHub.
@@ -61,7 +61,7 @@ in {
     zip unzip
     zoxide
 
-  ]) ++ (with unstable; [
+  ]) ++ (with pkgs.unstable; [
 
     # ====================================================================
     # --- Unstable ---
@@ -113,7 +113,8 @@ in {
     python3
 
   ]) ++ ([
-    inputs.antigravity.packages.${system}.default
+    pkgs.antigravity
+    pkgs.eclipse-java-429
   ]);
 
 
@@ -133,7 +134,7 @@ in {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
-    package = unstable.yazi;
+    package = pkgs.unstable.yazi;
   };
 
   # Installs the external Git plugin into Yazi's configuration directory.

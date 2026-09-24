@@ -1,0 +1,361 @@
+diff --git a/diff.txt b/diff.txt
+new file mode 100644
+index 0000000..4c4ca5c
+--- /dev/null
++++ b/diff.txt
+@@ -0,0 +1,80 @@
++diff --git a/flake.lock b/flake.lock
++index bf94e5c..9ed4ca4 100755
++--- a/flake.lock
+++++ b/flake.lock
++@@ -463,6 +463,22 @@
++         "type": "github"
++       }
++     },
+++    "nixpkgs-eclipse": {
+++      "locked": {
+++        "lastModified": 1703075424,
+++        "narHash": "sha256-/NDBBD7x98LN7YCtilE0vbS21Ec/+J10nZjGheaBTsc=",
+++        "owner": "nixos",
+++        "repo": "nixpkgs",
+++        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
+++        "type": "github"
+++      },
+++      "original": {
+++        "owner": "nixos",
+++        "repo": "nixpkgs",
+++        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
+++        "type": "github"
+++      }
+++    },
++     "nixpkgs-stable": {
++       "locked": {
++         "lastModified": 1769461804,
++@@ -539,6 +555,7 @@
++         "antigravity": "antigravity",
++         "home-manager": "home-manager",
++         "hyprland": "hyprland",
+++        "nixpkgs-eclipse": "nixpkgs-eclipse",
++         "nixpkgs-stable": "nixpkgs-stable",
++         "nixpkgs-unstable": "nixpkgs-unstable"
++       }
++diff --git a/flake.nix b/flake.nix
++index 235bc86..701cc74 100755
++--- a/flake.nix
+++++ b/flake.nix
++@@ -6,12 +6,12 @@
++   # ====================================================================
++   
++   inputs = {
++-    nixpkgs.url = "github:nixos/nixpkgs/bfc1b8a4574108ceef22f02bafcf6611380c100d";
+++    nixpkgs-stable.url = "github:nixos/nixpkgs/bfc1b8a4574108ceef22f02bafcf6611380c100d";
++     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
++     nixpkgs-eclipse.url = "github:nixos/nixpkgs/69973a9a20858b467dd936542c63554f3675e02d";
++     
++     home-manager.url = "github:nix-community/home-manager";
++-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+++    home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
++ 
++     hyprland.url = "github:hyprwm/Hyprland";
++     antigravity.url = "github:jacopone/antigravity-nix";
++@@ -22,9 +22,9 @@
++   # --- Flake Outputs ---
++   # ====================================================================
++ 
++-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-eclipse, home-manager, ... } @ inputs:
+++  outputs = { self, nixpkgs-stable, nixpkgs-unstable, nixpkgs-eclipse, home-manager, ... } @ inputs:
++     let
++-      mkHost = hostName: nixpkgs.lib.nixosSystem {
+++      mkHost = hostName: nixpkgs-stable.lib.nixosSystem {
++           specialArgs = { inherit inputs; };
++           modules = [
++             ./hosts/${hostName}/configuration.nix
++diff --git a/hosts/overlay.nix b/hosts/overlay.nix
++index 2fc4e11..4dc5645 100644
++--- a/hosts/overlay.nix
+++++ b/hosts/overlay.nix
++@@ -17,7 +17,7 @@
++         inherit (prev.stdenv.hostPlatform) system;
++       }).eclipses.eclipse-java;
++ 
++-      antigravity = import inputs.antigravity.packages.${prev.stdenv.hostPlatform.system};
+++      antigravity = inputs.antigravity.packages.${prev.stdenv.hostPlatform.system}.default;
++     })
++   ];
++ }
++\ No newline at end of file
+diff --git a/flake.lock b/flake.lock
+index bf94e5c..9ed4ca4 100755
+--- a/flake.lock
++++ b/flake.lock
+@@ -463,6 +463,22 @@
+         "type": "github"
+       }
+     },
++    "nixpkgs-eclipse": {
++      "locked": {
++        "lastModified": 1703075424,
++        "narHash": "sha256-/NDBBD7x98LN7YCtilE0vbS21Ec/+J10nZjGheaBTsc=",
++        "owner": "nixos",
++        "repo": "nixpkgs",
++        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
++        "type": "github"
++      },
++      "original": {
++        "owner": "nixos",
++        "repo": "nixpkgs",
++        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
++        "type": "github"
++      }
++    },
+     "nixpkgs-stable": {
+       "locked": {
+         "lastModified": 1769461804,
+@@ -539,6 +555,7 @@
+         "antigravity": "antigravity",
+         "home-manager": "home-manager",
+         "hyprland": "hyprland",
++        "nixpkgs-eclipse": "nixpkgs-eclipse",
+         "nixpkgs-stable": "nixpkgs-stable",
+         "nixpkgs-unstable": "nixpkgs-unstable"
+       }
+diff --git a/flake.nix b/flake.nix
+index b1720ac..701cc74 100755
+--- a/flake.nix
++++ b/flake.nix
+@@ -8,12 +8,12 @@
+   inputs = {
+     nixpkgs-stable.url = "github:nixos/nixpkgs/bfc1b8a4574108ceef22f02bafcf6611380c100d";
+     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
++    nixpkgs-eclipse.url = "github:nixos/nixpkgs/69973a9a20858b467dd936542c63554f3675e02d";
+     
+     home-manager.url = "github:nix-community/home-manager";
+     home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
+ 
+     hyprland.url = "github:hyprwm/Hyprland";
+-
+     antigravity.url = "github:jacopone/antigravity-nix";
+   };
+ 
+@@ -22,69 +22,25 @@
+   # --- Flake Outputs ---
+   # ====================================================================
+ 
+-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... } @ inputs:
+-
+-    {
+-      nixosConfigurations = {
+-
+-        desktop1 =  
+-        let
+-
+-          system = "x86_64-linux";
+-    
+-          unstable = import nixpkgs-unstable {
+-            inherit system;
+-            config = {
+-              allowUnfree = true;
+-              permittedInsecurePackages = [
+-                "ventoy-1.1.12"
+-              ];
+-            };
+-          };
+-
+-        in nixpkgs-stable.lib.nixosSystem {
+-          specialArgs = { inherit inputs unstable system; };
+-          modules = [
+-            ./hosts/desktop1/configuration.nix
+-
+-            home-manager.nixosModules.home-manager
+-            {
+-              home-manager.useGlobalPkgs = true;
+-              home-manager.useUserPackages = true;
+-              home-manager.extraSpecialArgs = { inherit inputs unstable system; };
+-              home-manager.users.ben = import ./hosts/desktop1/home.nix;
+-            }
+-          ];
+-        };
+-
+-
+-        laptop1 = 
+-        let 
+-          system = "x86_64-linux";
+-
+-          unstable = import nixpkgs-unstable {
+-            inherit system;
+-            config = {
+-              allowUnfree = true;
+-              permittedInsecurePackages = [
+-                "ventoy-1.1.12"
+-              ];
+-            };
+-          };
+-        in nixpkgs-stable.lib.nixosSystem {
+-          specialArgs = { inherit inputs unstable system; };
++  outputs = { self, nixpkgs-stable, nixpkgs-unstable, nixpkgs-eclipse, home-manager, ... } @ inputs:
++    let
++      mkHost = hostName: nixpkgs-stable.lib.nixosSystem {
++          specialArgs = { inherit inputs; };
+           modules = [
+-            ./hosts/laptop1/configuration.nix
++            ./hosts/${hostName}/configuration.nix
+ 
+             home-manager.nixosModules.home-manager
+             {
+               home-manager.useGlobalPkgs = true;
+               home-manager.useUserPackages = true;
+-              home-manager.extraSpecialArgs = { inherit inputs unstable system; };
+-              home-manager.users.ben = import ./hosts/laptop1/home.nix;
++              home-manager.users.ben = ./hosts/${hostName}/home.nix;
+             }
+           ];
+-        };
++      };
++    in {
++      nixosConfigurations = {
++        desktop1 = mkHost "desktop1";
++        laptop1 = mkHost "laptop1" ;
+       };
+     };
+ }
+\ No newline at end of file
+diff --git a/hosts/common-configuration.nix b/hosts/common-configuration.nix
+index e10b99e..26748b1 100644
+--- a/hosts/common-configuration.nix
++++ b/hosts/common-configuration.nix
+@@ -1,10 +1,15 @@
+-{ config, pkgs, inputs, unstable, system, ... }:
++{ config, pkgs, inputs, unstable, ... }:
+ 
+ {
+   # ====================================================================
+   # --- Core System & Nix Settings ---
+   # ====================================================================
+ 
++  imports = [
++    ./overlay.nix
++  ];
++
++
+   # --- Nix Settings ---
+ 
+   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
+@@ -128,7 +133,8 @@
+ 
+   programs.hyprland = {
+     enable = true;
+-    package = inputs.hyprland.packages.${system}.hyprland;
++    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
++    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+   };
+ 
+   services.displayManager.ly = {
+@@ -200,7 +206,7 @@
+       };
+       user = {
+         "name" = "ben";
+-        "email" = "jarvis.edith85@gmail.com";
++        "email" = "github.42@bhr-sys.com";
+       };
+     };
+   };
+diff --git a/hosts/common-home.nix b/hosts/common-home.nix
+index 98a0cf4..19468b9 100644
+--- a/hosts/common-home.nix
++++ b/hosts/common-home.nix
+@@ -46,7 +46,7 @@
+   
+   wayland.windowManager.hyprland = {
+     enable = true;
+-    package = inputs.hyprland.packages.${system}.hyprland;
++    package = null; # prevent home manager from installing the same package as configuration.nix
+     extraConfig = ''
+       source = ~/.config/hypr/hyprland.conf
+     '';
+diff --git a/hosts/overlay.nix b/hosts/overlay.nix
+new file mode 100644
+index 0000000..4dc5645
+--- /dev/null
++++ b/hosts/overlay.nix
+@@ -0,0 +1,23 @@
++{ inputs, ... }:
++
++{
++  nixpkgs.overlays = [
++    (final: prev: {
++      unstable = import inputs.nixpkgs-unstable {
++        inherit (prev.stdenv.hostPlatform) system;
++        config = {
++          allowUnfree = true;
++          permittedInsecurePackages = [
++            "ventoy-1.1.12"
++          ];
++        };
++      };
++      
++      eclipse-java-429 = (import inputs.nixpkgs-eclipse {
++        inherit (prev.stdenv.hostPlatform) system;
++      }).eclipses.eclipse-java;
++
++      antigravity = inputs.antigravity.packages.${prev.stdenv.hostPlatform.system}.default;
++    })
++  ];
++}
+\ No newline at end of file
+diff --git a/modules/packages.nix b/modules/packages.nix
+index 59f662e..0b23edd 100755
+--- a/modules/packages.nix
++++ b/modules/packages.nix
+@@ -1,4 +1,4 @@
+-{ pkgs, unstable, inputs, system, ... }:
++{ pkgs, inputs, ... }:
+ 
+ let
+   # Fetches additional plugins for the Yazi file manager directly from GitHub.
+@@ -61,7 +61,7 @@ in {
+     zip unzip
+     zoxide
+ 
+-  ]) ++ (with unstable; [
++  ]) ++ (with pkgs.unstable; [
+ 
+     # ====================================================================
+     # --- Unstable ---
+@@ -113,7 +113,8 @@ in {
+     python3
+ 
+   ]) ++ ([
+-    inputs.antigravity.packages.${system}.default
++    pkgs.antigravity
++    pkgs.eclipse-java-429
+   ]);
+ 
+ 
+@@ -133,7 +134,7 @@ in {
+   programs.yazi = {
+     enable = true;
+     enableZshIntegration = true;
+-    package = unstable.yazi;
++    package = pkgs.unstable.yazi;
+   };
+ 
+   # Installs the external Git plugin into Yazi's configuration directory.
+diff --git a/modules/vscode.nix b/modules/vscode.nix
+index bad7590..1425c53 100644
+--- a/modules/vscode.nix
++++ b/modules/vscode.nix
+@@ -1,11 +1,11 @@
+-{ unstable, ... }:
++{ pkgs, ... }:
+ 
+ {
+   programs.vscode = {
+     enable = true;
+-    package = unstable.vscode-fhs;
++    package = pkgs.unstable.vscode-fhs;
+     profiles.default = {
+-      extensions = with unstable.vscode-extensions; [
++      extensions = with pkgs.unstable.vscode-extensions; [
+         # Global
+         github.copilot-chat
+         tomoki1207.pdf

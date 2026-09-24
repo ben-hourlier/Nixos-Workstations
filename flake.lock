@@ -463,6 +463,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-eclipse": {
+      "locked": {
+        "lastModified": 1703075424,
+        "narHash": "sha256-/NDBBD7x98LN7YCtilE0vbS21Ec/+J10nZjGheaBTsc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69973a9a20858b467dd936542c63554f3675e02d",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1769461804,
@@ -539,6 +555,7 @@
         "antigravity": "antigravity",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "nixpkgs-eclipse": "nixpkgs-eclipse",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
