@@ -55,7 +55,7 @@
 
       # --- Global ---
       c = "clear";
-      conf = "code ~/.dotfiles && exit"; 
+      conf = "code ~/Dev/FocusOS && exit"; 
 
       # --- Git ---
       ga = "git add .";
