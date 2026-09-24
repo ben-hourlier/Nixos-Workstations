@@ -1,11 +1,11 @@
-{ unstable, ... }:
+{ pkgs, ... }:
 
 {
   programs.vscode = {
     enable = true;
-    package = unstable.vscode-fhs;
+    package = pkgs.unstable.vscode-fhs;
     profiles.default = {
-      extensions = with unstable.vscode-extensions; [
+      extensions = with pkgs.unstable.vscode-extensions; [
         # Global
         github.copilot-chat
         tomoki1207.pdf

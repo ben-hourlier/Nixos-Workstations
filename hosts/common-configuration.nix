@@ -1,9 +1,14 @@
-{ config, pkgs, inputs, unstable, system, ... }:
+{ config, pkgs, inputs, unstable, ... }:
 
 {
   # ====================================================================
   # --- Core System & Nix Settings ---
   # ====================================================================
+
+  imports = [
+    ./overlay.nix
+  ];
+
 
   # --- Nix Settings ---
 
@@ -128,7 +133,8 @@
 
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
   services.displayManager.ly = {
@@ -200,7 +206,7 @@
       };
       user = {
         "name" = "ben";
-        "email" = "jarvis.edith85@gmail.com";
+        "email" = "github.42@bhr-sys.com";
       };
     };
   };
