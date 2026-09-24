@@ -46,9 +46,14 @@
   
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${system}.hyprland;
+    package = null; # prevent home manager from installing the same package as configuration.nix
     extraConfig = ''
       source = ~/.config/hypr/hyprland.conf
     '';
+  };
+
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
   };
 }
