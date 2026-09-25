@@ -117,3 +117,10 @@ desc = "Search a file"
 on = [ "b", "e" ]
 run = "shell trash-empty --block"
 desc = "Empty trash"
+
+
+# --- Archives and compression ---
+[[mgr.prepend_keymap]]
+on = [ "e", "t" ]
+run = 'shell "tar -xzf $@"'
+desc = "Extract .tar.gz"
