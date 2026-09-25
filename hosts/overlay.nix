@@ -15,7 +15,7 @@
       
       eclipse-java-429 = (import inputs.nixpkgs-eclipse {
         inherit (prev.stdenv.hostPlatform) system;
-      }).eclipses.eclipse-java;
+      }).eclipses.eclipse-modeling;
 
       antigravity = inputs.antigravity.packages.${prev.stdenv.hostPlatform.system}.default;
     })
