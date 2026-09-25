@@ -3,6 +3,12 @@
 let  
   themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; };
   launchWaybarScript = import ../scripts/launch-waybar.nix { inherit pkgs; };
+  themesDir = ../themes;
+
+  setConfigMedia = pkgs.writeShellScriptBin "set-config-media" ''
+    #!/usr/bin/env bash
+    ln -sf "${themesDir}/deepwork-alarm.mp3" "$HOME/.config/deepwork-alarm.mp3"
+  '';
 in
 {
   # ====================================================================
@@ -66,6 +72,7 @@ in
     lmodern
     nerd-fonts.jetbrains-mono
     papirus-icon-theme
+    setConfigMedia
     themeSwitchScript
   ];
 
