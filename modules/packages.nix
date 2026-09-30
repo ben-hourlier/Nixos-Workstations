@@ -108,8 +108,12 @@ in {
     # --- Code ---
 
     jdk21_headless
-    julia_111-bin
     gcc
+
+    ocaml
+    ocamlPackages.merlin
+    ocamlPackages.utop
+
     python3
 
   ]) ++ ([

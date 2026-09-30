@@ -27,6 +27,9 @@
         # Nix
         jnoortheen.nix-ide
 
+        #OCaml
+        ocamllabs.ocaml-platform
+
         # Phython
         ms-python.python
 
