@@ -17,7 +17,6 @@
         oracle.oracle-java
         redhat.java
         tamasfe.even-better-toml
-        vscjava.vscode-gradle
         vscjava.vscode-java-debug
         vscjava.vscode-java-dependency
         vscjava.vscode-java-pack
