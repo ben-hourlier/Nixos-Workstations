@@ -109,4 +109,15 @@
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true; # injects hook in ~/.zshrc
+    nix-direnv.enable = true;    # install and configure nix-direnv
+  };
+
+  xdg.configFile."git/ignore".text = ''
+    .direnv/
+    .envrc
+  '';
 }
