@@ -110,7 +110,10 @@ in {
     jdk21_headless
     gcc
 
+    dune_3
     ocaml
+    ocamlPackages.findlib
+    ocamlPackages.lsp
     ocamlPackages.merlin
     ocamlPackages.utop
 
