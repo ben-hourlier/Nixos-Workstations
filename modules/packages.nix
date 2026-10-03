@@ -40,6 +40,7 @@ in {
     kitty
     polkit_gnome
     waybar
+    yazi
 
 
     # --- Tools ---
@@ -72,6 +73,7 @@ in {
     dnsutils
     exiftool
     git
+    man-pages
     sshfs
     wol
     yt-dlp
@@ -107,8 +109,12 @@ in {
 
     # --- Code ---
 
-    jdk21_headless
+    # C
+    clang-tools
     gcc
+
+    jdk21_headless
+    
 
     # OCaml
     dune_3
@@ -139,13 +145,4 @@ in {
       vim_keys = true;
     };
   };
-
-  programs.yazi = {
-    enable = true;
-    enableZshIntegration = true;
-    package = pkgs.unstable.yazi;
-  };
-
-  # Installs the external Git plugin into Yazi's configuration directory.
-  xdg.configFile."yazi/plugins/git.yazi".source = "${yazi-plugins}/git.yazi";
 }
