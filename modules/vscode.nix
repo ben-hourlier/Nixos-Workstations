@@ -12,6 +12,8 @@
         
         # C
         ms-vscode.cpptools
+        ms-vscode.cpptools-extension-pack
+        llvm-vs-code-extensions.vscode-clangd
 
         # Java
         oracle.oracle-java
@@ -49,6 +51,7 @@
         "github.copilot.enable" = {
           "*" = false;
         };
+        "C_Cpp.intelliSenseEngine" = "disabled";
       };
     };
   };

@@ -10,10 +10,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-eclipse.url = "github:nixos/nixpkgs/69973a9a20858b467dd936542c63554f3675e02d";
     
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/cbd8a72e5fe6af19d40e2741dc440d9227836860";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland/f68ac7ef7589e1536d438f7fbfb3ad987538fe0f";
     antigravity.url = "github:jacopone/antigravity-nix";
   };
 
