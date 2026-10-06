@@ -70,7 +70,9 @@
       ndev = "nix develop -c $SHELL";
 
       # --- Server ---
+      ssh = "kitten ssh";
       updates = "nixos-rebuild switch --flake .#server1-nixos --target-host ben@192.168.42.200 --sudo --ask-sudo-password";
+      updatesp = "nixos-rebuild switch --flake .#benflix3 --target-host ben@100.64.0.5 --build-host ben@100.64.0.5 --sudo --ask-sudo-password";
       sshs = "ssh ben@192.168.42.200";
       sshd = "ssh ben@100.64.0.4";
       wold = "wol 2c:f0:5d:aa:98:13";

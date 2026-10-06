@@ -31,7 +31,6 @@ pkgs.writeShellScriptBin "theme-switch" ''
       WALLPAPER="${themesDir}/wallpaper-dark.png"
   fi
 
-  # Les liens symboliques pointent désormais vers le store, pas vers ton dossier local
   ln -sf "${themesDir}/$NEXT/kitty.conf" "$HOME/.config/kitty/theme.conf"
   ln -sf "${themesDir}/$NEXT/waybar.css" "$HOME/.config/waybar/theme.css"
   ln -sf "${themesDir}/$NEXT/fuzzel.ini" "$HOME/.config/fuzzel/theme.ini"
@@ -50,5 +49,4 @@ pkgs.writeShellScriptBin "theme-switch" ''
   pkill waybar; launch-waybar
 
   echo "$NEXT" > "$STATE_FILE"
-  ${pkgs.libnotify}/bin/notify-send "Theme Switched" "Mode $NEXT enabled"
 ''
