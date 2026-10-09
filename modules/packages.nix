@@ -40,6 +40,7 @@ in {
     kitty
     polkit_gnome
     waybar
+    waypipe
     yazi
 
 
