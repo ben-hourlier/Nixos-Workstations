@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, system, ... }:
+{ config, pkgs, inputs, system, lib, ... }:
 
 {
   # ====================================================================
@@ -52,8 +52,5 @@
     '';
   };
 
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
-  };
+  xdg.portal.enable = lib.mkForce false;
 }
