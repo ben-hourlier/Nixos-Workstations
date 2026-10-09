@@ -190,6 +190,23 @@
     xdg-utils
   ];
 
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
+      };
+    };
+  };
+
   # Service allowing easy management of external drives (udisksctl)
   services.udisks2.enable = true;
   services.flatpak.enable = true;
