@@ -66,9 +66,9 @@
     // --- Right Modules ---
 
     "custom/uair": {
-        "exec": "time-tracker-display",
+        "exec": "timetracker --watch",
         "return-type": "text",
-        "on-click": "time-tracker",
+        "on-click": "timetracker menu",
         "tooltip": false
     },
 

@@ -7,6 +7,15 @@
 
   xdg.desktopEntries = {
 
+    focus = {
+      name = "Focus";
+      genericName = "Pomodoro & Timetracker";
+      exec = "google-chrome-stable --app=https://focus.bhr-sys.com";
+      terminal = false;
+      icon = "alarm-symbolic";
+      categories = [ "Utility" "Office" ];
+    };
+
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
