@@ -35,6 +35,9 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
 
+    # --- Focus Server ---
+    FOCUS_SERVER = "https://focus.bhr-sys.com";
+
     # --- Theme ---
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
