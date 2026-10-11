@@ -18,6 +18,7 @@
   };
 
   xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/Sync/02-AREAS/timewarrior";
+  xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
 
 
   # ====================================================================
