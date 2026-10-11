@@ -12,7 +12,7 @@
       genericName = "Pomodoro & Timetracker";
       exec = "google-chrome-stable --app=https://focus.bhr-sys.com";
       terminal = false;
-      icon = "alarm-symbolic";
+      icon = "alarm-clock";
       categories = [ "Utility" "Office" ];
     };
 
