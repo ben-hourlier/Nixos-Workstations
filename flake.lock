@@ -110,11 +110,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1791737000,
-        "narHash": "sha256-YzSJ6oDaNMU2ZO2sMsFzv+nFwXRGuxBMKZTnygSSABA=",
+        "lastModified": 1791737688,
+        "narHash": "sha256-xsHA7RnUO7afg7QJB5b/MgUVafzyamOwJe3R9otwogg=",
         "owner": "ben-hourlier",
         "repo": "Focus",
-        "rev": "5247bffff21bd901c4bec7395527f6c0c3f45c47",
+        "rev": "70825999758ebd785840aff6681a7dbd0410e1fb",
         "type": "github"
       },
       "original": {
