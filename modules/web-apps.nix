@@ -16,6 +16,15 @@
       categories = [ "Utility" "Office" ];
     };
 
+    getitdone = {
+      name = "Get It Done";
+      genericName = "Power-user Todolist";
+      exec = "google-chrome-stable --app=https://getdone.bhr-sys.com";
+      terminal = false;
+      icon = "get-it-done";
+      categories = [ "Utility" "Office" ];
+    };
+
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
