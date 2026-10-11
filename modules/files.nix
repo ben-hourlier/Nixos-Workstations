@@ -12,14 +12,12 @@
     "hypr" = { source = ../settings/hypr; recursive = true; };
     "kitty" = { source = ../settings/kitty; recursive = true; };
     "nvim" = { source = ../settings/nvim; recursive = true; };
-    "uair" = { source = ../settings/uair; recursive = true; };
     "waybar" = { source = ../settings/waybar; recursive = true; };
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
-  xdg.dataFile."timewarrior".source = config.lib.file.mkOutOfStoreSymlink "/home/ben/Sync/02-AREAS/timewarrior";
   xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
-
+  xdg.dataFile."icons/hicolor/scalable/apps/get-it-done.svg".source = ../settings/icons/get-it-done.svg;
 
   # ====================================================================
   # --- Custom desktop entries ---
