@@ -52,15 +52,6 @@
       categories = [ "Office" "Calendar" ];
     };
 
-    todoist = {
-      name = "Todoist";
-      genericName = "Task Manager";
-      exec = "google-chrome-stable --app=https://todoist.com/app";
-      terminal = false;
-      icon = "todoist";
-      categories = [ "Office" ];
-    };
-
     whatsapp = {
       name = "WhatsApp";
       genericName = "Messaging";
