@@ -17,11 +17,11 @@
     };
 
     getitdone = {
-      name = "Get It Done";
+      name = "Get Done";
       genericName = "Power-user Todolist";
       exec = "google-chrome-stable --app=https://getdone.bhr-sys.com";
       terminal = false;
-      icon = "get-it-done";
+      icon = "getdone";
       categories = [ "Utility" "Office" ];
     };
 

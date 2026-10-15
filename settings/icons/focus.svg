@@ -1,13 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
-  <!-- Subtle dark Rosé Pine background surface with smooth rounded corners -->
-  <rect width="128" height="128" rx="28" fill="#1f1d2e"/>
-  
-  <!-- Outer Focus Ring (Rosé Pine Rose: #ebbcba) -->
-  <circle cx="64" cy="64" r="44" fill="none" stroke="#ebbcba" stroke-width="7" stroke-linecap="round"/>
-  
-  <!-- Inner Focus Ring (Rosé Pine Foam: #9ccfd8) -->
-  <circle cx="64" cy="64" r="24" fill="none" stroke="#9ccfd8" stroke-width="6" stroke-linecap="round"/>
-  
-  <!-- Central Target Point (Rosé Pine Love: #eb6f92) -->
-  <circle cx="64" cy="64" r="7" fill="#eb6f92"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#191724"/>
+  <circle cx="256" cy="256" r="180" stroke="#eb6f92" stroke-width="28"/>
+  <circle cx="256" cy="256" r="100" stroke="#eb6f92" stroke-width="24"/>
+  <circle cx="256" cy="256" r="36" fill="#eb6f92"/>
 </svg>

@@ -17,7 +17,7 @@
   };
 
   xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/get-it-done.svg".source = ../settings/icons/get-it-done.svg;
+  xdg.dataFile."icons/hicolor/scalable/apps/getdone.svg".source = ../settings/icons/getdone.svg;
 
   # ====================================================================
   # --- Custom desktop entries ---
