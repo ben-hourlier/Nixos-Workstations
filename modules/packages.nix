@@ -99,7 +99,6 @@ in {
     obsidian
     onlyoffice-desktopeditors
     pdfarranger
-    portfolio
     qbittorrent
     shotwell
     speedcrunch
