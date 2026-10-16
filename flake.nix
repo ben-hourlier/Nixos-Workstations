@@ -16,7 +16,7 @@
     hyprland.url = "github:hyprwm/Hyprland/f68ac7ef7589e1536d438f7fbfb3ad987538fe0f";
     antigravity.url = "github:jacopone/antigravity-nix";
 
-    focus.url = "github:ben-hourlier/Focus";
+    focus.url = "github:bhr-tools/Focus";
   };
 
 

@@ -63,6 +63,7 @@
       gc = "git commit -m";
       gp = "git push";
       gs = "git status";
+      gl = "git log --oneline --graph --all";
       ll = "ls -la";
 
       # --- Nix ---
