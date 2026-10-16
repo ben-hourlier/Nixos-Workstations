@@ -1,77 +1,60 @@
-# FocusOS
+# NixOS Workstations
 
-> **FocusOS** is a distraction-free and focus-optimized multi-device desktop setup powered by NixOS and Flakes.
+Declarative, reproducible multi-machine configurations and desktop environments managed via Nix Flakes and Home Manager.
 
-The goal of this project is to create a seamless, minimal, and highly efficient workflow that stays consistent across different machines while keeping performance, focus and productivity at its core. It is built to minimize virtual noise and maximize deep work.
+## 1. Architecture Overview
 
-## Key Features
-- **Distraction-Free**: A minimalist UI and UX designed to eliminate visual noise
-    - Zero notification ;
-    - All settings and informations in one clean bar ;
-    - All applications accessible from a unique menu ;
-- **Optimized Workflow**: Integrated scripts and tools for instant productivity.
-    - Super fast tab-switcher ;
-    - Minimalist clipboard manager ;
-    - Built-in deepwork and pomodoro tool.
-- **Nix Flakes based**: Reproducible and declarative system configuration across multiple hosts.
-
-- **Modular Architecture**: Clean separation between system settings, user modules, packages, and themes.
-- **Multi-device support**: Tailored configurations for different hardware profiles found in the `hosts/` directory.
-
-## Main programs
-
-- **Compositor**: [Hyprland](https://hyprland.org/ "null") (Wayland-based, dynamic tiling). (hypridle, hyprlock, hyprpaper, hyprpicker, hyprshot)
-- **Status Bar**: [Waybar](https://github.com/Alexays/Waybar "null") (Highly customized with CSS).
-- **App Launcher**: [Fuzzel](https://codeberg.org/dnkl/fuzzel "null")
-- **Terminal**: [Kitty](https://sw.kovidgoyal.net/kitty/ "null")
-- **Shell & Prompt**: Zsh
-- **File Manager**: [Yazi](https://rosepinetheme.com/fr/) (with clic & drag function)
-- **Notification Daemon**: [Mako](https://wayland.emersion.fr/mako/ "null") (with all notifications blocked by default)
-    
-- **Colorscheme (dark/light)**: Optimized for eye comfort : [Rose Pine](https://rosepinetheme.com/fr/)
-
-## Project Structure
+This repository maintains the system configuration and user environments for multiple personal workstations from a single declarative source of truth.
 
 ```
-├── hosts/      # Machine-specific configurations (Desktop, Laptop, etc.)
-├── modules/    # Reusable configuration blocks (NixOS & Home-manager)
-├── packages/   # Custom packages, scripts, and overlays
-├── scripts/    # Utility scripts for workflow automation
-├── settings/   # Global configuration variables and constants
-└── themes/     # Visual styling, colors, and UI consistency
+├── flake.nix             # Flake entrypoint and dependency pinning
+├── hosts/                # Machine-specific configurations
+│   ├── common-*.nix      # Shared system and user profiles
+│   ├── desktop1/         # High-performance workstation (dual-GPU virtualization)
+│   └── laptop1/          # Mobile workstation (power management)
+├── modules/              # Reusable functional modules (services, audio, packages)
+├── settings/             # Program-specific configurations (Hyprland, Neovim, Kitty)
+├── scripts/              # Lightweight system utilities packaged via Nix derivations
+└── themes/               # Coordinated light/dark assets and dynamic switching
 ```
 
-## Getting Started
+## 2. Target Machines
 
-### Prerequisites
+| **Host**       | **Type**    | **Target Workload**               | **Key Hardware / Modules**                |
+| -------------- | ----------- | --------------------------------- | ----------------------------------------- |
+| **`desktop1`** | Workstation | High-performance dev & compute    | Dual-GPU passthrough / KVM virtualization |
+| **`laptop1`**  | Laptop      | Mobile productivity & development |                                           |
 
-- **NixOS** installed on your system.
+## 3. Key Design Principles
+
+- **Fully Declarative State:** Every package, system service, terminal configuration, and compositor binding is declared via Nix. No out-of-band manual configuration.
     
-- **Flakes** enabled in your `nix.conf`:
+- **Separation of Concerns:**
     
-    ```
-    experimental-features = nix-command flakes
-    ```
+    - `hosts/common-*.nix` provides the base system invariants across all targets.
+        
+    - Host-specific modules isolate hardware variations (virtualization, displays, power).
+        
+- **Decoupled Desktop Environment:** Built on Wayland (Hyprland), using modular configuration fragments for input, autostart, and keybindings.
+    
+- **Hermetic Utility Packaging:** Shell helpers and automation scripts (`scripts/`) are packaged as individual Nix derivations with explicit runtime dependencies, avoiding reliance on global system binaries.
+    
+- **Atomic Theme Synchronization:** A unified dynamic switcher script coordinates palette transitions across the window manager, Waybar, Kitty, and application profiles.
     
 
-### Installation
+## 4. Deployment
 
-1. **Clone the repository:**
+Deploying or rebuilding a host requires a Nix installation with flakes enabled.
+
+### Rebuild Current Host
+
+```
+sudo nixos-rebuild switch --flake .#desktop1
+sudo nixos-rebuild switch --flake .#laptop1
+```
+
+## 5. Repository Hygiene
+
+- **Zero Plaintext Secrets:** All sensitive credentials are verified against `sops.nix` and encrypted via SOPS before commit.
     
-    ```
-    git clone [https://github.com/jarvis-ed1th/FocusOS.git](https://github.com/jarvis-ed1th/FocusOS.git)
-    cd FocusOS
-    ```
-    
-2. **Apply configuration (dry-run first recommended):**
-    
-    ```
-    # Replace [hostname] with your specific host name from the hosts/ directory
-    sudo nixos-rebuild test --flake .#[hostname]
-    ```
-    
-3. **Permanent switch:**
-    
-    ```
-    sudo nixos-rebuild switch --flake .#[hostname]
-    ```
+- **Reproducibility:** Upstream channels (`nixpkgs`) and third-party tools are pinned via `flake.lock`.

@@ -56,7 +56,7 @@
 
       # --- Global ---
       c = "clear";
-      conf = "code ~/Dev/FocusOS && exit"; 
+      conf = "code ~/Dev/Nixos-Workstations && exit"; 
 
       # --- Git ---
       ga = "git add .";
@@ -67,8 +67,8 @@
       ll = "ls -la";
 
       # --- Nix ---
-      updatel = "cd ~/Dev/FocusOS && git add . && sudo nixos-rebuild switch --flake .#laptop1";
-      updated = "cd ~/Dev/FocusOS && git add . && sudo nixos-rebuild switch --flake .#desktop1";
+      updatel = "cd ~/Dev/Nixos-Workstations && git add . && sudo nixos-rebuild switch --flake .#laptop1";
+      updated = "cd ~/Dev/Nixos-Workstations && git add . && sudo nixos-rebuild switch --flake .#desktop1";
       ndev = "nix develop -c $SHELL";
 
       # --- Server ---

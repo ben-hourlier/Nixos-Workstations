@@ -74,7 +74,10 @@ in {
     dnsutils
     exiftool
     git
+    gitleaks
+    git-filter-repo
     man-pages
+    pre-commit
     sshfs
     wol
     yt-dlp
