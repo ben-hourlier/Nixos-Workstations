@@ -249,4 +249,13 @@
     IKE Authmode psk
     Xauth username REDACTED
   '';
+
+
+  # ====================================================================
+  # --- Typography ---
+  # ====================================================================
+
+  fonts.packages = with pkgs; [
+    corefonts # Contient Times New Roman, Arial, Courier New, etc.
+  ];
 }
