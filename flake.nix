@@ -24,7 +24,7 @@
   # --- Flake Outputs ---
   # ====================================================================
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, nixpkgs-eclipse, home-manager, focus, ... } @ inputs:
+  outputs = { self, nixpkgs-stable, nixpkgs-unstable, nixpkgs-eclipse, home-manager, ... } @ inputs:
     let
       mkHost = hostName: nixpkgs-stable.lib.nixosSystem {
           specialArgs = { inherit inputs; };

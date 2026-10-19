@@ -7,7 +7,7 @@
     profiles.default = {
       extensions = with pkgs.unstable.vscode-extensions; [
         # Global
-        github.copilot-chat
+        myriad-dreamin.tinymist
         tomoki1207.pdf
         
         # C
