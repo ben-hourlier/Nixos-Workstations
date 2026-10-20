@@ -79,6 +79,7 @@ in {
     man-pages
     pre-commit
     sshfs
+    steam-run
     wol
     yt-dlp
 
