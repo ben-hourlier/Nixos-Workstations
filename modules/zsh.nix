@@ -50,6 +50,7 @@
       eval "$(zoxide init zsh)"
       export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
       export FOCUS_SERVER="https://focus.bhr-sys.com"
+      export NIXPKGS_ALLOW_UNFREE=1
     '';
 
     shellAliases = {
