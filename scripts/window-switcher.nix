@@ -15,7 +15,10 @@ pkgs.writeShellScriptBin "window-switcher" ''
   
   # Retrieves the list of open windows from Hyprland in JSON format.
   # Filters out invalid windows (workspace -1) and extracts relevant attributes using jq.
-  RAW_DATA=$(${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r '.[] | select(.workspace.id != -1) | "\(.address)\t\(.workspace.id)\t\(.class)\t\(.initialTitle)\t\(.title)"')
+  RAW_DATA=$(${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r 'sort_by(.workspace.id) |
+   .[] |
+    select(.workspace.id != -1) |
+     "(.address)\t\(.workspace.id)\t\(.class)\t\(.initialTitle)\t\(.title)"')
 
   # --- Data Processing ---
   
@@ -26,7 +29,7 @@ pkgs.writeShellScriptBin "window-switcher" ''
       FINAL_NAME=$(display-names "$class" "$initial" "$title")
       
       # Formats the string for the menu (e.g., "[1] Firefox").
-      display_str="[$ws] $FINAL_NAME"
+      display_str="$ws - $FINAL_NAME"
 
       # Appends data to the respective Bash arrays.
       ids+=("$id")
