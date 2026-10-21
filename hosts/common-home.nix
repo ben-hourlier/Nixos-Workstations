@@ -14,6 +14,7 @@
     ../modules/theme.nix
     ../modules/vscode.nix
     ../modules/web-apps.nix
+    ../modules/whisper-dictate.nix
     ../modules/zsh.nix
   ];
 

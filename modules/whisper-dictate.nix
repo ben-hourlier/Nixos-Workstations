@@ -1,0 +1,301 @@
+{ config, lib, pkgs, options, ... }:
+
+with lib;
+
+let
+  cfg = config.services.whisper-dictate;
+
+  # Declarative GGML Whisper model derivation fetched directly from Hugging Face
+  defaultModel = pkgs.fetchurl {
+    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
+    hash = "sha256-G+OpsgY4Z7k35k4ux0gzZKeZF+FX+pjF2UtcH//qmHs=";
+  };
+
+  # Effective model file: allow modelPath to override model if set
+  modelFile = if cfg.modelPath != null then cfg.modelPath else cfg.model;
+
+  # whisper-cpp with Vulkan GPU acceleration
+  whisperCppVulkan = pkgs.whisper-cpp.override { vulkanSupport = true; };
+
+  whisperDictate = pkgs.writeShellApplication {
+    name = "whisper-dictate";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.curl
+      pkgs.gnused
+      pkgs.jq
+      pkgs.libnotify
+      pkgs.pipewire
+      pkgs.wl-clipboard
+      pkgs.wtype
+    ];
+    text = ''
+      LOG_FILE="/tmp/whisper_dictate.log"
+      if [ -f "$LOG_FILE" ] && [ "$(wc -c < "$LOG_FILE")" -gt 1048576 ]; then
+        mv -f "$LOG_FILE" "''${LOG_FILE}.old"
+      fi
+      exec >> "$LOG_FILE" 2>&1
+      set -x
+
+      echo "=== [$(date '+%Y-%m-%d %H:%M:%S')] whisper-dictate triggered ==="
+      echo "WAYLAND_DISPLAY=''${WAYLAND_DISPLAY:-not_set}"
+      echo "XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-not_set}"
+      echo "PIPEWIRE_RUNTIME_DIR=''${PIPEWIRE_RUNTIME_DIR:-not_set}"
+
+      PID_FILE="/tmp/whisper_dictate.pid"
+      AUDIO_FILE="/tmp/whisper_dictate.wav"
+      SERVER_PORT="${toString cfg.port}"
+      LANGUAGE="''${WHISPER_LANGUAGE:-"${cfg.language}"}"
+      NOTIF_ID=9942
+
+      notify_status() {
+        local urgency="$1"
+        local timeout="$2"
+        local title="$3"
+        local message="$4"
+        notify-send -r "$NOTIF_ID" -a "whisper-dictate" -c "system_alert" \
+          -h string:x-canonical-private-synchronous:whisper-dictate \
+          -u "$urgency" -t "$timeout" "$title" "$message"
+      }
+
+      notify_err() {
+        echo "ERROR: $*"
+        notify_status "critical" 4000 "Dictation Error" "$*"
+      }
+
+      # Check if recording is currently in progress
+      if [ -f "$PID_FILE" ] && kill -0 "$(< "$PID_FILE")" 2>/dev/null; then
+        # -------------------------------------------------------------
+        # State: Active recording -> Stop recording & Transcribe
+        # -------------------------------------------------------------
+        PID=$(< "$PID_FILE")
+        rm -f "$PID_FILE"
+
+        echo "Stopping pw-record (PID: $PID)..."
+        kill -INT "$PID" 2>/dev/null || true
+
+        # Wait up to 2 seconds for pw-record to gracefully finalize WAV header
+        WAIT_COUNT=0
+        while kill -0 "$PID" 2>/dev/null && [ "$WAIT_COUNT" -lt 40 ]; do
+          sleep 0.05
+          WAIT_COUNT=$((WAIT_COUNT + 1))
+        done
+
+        if kill -0 "$PID" 2>/dev/null; then
+          echo "pw-record did not stop on SIGINT, force killing..."
+          kill -KILL "$PID" 2>/dev/null || true
+        fi
+
+        # Immediate persistent feedback: transcribing
+        notify_status "normal" 0 "Dictation" "Transcribing..."
+
+        if [ ! -f "$AUDIO_FILE" ]; then
+          notify_err "Audio file does not exist ($AUDIO_FILE)"
+          exit 1
+        fi
+
+        AUDIO_SIZE=$(wc -c < "$AUDIO_FILE" 2>/dev/null || echo 0)
+        echo "Audio file size: $AUDIO_SIZE bytes"
+
+        if [ "$AUDIO_SIZE" -le 1000 ]; then
+          notify_status "low" 500 "Dictation" "No speech detected"
+          rm -f "$AUDIO_FILE"
+          exit 0
+        fi
+
+        # Verify WAV magic header (bytes 0-3: 'RIFF', bytes 8-11: 'WAVE')
+        MAGIC=$(head -c 4 "$AUDIO_FILE" 2>/dev/null || true)
+        FORMAT=$(head -c 12 "$AUDIO_FILE" | tail -c 4 2>/dev/null || true)
+        if [ "$MAGIC" != "RIFF" ] || [ "$FORMAT" != "WAVE" ]; then
+          notify_err "Audio file is corrupt (magic: $MAGIC, format: $FORMAT)"
+          rm -f "$AUDIO_FILE"
+          exit 1
+        fi
+
+        echo "Querying whisper-server at http://127.0.0.1:''${SERVER_PORT}/inference..."
+        if ! RESPONSE=$(curl -s -S -f "http://127.0.0.1:''${SERVER_PORT}/inference" \
+          -H "Content-Type: multipart/form-data" \
+          -F "file=@$AUDIO_FILE" \
+          -F "temperature=0.0" \
+          -F "response_format=json" \
+          -F "language=$LANGUAGE"); then
+          notify_err "whisper-server unreachable on port ''${SERVER_PORT}. Is whisper-server running?"
+          rm -f "$AUDIO_FILE"
+          exit 1
+        fi
+
+        # Clean temporary audio file
+        rm -f "$AUDIO_FILE"
+        echo "Server response: $RESPONSE"
+
+        RAW_TEXT=$(printf '%s' "$RESPONSE" | jq -r '.text // empty')
+        echo "Raw transcription: $RAW_TEXT"
+
+        # 1. Replace explicit spoken newline phrases with a temporary placeholder __NEWLINE__
+        # 2. Flatten pause-induced newlines (\n, \r) into single spaces
+        # 3. Restore explicit spoken newlines and perform punctuation substitutions
+        # 4. Normalize multiple consecutive spaces into a single space and trim edges
+        CLEANED_TEXT=$(printf '%s\n' "$RAW_TEXT" \
+          | sed -E \
+              -e 's/\[[^]]*\]//g' -e 's/\([^)]*\)//g' \
+              -e "s/[[:blank:]]*\b(retour à la ligne|retour a la ligne|à la ligne|a la ligne|new line)\b[[:blank:]]*/ __NEWLINE__ /gI" \
+          | tr '\r\n' ' ' \
+          | sed -E \
+              -e "s/[[:blank:]]*\b(point d'interrogation|question mark)\b[[:blank:]]*/ ? /gI" \
+              -e "s/[[:blank:]]*\b(point d'exclamation|exclamation mark)\b[[:blank:]]*/ ! /gI" \
+              -e 's/[[:blank:]]*\b(point final|period|full stop)\b[[:blank:]]*/. /gI' \
+              -e 's/[[:blank:]]*\bpoint\b[[:blank:]]*/. /gI' \
+              -e 's/[[:blank:]]*\b(virgule|comma)\b[[:blank:]]*/, /gI' \
+              -e 's/[[:blank:]]*__NEWLINE__[[:blank:]]*/\n/g' \
+              -e 's/[[:blank:]]*\n[[:blank:]]*/\n/g' \
+              -e 's/[[:blank:]]+/ /g' \
+          | sed -z -E -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//')
+
+        echo "Cleaned text: $CLEANED_TEXT"
+
+        if [ -n "$CLEANED_TEXT" ]; then
+          echo "Copying to clipboard via wl-copy..."
+          if ! printf '%s' "$CLEANED_TEXT" | wl-copy; then
+            notify_err "Failed to copy text to clipboard via wl-copy"
+            exit 1
+          fi
+
+          # Wait for compositor key release to avoid modifier clash with $mainMod
+          sleep 0.05
+
+          echo "Injecting Ctrl+V via wtype..."
+          if ! wtype -m logo -m alt -m ctrl -m shift -M ctrl -k v -m ctrl; then
+            notify_err "Failed to inject keystroke via wtype"
+            exit 1
+          fi
+
+          echo "Dictation paste completed successfully."
+          notify_status "low" 1500 "Dictation" "Done"
+        else
+          echo "Transcription is empty after cleanup."
+          notify_status "low" 500 "Dictation" "No speech detected"
+        fi
+      else
+        # -------------------------------------------------------------
+        # State: Idle -> Start recording
+        # -------------------------------------------------------------
+        rm -f "$PID_FILE" "$AUDIO_FILE"
+
+        echo "Starting 16kHz mono recording via pw-record..."
+        pw-record --channels 1 --rate 16000 "$AUDIO_FILE" &
+        PW_PID=$!
+
+        # Verify that pw-record didn't immediately crash (e.g. PipeWire/mic error)
+        sleep 0.1
+        if ! kill -0 "$PW_PID" 2>/dev/null; then
+          notify_err "pw-record failed to start (check $LOG_FILE)"
+          rm -f "$AUDIO_FILE"
+          exit 1
+        fi
+
+        echo "$PW_PID" > "$PID_FILE"
+        echo "pw-record running with PID $PW_PID"
+
+        # Persistent notification: recording in progress
+        notify_status "normal" 0 "Dictation" "Recording in progress..."
+      fi
+    '';
+  };
+in
+{
+  # ====================================================================
+  # --- Module Options ---
+  # ====================================================================
+
+  options.services.whisper-dictate = {
+    enable = mkEnableOption "Offline push-to-talk voice-to-text dictation service using whisper-cpp";
+
+    port = mkOption {
+      type = types.port;
+      default = 8080;
+      description = "Port on which the whisper-server daemon listens.";
+    };
+
+    threads = mkOption {
+      type = types.int;
+      default = 4;
+      description = "Number of CPU threads to use during computation.";
+    };
+
+    model = mkOption {
+      type = types.either types.package (types.either types.path types.str);
+      default = defaultModel;
+      defaultText = literalExpression ''
+        pkgs.fetchurl {
+          url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
+          hash = "sha256-G+OpsgY4Z7k35k4ux0gzZKeZF+FX+pjF2UtcH//qmHs=";
+        }
+      '';
+      description = "Multilingual Whisper GGML model derivation, package, or store path.";
+    };
+
+    modelPath = mkOption {
+      type = types.nullOr (types.either types.path types.str);
+      default = null;
+      description = ''
+        Optional override path or string pointing to a local GGML Whisper model file.
+        If null, `services.whisper-dictate.model` is used.
+      '';
+    };
+
+    language = mkOption {
+      type = types.str;
+      default = "fr";
+      description = "Transcription language code (default: 'fr', or 'auto').";
+    };
+
+    package = mkOption {
+      type = types.package;
+      default = whisperDictate;
+      defaultText = literalExpression "pkgs.writeShellApplication { name = \"whisper-dictate\"; ... }";
+      description = "The generated whisper-dictate package.";
+    };
+  };
+
+  # ====================================================================
+  # --- Implementation ---
+  # ====================================================================
+
+  config = mkIf cfg.enable (
+    if options ? environment
+    then {
+      environment.systemPackages = [ cfg.package whisperCppVulkan ];
+
+      systemd.user.services.whisper-server = {
+        description = "Whisper.cpp persistent inference server";
+        after = [ "graphical-session.target" ];
+        wantedBy = [ "graphical-session.target" ];
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${whisperCppVulkan}/bin/whisper-server --model ${modelFile} --host 127.0.0.1 --port ${toString cfg.port} --threads ${toString cfg.threads}";
+          Restart = "always";
+          RestartSec = "3s";
+        };
+      };
+    }
+    else {
+      home.packages = [ cfg.package whisperCppVulkan ];
+
+      systemd.user.services.whisper-server = {
+        Unit = {
+          Description = "Whisper.cpp persistent inference server";
+          After = [ "graphical-session.target" ];
+        };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${whisperCppVulkan}/bin/whisper-server --model ${modelFile} --host 127.0.0.1 --port ${toString cfg.port} --threads ${toString cfg.threads}";
+          Restart = "always";
+          RestartSec = "3s";
+        };
+      };
+    }
+  );
+}
