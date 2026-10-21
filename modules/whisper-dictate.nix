@@ -5,14 +5,41 @@ with lib;
 let
   cfg = config.services.whisper-dictate;
 
-  # Declarative GGML Whisper model derivation fetched directly from Hugging Face
-  defaultModel = pkgs.fetchurl {
-    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
-    hash = "sha256-G+OpsgY4Z7k35k4ux0gzZKeZF+FX+pjF2UtcH//qmHs=";
+  # Model presets with declarative fetchurl derivations
+  modelPresets = {
+    "base-q5_1" = pkgs.fetchurl {
+      url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin";
+      hash = "sha256-Qi8a5FKt5vMKAE1+XGpDGV5EM7w3C/I/rJzFkfAaiJg=";
+    };
+    "small-q5_1" = pkgs.fetchurl {
+      url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin";
+      hash = "sha256-roXkqTXXpWe9EC/lWvwWu1lb22GOEbL8dZG8CBIEEbs=";
+    };
+    "base" = pkgs.fetchurl {
+      url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin";
+      hash = "sha256-YO1bw90U7qhWST0zQ0m0BXgt3K8AKNS130CINF+6Lv4=";
+    };
+    "small" = pkgs.fetchurl {
+      url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
+      hash = "sha256-G+OpsgY4Z7k35k4ux0gzZKeZF+FX+pjF2UtcH//qmHs=";
+    };
   };
 
-  # Effective model file: allow modelPath to override model if set
-  modelFile = if cfg.modelPath != null then cfg.modelPath else cfg.model;
+  # Effective model file: resolve preset name if string matching a preset, or use path / package
+  resolvedModel =
+    if isString cfg.model && modelPresets ? ${cfg.model}
+    then modelPresets.${cfg.model}
+    else cfg.model;
+
+  modelFile = if cfg.modelPath != null then cfg.modelPath else resolvedModel;
+
+  serverArgs = lib.concatStringsSep " " ([
+    "--model ${modelFile}"
+    "--host 127.0.0.1"
+    "--port ${toString cfg.port}"
+    "--threads ${toString cfg.threads}"
+  ] ++ lib.optional (!cfg.useGpu) "--no-gpu"
+    ++ cfg.extraArgs);
 
   # whisper-cpp with Vulkan GPU acceleration
   whisperCppVulkan = pkgs.whisper-cpp.override { vulkanSupport = true; };
@@ -131,12 +158,14 @@ let
         RAW_TEXT=$(printf '%s' "$RESPONSE" | jq -r '.text // empty')
         echo "Raw transcription: $RAW_TEXT"
 
-        # 1. Replace explicit spoken newline phrases with a temporary placeholder __NEWLINE__
-        # 2. Flatten pause-induced newlines (\n, \r) into single spaces
-        # 3. Restore explicit spoken newlines and perform punctuation substitutions
-        # 4. Normalize multiple consecutive spaces into a single space and trim edges
+        # 1. Strip hallucinated audio / sound effect markers wrapped in asterisks
+        # 2. Replace explicit spoken newline phrases with a temporary placeholder __NEWLINE__
+        # 3. Flatten pause-induced newlines (\n, \r) into single spaces
+        # 4. Restore explicit spoken newlines and perform punctuation substitutions
+        # 5. Normalize multiple consecutive spaces into a single space and trim edges
         CLEANED_TEXT=$(printf '%s\n' "$RAW_TEXT" \
           | sed -E \
+              -e 's/\*[^*]*\*//g' \
               -e 's/\[[^]]*\]//g' -e 's/\([^)]*\)//g' \
               -e "s/[[:blank:]]*\b(retour à la ligne|retour a la ligne|à la ligne|a la ligne|new line)\b[[:blank:]]*/ __NEWLINE__ /gI" \
           | tr '\r\n' ' ' \
@@ -161,7 +190,7 @@ let
           fi
 
           # Wait for compositor key release to avoid modifier clash with $mainMod
-          sleep 0.05
+          sleep 0.15
 
           echo "Injecting Ctrl+V via wtype..."
           if ! wtype -m logo -m alt -m ctrl -m shift -M ctrl -k v -m ctrl; then
@@ -222,16 +251,26 @@ in
       description = "Number of CPU threads to use during computation.";
     };
 
+    useGpu = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to use GPU acceleration via Vulkan. When false, --no-gpu is passed to whisper-server.";
+    };
+
+    extraArgs = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Additional command-line arguments to pass to whisper-server.";
+    };
+
     model = mkOption {
       type = types.either types.package (types.either types.path types.str);
-      default = defaultModel;
-      defaultText = literalExpression ''
-        pkgs.fetchurl {
-          url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
-          hash = "sha256-G+OpsgY4Z7k35k4ux0gzZKeZF+FX+pjF2UtcH//qmHs=";
-        }
+      default = "small";
+      defaultText = literalExpression ''"small"'';
+      description = ''
+        Whisper GGML model preset ("base-q5_1", "small-q5_1", "base", "small"),
+        derivation package, or store path.
       '';
-      description = "Multilingual Whisper GGML model derivation, package, or store path.";
     };
 
     modelPath = mkOption {
@@ -272,10 +311,12 @@ in
         wantedBy = [ "graphical-session.target" ];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${whisperCppVulkan}/bin/whisper-server --model ${modelFile} --host 127.0.0.1 --port ${toString cfg.port} --threads ${toString cfg.threads}";
+          ExecStart = "${whisperCppVulkan}/bin/whisper-server ${serverArgs}";
           Restart = "always";
           RestartSec = "3s";
-        };
+        } // (lib.optionalAttrs cfg.useGpu {
+          Environment = "LD_LIBRARY_PATH=/run/opengl-driver/lib";
+        });
       };
     }
     else {
@@ -291,10 +332,12 @@ in
         };
         Service = {
           Type = "simple";
-          ExecStart = "${whisperCppVulkan}/bin/whisper-server --model ${modelFile} --host 127.0.0.1 --port ${toString cfg.port} --threads ${toString cfg.threads}";
+          ExecStart = "${whisperCppVulkan}/bin/whisper-server ${serverArgs}";
           Restart = "always";
           RestartSec = "3s";
-        };
+        } // (lib.optionalAttrs cfg.useGpu {
+          Environment = "LD_LIBRARY_PATH=/run/opengl-driver/lib";
+        });
       };
     }
   );
