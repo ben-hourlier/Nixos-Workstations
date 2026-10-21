@@ -18,7 +18,7 @@ pkgs.writeShellScriptBin "window-switcher" ''
   RAW_DATA=$(${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r 'sort_by(.workspace.id) |
    .[] |
     select(.workspace.id != -1) |
-     "(.address)\t\(.workspace.id)\t\(.class)\t\(.initialTitle)\t\(.title)"')
+     "\(.address)\t\(.workspace.id)\t\(.class)\t\(.initialTitle)\t\(.title)"')
 
   # --- Data Processing ---
   
@@ -28,7 +28,7 @@ pkgs.writeShellScriptBin "window-switcher" ''
       # Relies on the custom 'display-names' Nix package.
       FINAL_NAME=$(display-names "$class" "$initial" "$title")
       
-      # Formats the string for the menu (e.g., "[1] Firefox").
+      # Formats the string for the menu (e.g., "1 - Firefox").
       display_str="$ws - $FINAL_NAME"
 
       # Appends data to the respective Bash arrays.
