@@ -36,4 +36,12 @@ in {
     workspace = 4, monitor:${monitor2}, default:true
     workspace = 5, monitor:${monitor2}
   '';
+
+
+  # --- Voice-to-Text Dictation (Desktop GPU) ---
+
+  services.whisper-dictate = {
+    model = "small";
+    useGpu = true;
+  };
 }
