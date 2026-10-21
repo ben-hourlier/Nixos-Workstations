@@ -22,4 +22,13 @@ in {
 
     workspace = 1, monitor:${monitor}, default:true
   '';
+
+
+  # --- Voice-to-Text Dictation (Tuned for Laptop) ---
+
+  services.whisper-dictate = {
+    model = "small-q5_1";
+    useGpu = false;
+    threads = 6;
+  };
 }
