@@ -70,6 +70,7 @@
   services.playerctld.enable = true;
   services.cliphist.enable = true;
   services.hypridle.enable = true;
+  services.whisper-dictate.enable = true;
 
   # Using udisks2 to automatically mount external drives when pluged
   services.udiskie = {
