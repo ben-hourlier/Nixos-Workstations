@@ -110,11 +110,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1792405757,
-        "narHash": "sha256-DooC0gBpv0Tc1VxPRTEyRoM+uRWr+bk5nM4JiVRHh7s=",
+        "lastModified": 1792674718,
+        "narHash": "sha256-QbIQlIN0cxJRRpS6cL9Yb92ga7DOQk6oJJLcsUgQeEo=",
         "owner": "bhr-tools",
         "repo": "Focus",
-        "rev": "e9d2207d060d0248cb32296bc74eb9c649eb1cd7",
+        "rev": "ecb76f49748c6e23864a2d130f450485cff40525",
         "type": "github"
       },
       "original": {
