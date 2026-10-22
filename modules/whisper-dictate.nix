@@ -158,27 +158,13 @@ let
         RAW_TEXT=$(printf '%s' "$RESPONSE" | jq -r '.text // empty')
         echo "Raw transcription: $RAW_TEXT"
 
-        # 1. Strip hallucinated audio / sound effect markers wrapped in asterisks
-        # 2. Replace explicit spoken newline phrases with a temporary placeholder __NEWLINE__
-        # 3. Flatten pause-induced newlines (\n, \r) into single spaces
-        # 4. Restore explicit spoken newlines and perform punctuation substitutions
-        # 5. Normalize multiple consecutive spaces into a single space and trim edges
+        # 1. Remove sound effect tags (*...*, [...], (...))
+        # 2. Flatten pause-induced segment newlines (\r, \n) into spaces
+        # 3. Collapse multiple consecutive spaces and trim leading/trailing whitespace
         CLEANED_TEXT=$(printf '%s\n' "$RAW_TEXT" \
-          | sed -E \
-              -e 's/\*[^*]*\*//g' \
-              -e 's/\[[^]]*\]//g' -e 's/\([^)]*\)//g' \
-              -e "s/[[:blank:]]*\b(retour à la ligne|retour a la ligne|à la ligne|a la ligne|new line)\b[[:blank:]]*/ __NEWLINE__ /gI" \
+          | sed -E -e 's/\*[^*]*\*//g' -e 's/\[[^]]*\]//g' -e 's/\([^)]*\)//g' \
           | tr '\r\n' ' ' \
-          | sed -E \
-              -e "s/[[:blank:]]*\b(point d'interrogation|question mark)\b[[:blank:]]*/ ? /gI" \
-              -e "s/[[:blank:]]*\b(point d'exclamation|exclamation mark)\b[[:blank:]]*/ ! /gI" \
-              -e 's/[[:blank:]]*\b(point final|period|full stop)\b[[:blank:]]*/. /gI' \
-              -e 's/[[:blank:]]*\bpoint\b[[:blank:]]*/. /gI' \
-              -e 's/[[:blank:]]*\b(virgule|comma)\b[[:blank:]]*/, /gI' \
-              -e 's/[[:blank:]]*__NEWLINE__[[:blank:]]*/\n/g' \
-              -e 's/[[:blank:]]*\n[[:blank:]]*/\n/g' \
-              -e 's/[[:blank:]]+/ /g' \
-          | sed -z -E -e 's/^[[:space:]]+//' -e 's/[[:space:]]+$//')
+          | sed -E -e 's/  */ /g' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
         echo "Cleaned text: $CLEANED_TEXT"
 
