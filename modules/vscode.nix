@@ -30,6 +30,12 @@
 
         #OCaml
         ocamllabs.ocaml-platform
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          name = "vscode-ocaml-expect-inline";
+          publisher = "release-candidate";
+          version = "0.7.2";
+          hash = "sha256-pg2LPTnZ+j66zdxZ0e7nMaX2xk1pW1hqgfRmZXzIq6k=";
+        })
 
         # Phython
         ms-python.python
@@ -42,6 +48,8 @@
         "workbench.colorTheme" = "Rosé Pine";
         "workbench.preferredDarkColorTheme" = "Rosé Pine";
         "workbench.preferredLightColorTheme" = "Rosé Pine Dawn";
+        "workbench.secondarySideBar.defaultVisibility" = "hidden";
+        "workbench.startupEditor" = "none";
         "window.autoDetectColorScheme" = true;
         "editor.fontFamily" = "JetBrainsMono Nerd Font";
         "editor.fontSize" = 14;
@@ -51,7 +59,6 @@
         "github.copilot.enable" = {
           "*" = false;
         };
-        "C_Cpp.intelliSenseEngine" = "disabled";
       };
     };
   };
