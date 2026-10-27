@@ -20,6 +20,7 @@
 
     workspace-manager.url = "github:bhr-tools/Workspace-Manager";
     capture.url = "github:bhr-tools/Capture";
+    drill.url = "github:bhr-tools/Drill";
   };
 
 
