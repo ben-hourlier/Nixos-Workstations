@@ -34,10 +34,13 @@
 
   xdg.desktopEntries.yazi = {
     name = "Yazi";
-    exec = "kitty -e yazi %u";
+    # A dedicated class tells yazi's window apart from other kitty windows
+    # and ties it to this entry (name, icon).
+    exec = "kitty --class yazi -e yazi %u";
     # Set to false because the 'exec' command already wraps the process in a terminal (kitty).
-    terminal = false; 
+    terminal = false;
     icon = "system-file-manager";
     mimeType = [ "inode/directory" ];
+    settings.StartupWMClass = "yazi";
   };
 }

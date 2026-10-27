@@ -1,7 +1,10 @@
 { pkgs }:
 
-# Creates a utility script to map technical application classes and titles 
-# into clean, human-readable names for UI modules (like Waybar or Fuzzel).
+# Creates a utility script that turns a window (class, initial title, title)
+# into a human-readable name for UI modules (like the Quickshell bar or Fuzzel).
+# Names come from the window's desktop entry, matched by StartupWMClass or by
+# file name, so no application is listed here: give an app a desktop entry
+# (and a dedicated class if needed) instead.
 pkgs.writeShellScriptBin "display-names" ''
     #!/usr/bin/env bash
 
@@ -9,42 +12,42 @@ pkgs.writeShellScriptBin "display-names" ''
     INITIAL=$2
     TITLE=$3
 
-    case ''${INITIAL,,} in
-        *kitty*)
-            case ''${TITLE,,} in
-                yazi*)    FINAL_NAME="Yazi" ;;
-                ncmpcpp*) FINAL_NAME="Ncmpcpp" ;;
-                */* | *~*) FINAL_NAME="Kitty" ;;
-                # Capitalizes the first letter of each word
-                *) FINAL_NAME=$(echo "$TITLE" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1') ;;
-            esac
-            ;;
-        *obsidian*)
-            FINAL_NAME="Obsidian"
-            ;;
+    # Capitalizes the first letter of each word.
+    capitalize() {
+        echo "$1" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1'
+    }
 
-        # WEB-APPS
-        *deezer*)
-            FINAL_NAME="Deezer"
-            ;;
-        *netflix*)
-            FINAL_NAME="Netflix"
-            ;;
-        *calendar.notion*)
-            FINAL_NAME="Notion Calendar"
-            ;;
-        *todoist*)
-            FINAL_NAME="Todoist"
-            ;;
-        *whatsapp*)
-            FINAL_NAME="Whatsapp"
-            ;;  
+    # --- Desktop Entry Lookup ---
 
-        *)
-            # Default fallback: Capitalizes the initial title
-            FINAL_NAME=$(echo "$INITIAL" | ${pkgs.gawk}/bin/awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
-            ;;
-    esac
+    IFS=: read -ra DIRS <<< "''${XDG_DATA_HOME:-$HOME/.local/share}:''${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
-    echo "$FINAL_NAME"
+    ENTRY=""
+    for dir in "''${DIRS[@]}"; do
+        ENTRY=$(grep -lsxF "StartupWMClass=$CLASS" "$dir"/applications/*.desktop | head -n 1)
+        [ -n "$ENTRY" ] && break
+    done
+    if [ -z "$ENTRY" ]; then
+        for dir in "''${DIRS[@]}"; do
+            [ -f "$dir/applications/$CLASS.desktop" ] && ENTRY="$dir/applications/$CLASS.desktop" && break
+        done
+    fi
+
+    NAME=""
+    CATEGORIES=""
+    if [ -n "$ENTRY" ]; then
+        NAME=$(grep -m 1 '^Name=' "$ENTRY" | cut -d= -f2-)
+        CATEGORIES=$(grep -m 1 '^Categories=' "$ENTRY")
+    fi
+
+    # --- Naming ---
+
+    # A terminal is named after what runs in it, unless its title is just a
+    # shell prompt or a path.
+    if [[ $CATEGORIES == *TerminalEmulator* && -n $TITLE && $TITLE != *[/~@]* ]]; then
+        capitalize "$TITLE"
+    elif [ -n "$NAME" ]; then
+        echo "''${NAME^}"
+    else
+        capitalize "''${INITIAL:-$CLASS}"
+    fi
     ''
