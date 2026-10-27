@@ -19,6 +19,7 @@
     focus.url = "github:bhr-tools/Focus";
 
     workspace-manager.url = "github:bhr-tools/Workspace-Manager";
+    capture.url = "github:bhr-tools/Capture";
   };
 
 
@@ -39,6 +40,7 @@
               home-manager.useUserPackages = true;
               home-manager.sharedModules = [
                 inputs.workspace-manager.homeManagerModules.default
+                inputs.capture.homeManagerModules.default
               ];
               home-manager.users.ben = ./hosts/${hostName}/home.nix;
             }

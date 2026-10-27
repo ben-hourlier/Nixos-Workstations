@@ -66,4 +66,14 @@
     enable = true;
     autostart = false;
   };
+
+
+  # --- Screenshots, Recording & Text Capture ---
+
+  # Started from autostart.conf, like the other Hyprland daemons.
+  programs.capture = {
+    enable = true;
+    autostart = false;
+    ocrLanguages = [ "eng" "fra" ];
+  };
 }
