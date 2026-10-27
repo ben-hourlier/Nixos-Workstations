@@ -57,4 +57,13 @@
   };
 
   xdg.portal.enable = lib.mkForce false;
+
+
+  # --- Workspace Overview & Stage Manager ---
+
+  # Started from autostart.conf, like the other Hyprland daemons.
+  programs.workspace-manager = {
+    enable = true;
+    autostart = false;
+  };
 }
