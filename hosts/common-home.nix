@@ -12,7 +12,7 @@
     ../modules/packages.nix
     ../modules/system-actions.nix
     ../modules/theme.nix
-    ../modules/vscode.nix
+    ../modules/vscode
     ../modules/web-apps.nix
     ../modules/whisper-dictate.nix
     ../modules/zsh.nix
