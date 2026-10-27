@@ -5,7 +5,6 @@ let
   trashScript = import ../scripts/trash.nix { inherit pkgs; };
   brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
   displayNamesScript = import ../scripts/display-names.nix { inherit pkgs; };
-  windowSwitcherScript = import ../scripts/window-switcher.nix { inherit pkgs; };
 
 in
 {
@@ -18,7 +17,6 @@ in
     trashScript
     brightnessScript
     displayNamesScript
-    windowSwitcherScript
   ];
 
   # ====================================================================
