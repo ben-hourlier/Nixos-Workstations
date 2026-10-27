@@ -18,6 +18,8 @@
 
   xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/getdone.svg".source = ../settings/icons/getdone.svg;
+  xdg.dataFile."icons/hicolor/scalable/apps/mail.svg".source = ../settings/icons/mail.svg;
+  xdg.dataFile."icons/hicolor/scalable/apps/web-calendar.svg".source = ../settings/icons/calendar.svg;
 
 
 
