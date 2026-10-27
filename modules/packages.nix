@@ -19,10 +19,9 @@ in {
 
     bluez # bluetooth protocol
     brightnessctl
+    ddcutil # per-screen brightness of external monitors
     fuse # allows complex mount system
     libnotify
-    networkmanagerapplet
-    pavucontrol
     playerctl
     socat
     vpnc
@@ -30,7 +29,6 @@ in {
 
     # --- Desktop Environment ---
 
-    blueman
     fuzzel
     hypridle
     hyprlock
@@ -39,7 +37,6 @@ in {
     hyprshot
     kitty
     polkit_gnome
-    waybar
     waypipe
     yazi
 
@@ -69,6 +66,11 @@ in {
     # --- Unstable ---
     # ====================================================================
 
+    # --- Desktop Environment ---
+
+    quickshell
+
+
     # --- Shell ---
 
     dnsutils
@@ -93,7 +95,6 @@ in {
     discord
     firefox
     gimp
-    gnome-clocks
     google-chrome
     kcc
     kdePackages.okular

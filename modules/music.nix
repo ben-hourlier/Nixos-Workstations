@@ -34,7 +34,7 @@ in
 
   # Enables MPRIS support for MPD.
   # This allows MPD to be controlled via global media keys or standard 
-  # media controllers (like playerctld or Waybar modules).
+  # media controllers (like playerctld or the Quickshell bar).
   services.mpd-mpris.enable = true;
   
   # Generation of the config file for deemix without symlink, because it must
