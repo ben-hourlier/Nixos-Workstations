@@ -95,7 +95,6 @@ in {
     firefox
     gimp
     google-chrome
-    kcc
     kdePackages.okular
     localsend
     loupe
