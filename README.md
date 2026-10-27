@@ -39,7 +39,7 @@ This repository maintains the system configuration and user environments for mul
     
 - **Hermetic Utility Packaging:** Shell helpers and automation scripts (`scripts/`) are packaged as individual Nix derivations with explicit runtime dependencies, avoiding reliance on global system binaries.
     
-- **Atomic Theme Synchronization:** A unified dynamic switcher script coordinates palette transitions across the window manager, Waybar, Kitty, and application profiles.
+- **Atomic Theme Synchronization:** A unified dynamic switcher script coordinates palette transitions across the window manager, Kitty, and application profiles. The Quickshell bar follows the active theme on its own.
     
 
 ## 4. Deployment

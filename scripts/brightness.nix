@@ -36,10 +36,9 @@ pkgs.writeShellScriptBin "brightness" ''
           NEW_VAL=$((CURRENT - STEP))
           if [ "$NEW_VAL" -lt "$STEP" ]; then NEW_VAL=$STEP; fi
           ;;
-      get)
-          # Instantly returns the cached value formatted as JSON for Waybar.
-          echo "{\"percentage\": $CURRENT}"
-          exit 0
+      *)
+          echo "Usage: brightness up|down" >&2
+          exit 1
           ;;
   esac
 
@@ -63,6 +62,6 @@ pkgs.writeShellScriptBin "brightness" ''
       wait
   fi
 
-  # Sends a real-time signal to Waybar to force a module UI update.
-  ${pkgs.procps}/bin/pkill -SIGRTMIN+8 waybar
+  # Refreshes the Quickshell bar value and shows the OSD.
+  qs ipc call osd brightness 2>/dev/null || true
 ''

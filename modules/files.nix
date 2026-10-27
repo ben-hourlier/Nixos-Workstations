@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 
 {
   # ====================================================================
@@ -12,12 +12,21 @@
     "hypr" = { source = ../settings/hypr; recursive = true; };
     "kitty" = { source = ../settings/kitty; recursive = true; };
     "nvim" = { source = ../settings/nvim; recursive = true; };
-    "waybar" = { source = ../settings/waybar; recursive = true; };
+    "quickshell" = { source = ../settings/quickshell; recursive = true; };
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
   xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/getdone.svg".source = ../settings/icons/getdone.svg;
+
+
+
+  # Screen layout written by the Quickshell Displays panel and sourced by Hyprland.
+  # It must exist before Quickshell first runs, or Hyprland reports a missing source.
+  home.activation.displaysConf = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p "${config.home.homeDirectory}/.local/state/focusos"
+    touch "${config.home.homeDirectory}/.local/state/focusos/displays.conf"
+  '';
 
   # ====================================================================
   # --- Custom desktop entries ---

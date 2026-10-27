@@ -2,14 +2,9 @@
 
 let
   # compInventory = import ../scripts/inventory.nix { inherit pkgs; };
-  ejectUsbScript = import ../scripts/eject-usb.nix { inherit pkgs; };
   trashScript = import ../scripts/trash.nix { inherit pkgs; };
   brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
   displayNamesScript = import ../scripts/display-names.nix { inherit pkgs; };
-  networkStatusScript = import ../scripts/network-status.nix { inherit pkgs; };
-  timeTrackerDisplayScript = import ../scripts/time-tracker-display.nix { inherit pkgs; };
-  timeTrackerScript = import ../scripts/time-tracker.nix { inherit pkgs; };
-  windowNamesScript = import ../scripts/window-names.nix { inherit pkgs; };
   windowSwitcherScript = import ../scripts/window-switcher.nix { inherit pkgs; };
 
 in
@@ -20,14 +15,9 @@ in
   
   home.packages = [ 
     # compInventory
-    ejectUsbScript 
     trashScript
     brightnessScript
     displayNamesScript
-    networkStatusScript
-    timeTrackerDisplayScript
-    timeTrackerScript
-    windowNamesScript
     windowSwitcherScript
   ];
 
@@ -55,7 +45,7 @@ in
     
     lock = {
       name = "Lock Screen";
-      exec = "hyprlock"; 
+      exec = "loginctl lock-session";
       terminal = false;
       icon = "system-lock-screen";
       categories = [ "System" ];
@@ -71,7 +61,7 @@ in
 
     eject = {
       name = "Eject USB";
-      exec = "eject-usb"; 
+      exec = "qs ipc call launcher eject";
       terminal = false;
       icon = "usb";
       categories = [ "System" ];
