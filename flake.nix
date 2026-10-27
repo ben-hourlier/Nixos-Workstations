@@ -17,6 +17,8 @@
     antigravity.url = "github:jacopone/antigravity-nix";
 
     focus.url = "github:bhr-tools/Focus";
+
+    workspace-manager.url = "github:bhr-tools/Workspace-Manager";
   };
 
 
@@ -35,6 +37,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [
+                inputs.workspace-manager.homeManagerModules.default
+              ];
               home-manager.users.ben = ./hosts/${hostName}/home.nix;
             }
           ];
