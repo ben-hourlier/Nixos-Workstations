@@ -106,7 +106,6 @@ in {
     qbittorrent
     shotwell
     speedcrunch
-    thunderbird
     ventoy-full
     vlc
 

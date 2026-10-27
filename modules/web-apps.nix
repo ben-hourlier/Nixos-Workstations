@@ -41,6 +41,22 @@ in
       categories = [ "Utility" "Office" ];
     };
 
+    mail = {
+      name = "Mail";
+      genericName = "Power-user Email Client";
+      url = "https://mail.bhr-sys.com";
+      icon = "mail";
+      categories = [ "Utility" "Office" ];
+    };
+
+    calendar = {
+      name = "Calendar";
+      genericName = "Power-user Calendar";
+      url = "https://calendar.bhr-sys.com";
+      icon = "web-calendar";
+      categories = [ "Utility" "Office" ];
+    };
+
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
@@ -55,14 +71,6 @@ in
       url = "https://www.netflix.com/browse";
       icon = "netflix";
       categories = [ "Video" "AudioVideo" ];
-    };
-
-    notion-calendar = {
-      name = "Notion Calendar";
-      genericName = "Calendar";
-      url = "https://calendar.notion.so";
-      icon = "notion"; 
-      categories = [ "Office" "Calendar" ];
     };
 
     whatsapp = {
