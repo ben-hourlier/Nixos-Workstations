@@ -34,7 +34,6 @@ in {
     hyprlock
     hyprpaper
     hyprpicker
-    hyprshot
     kitty
     polkit_gnome
     waypipe
