@@ -156,10 +156,13 @@ in
     name = "Ncmpcpp";
     genericName = "Music Player";
     comment = "Minimalist MPD Player";
-    exec = "ncmpcpp-wrapper";
-    terminal = true; 
-    icon = "org.gnome.Music"; 
+    # Launches its own kitty with a dedicated class, which ties the window to
+    # this entry (name, icon) instead of a generic terminal.
+    exec = "kitty --class ncmpcpp -e ncmpcpp-wrapper";
+    terminal = false;
+    icon = "org.gnome.Music";
     categories = [ "Audio" "AudioVideo" "Player" "ConsoleOnly" ];
     type = "Application";
+    settings.StartupWMClass = "ncmpcpp";
   };
 }

@@ -1,17 +1,34 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
+let
+  # Builds the desktop entry of a Chrome app from its URL. StartupWMClass ties
+  # the app's windows to this entry, so bars, switchers and the overview get
+  # its name and icon without a hand-written mapping.
+  # Chrome names an --app window "chrome-<host>_<path, with / as _>-Default":
+  #   https://www.deezer.com/fr/  ->  chrome-www.deezer.com__fr_-Default
+  mkWebApp = { url, ... } @ entry:
+    let
+      parts = lib.splitString "/" (lib.removePrefix "https://" url);
+      host = builtins.head parts;
+      path = "/" + lib.concatStringsSep "/" (builtins.tail parts);
+    in
+      (builtins.removeAttrs entry [ "url" ]) // {
+        exec = "google-chrome-stable --app=${url}";
+        terminal = false;
+        settings.StartupWMClass = "chrome-${host}_${lib.replaceStrings [ "/" ] [ "_" ] path}-Default";
+      };
+in
 {
   # ====================================================================
   # --- Web Applications (PWA / Chrome Apps) ---
   # ====================================================================
 
-  xdg.desktopEntries = {
+  xdg.desktopEntries = lib.mapAttrs (_: mkWebApp) {
 
     focus = {
       name = "Focus";
       genericName = "Pomodoro & Timetracker";
-      exec = "google-chrome-stable --app=https://focus.bhr-sys.com";
-      terminal = false;
+      url = "https://focus.bhr-sys.com";
       icon = "focus";
       categories = [ "Utility" "Office" ];
     };
@@ -19,8 +36,7 @@
     getitdone = {
       name = "Get Done";
       genericName = "Power-user Todolist";
-      exec = "google-chrome-stable --app=https://getdone.bhr-sys.com";
-      terminal = false;
+      url = "https://getdone.bhr-sys.com";
       icon = "getdone";
       categories = [ "Utility" "Office" ];
     };
@@ -28,8 +44,7 @@
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
-      exec = "google-chrome-stable --app=https://www.deezer.com/fr/";
-      terminal = false;
+      url = "https://www.deezer.com/fr/";
       icon = "deezer";
       categories = [ "Audio" "AudioVideo" ];
     };
@@ -37,8 +52,7 @@
     netflix = {
       name = "Netflix";
       genericName = "Streaming Service";
-      exec = "google-chrome-stable --app=https://www.netflix.com/browse";
-      terminal = false;
+      url = "https://www.netflix.com/browse";
       icon = "netflix";
       categories = [ "Video" "AudioVideo" ];
     };
@@ -46,8 +60,7 @@
     notion-calendar = {
       name = "Notion Calendar";
       genericName = "Calendar";
-      exec = "google-chrome-stable --app=https://calendar.notion.so";
-      terminal = false;
+      url = "https://calendar.notion.so";
       icon = "notion"; 
       categories = [ "Office" "Calendar" ];
     };
@@ -55,11 +68,10 @@
     whatsapp = {
       name = "WhatsApp";
       genericName = "Messaging";
-      exec = "google-chrome-stable --app=https://web.whatsapp.com";
-      terminal = false;
+      url = "https://web.whatsapp.com";
       icon = "whatsapp";
       categories = [ "Network" "Chat" ];
     };
-    
+
   };
 }
