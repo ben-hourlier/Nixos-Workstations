@@ -65,6 +65,9 @@
 
   hardware.bluetooth.enable = true;
 
+  # Battery state over D-Bus, read by the Quickshell bar.
+  services.upower.enable = true;
+
 
   # --- File Systems & Storage ---
 
@@ -130,6 +133,9 @@
   
   # Polkit is required for GUI applications to request elevated privileges
   security.polkit.enable = true;
+
+  # PAM service checked by the Quickshell lock screen.
+  security.pam.services.quickshell = {};
 
   programs.hyprland = {
     enable = true;

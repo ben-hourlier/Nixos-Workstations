@@ -2,7 +2,7 @@
 
 # Creates a script to dynamically toggle between light and dark themes.
 # This script updates GTK settings via gsettings, symlinks appropriate 
-# configuration files for various applications (kitty, waybar, fuzzel, etc.), 
+# configuration files for various applications (kitty, fuzzel, hyprland, etc.),
 # changes the Hyprland wallpaper, and reloads the affected services.
 let
   # When this path is evaluted, it is copied into /nix/store to guaranty reproducibility.
@@ -32,7 +32,6 @@ pkgs.writeShellScriptBin "theme-switch" ''
   fi
 
   ln -sf "${themesDir}/$NEXT/kitty.conf" "$HOME/.config/kitty/theme.conf"
-  ln -sf "${themesDir}/$NEXT/waybar.css" "$HOME/.config/waybar/theme.css"
   ln -sf "${themesDir}/$NEXT/fuzzel.ini" "$HOME/.config/fuzzel/theme.ini"
   ln -sf "${themesDir}/$NEXT/hyprlock.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
   ln -sf "${themesDir}/$NEXT/hyprland.conf" "$HOME/.config/hypr/theme.conf"
@@ -46,7 +45,8 @@ pkgs.writeShellScriptBin "theme-switch" ''
   ${pkgs.hyprland}/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"
 
   pkill -SIGUSR1 kitty
-  pkill waybar; launch-waybar
+  # The Quickshell bar follows theme_state by itself: only start it if needed.
+  quickshell --no-duplicate --daemonize
 
   echo "$NEXT" > "$STATE_FILE"
 ''

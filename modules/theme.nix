@@ -2,7 +2,6 @@
 
 let  
   themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; };
-  launchWaybarScript = import ../scripts/launch-waybar.nix { inherit pkgs; };
   themesDir = ../themes;
 
   setConfigMedia = pkgs.writeShellScriptBin "set-config-media" ''
@@ -60,8 +59,9 @@ in
     adwaita-qt6
     cantarell-fonts
     gsettings-desktop-schemas   # Required for theme-switch schema validation
-    launchWaybarScript
+    inter                       # Quickshell bar text
     lmodern
+    material-symbols            # Quickshell bar icons
     nerd-fonts.jetbrains-mono
     papirus-icon-theme
     setConfigMedia
