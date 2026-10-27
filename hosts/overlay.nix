@@ -20,6 +20,7 @@
       antigravity = inputs.antigravity.packages.${prev.stdenv.hostPlatform.system}.default;
 
       focus = inputs.focus.packages.${prev.stdenv.hostPlatform.system}.default;
+      drill = inputs.drill.packages.${prev.stdenv.hostPlatform.system}.default;
     })
   ];
 }

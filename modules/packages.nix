@@ -135,6 +135,7 @@ in {
     pkgs.antigravity
     pkgs.eclipse-java-429
     pkgs.focus
+    pkgs.drill
   ]);
 
 
