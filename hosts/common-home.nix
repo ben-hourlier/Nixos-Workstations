@@ -39,6 +39,9 @@
     # --- Focus Server ---
     FOCUS_SERVER = "https://focus.bhr-sys.com";
 
+    # --- Drill: the exercise library ---
+    DRILL_LIBRARY = "$HOME/Dev/Drill-library";
+
     # --- Theme ---
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
