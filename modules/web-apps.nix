@@ -57,6 +57,14 @@ in
       categories = [ "Utility" "Office" ];
     };
 
+    inventtory = {
+      name = "Inventory";
+      genericName = "Power-user Inventroy";
+      url = "https://inventory.bhr-sys.com";
+      icon = "inventory";
+      categories = [ "Utility" "Office" ];
+    };
+
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
