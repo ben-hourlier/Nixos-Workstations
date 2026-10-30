@@ -20,7 +20,7 @@
   xdg.dataFile."icons/hicolor/scalable/apps/getdone.svg".source = ../settings/icons/getdone.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/mail.svg".source = ../settings/icons/mail.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/web-calendar.svg".source = ../settings/icons/calendar.svg;
-
+  xdg.dataFile."icons/hicolor/scalable/apps/inventory.svg".source = ../settings/icons/inventory.svg;
 
 
   # Screen layout written by the Quickshell Displays panel and sourced by Hyprland.
