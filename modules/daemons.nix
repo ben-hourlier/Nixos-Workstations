@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   # ====================================================================
@@ -95,4 +95,19 @@
       };
     };
   };
+
+  # Copied as a regular file rather than linked into the Nix store:
+  # Syncthing does not load a .stignore that is a symlink.
+  home.activation.syncthingIgnore = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    install -m 644 ${pkgs.writeText "stignore" ''
+      // Claude Code: machine-specific state
+      /.claude-sync/claude/.credentials.json
+      /.claude-sync/claude/ide
+      /.claude-sync/claude/sessions
+      /.claude-sync/claude/session-env
+      /.claude-sync/claude/shell-snapshots
+      /.claude-sync/claude/cache
+      /.claude-sync/claude/.last-cleanup
+    ''} "${config.home.homeDirectory}/Sync/.stignore"
+  '';
 }
