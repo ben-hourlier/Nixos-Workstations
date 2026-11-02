@@ -22,6 +22,8 @@
   xdg.dataFile."icons/hicolor/scalable/apps/web-calendar.svg".source = ../settings/icons/calendar.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/inventory.svg".source = ../settings/icons/inventory.svg;
 
+  home.file.".claude/projects".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Sync/.claude-sync/projects";
+
 
   # Screen layout written by the Quickshell Displays panel and sourced by Hyprland.
   # It must exist before Quickshell first runs, or Hyprland reports a missing source.
