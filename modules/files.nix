@@ -21,6 +21,7 @@
   xdg.dataFile."icons/hicolor/scalable/apps/mail.svg".source = ../settings/icons/mail.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/web-calendar.svg".source = ../settings/icons/calendar.svg;
   xdg.dataFile."icons/hicolor/scalable/apps/inventory.svg".source = ../settings/icons/inventory.svg;
+  xdg.dataFile."icons/hicolor/scalable/apps/meals.svg".source = ../settings/icons/meals.svg;
 
   # The whole Claude config lives in Sync; machine-specific files are excluded in daemons.nix.
   home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Sync/.claude-sync/claude";
