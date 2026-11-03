@@ -57,11 +57,19 @@ in
       categories = [ "Utility" "Office" ];
     };
 
-    inventtory = {
+    inventory = {
       name = "Inventory";
       genericName = "Power-user Inventroy";
       url = "https://inventory.bhr-sys.com";
       icon = "inventory";
+      categories = [ "Utility" "Office" ];
+    };
+
+    meals = {
+      name = "Meals";
+      genericName = "Power-user meals planner";
+      url = "https://meals.bhr-sys.com";
+      icon = "meals";
       categories = [ "Utility" "Office" ];
     };
 
