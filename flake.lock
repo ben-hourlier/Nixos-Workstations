@@ -75,11 +75,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1793283066,
-        "narHash": "sha256-3NSXEj0UcUpeC/0sXdHsJn62wksaSSDqBPE7gtnvN40=",
+        "lastModified": 1793696161,
+        "narHash": "sha256-fh6OXNXgJgvHQVwZvB+UEYYSFwxmXBlCYFMyuLaik0M=",
         "owner": "bhr-tools",
         "repo": "Drill",
-        "rev": "c05029f2fb0fa24cddf288d83b6ec6a0994efa66",
+        "rev": "80bd93c75cc0335f63cea4bb9fd0f4e7cad0b66d",
         "type": "github"
       },
       "original": {
