@@ -753,11 +753,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1793054431,
-        "narHash": "sha256-Raj9FjNcCugRz8nHAjUXJwT286To+Ag/DVoLHlp0RYE=",
+        "lastModified": 1793784570,
+        "narHash": "sha256-gfS5IM58y4t2BfrHaLEG+zCLl5Xmjc7Le3/QBVdohcU=",
         "owner": "bhr-tools",
         "repo": "Workspace-Manager",
-        "rev": "9cb1cbdacb437b25feb242cf495b2826fcd545a3",
+        "rev": "78e437a843cdb479221361f90619a60bc8185d79",
         "type": "github"
       },
       "original": {
