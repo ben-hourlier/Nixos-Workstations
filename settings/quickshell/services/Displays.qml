@@ -37,7 +37,26 @@ Singleton {
         }
         return monitors[0] ?? null;
     }
-    readonly property ShellScreen barScreen: Quickshell.screens.find(s => s.name === barMonitor?.name) ?? Quickshell.screens[0] ?? null
+    readonly property ShellScreen wantedScreen: Quickshell.screens.find(s => s.name === barMonitor?.name) ?? Quickshell.screens[0] ?? null
+
+    // The screen actually hosting the bar. A screen in standby can drop off
+    // the bus and come back within milliseconds; a window created on it in
+    // between is lost, or kills the Wayland connection. So the bar goes away
+    // at once and comes back when the screens have settled.
+    property ShellScreen barScreen: null
+
+    onWantedScreenChanged: {
+        barScreen = null;
+        settle.restart();
+    }
+
+    Timer {
+        id: settle
+
+        interval: 500
+        running: true
+        onTriggered: root.barScreen = root.wantedScreen
+    }
 
     // --- Brightness ---
 

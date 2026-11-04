@@ -7,9 +7,9 @@ import QtQuick
 import QtQuick.Layouts
 
 // Lock screen of one monitor: wallpaper, clock, date and the password field,
-// as hyprlock drew them, plus the current track and its controls. Every key
-// and pointer motion counts as activity, so the screens stay on while someone
-// is typing.
+// as hyprlock drew them, plus the running focus session and the current track
+// with its controls. Every key and pointer motion counts as activity, so the
+// screens stay on while someone is typing.
 WlSessionLockSurface {
     id: root
 
@@ -59,6 +59,11 @@ WlSessionLockSurface {
             text: clock.date.toLocaleDateString(Qt.locale("en_US"), "dddd d MMMM")
             font.pixelSize: 20
         }
+    }
+
+    FocusStatus {
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: 40
     }
 
     // --- Media ---
