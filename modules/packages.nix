@@ -105,7 +105,6 @@ in {
     qbittorrent
     shotwell
     speedcrunch
-    ventoy-full
     vlc
 
 

@@ -5,12 +5,7 @@
     (final: prev: {
       unstable = import inputs.nixpkgs-unstable {
         inherit (prev.stdenv.hostPlatform) system;
-        config = {
-          allowUnfree = true;
-          permittedInsecurePackages = [
-            "ventoy-1.1.17"
-          ];
-        };
+        config.allowUnfree = true;
       };
       
       eclipse-java-429 = (import inputs.nixpkgs-eclipse {
