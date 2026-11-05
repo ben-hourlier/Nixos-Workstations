@@ -1,4 +1,4 @@
-{ pkgs, system, ... }:
+{ pkgs, ... }:
 
 {
   # ====================================================================
@@ -20,8 +20,6 @@
   # after the initial installation can break things (like database formats or 
   # default file locations). It must be left exactly as it was during the first installation.
   system.stateVersion = "25.11";
-
-  nixpkgs.config.hostPlatform = system;
 
   networking.hostName = "desktop1-nixos";
 

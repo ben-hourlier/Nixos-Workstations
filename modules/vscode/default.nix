@@ -22,7 +22,7 @@
 #   VSCode overwrites the profile list when it exits.
 
 let
-  ext = pkgs.unstable.vscode-extensions;
+  ext = pkgs.vscode-extensions;
   base = import ./base.nix { inherit ext; };
 
   profiles = [
@@ -45,7 +45,7 @@ in
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.unstable.vscode-fhs;
+    package = pkgs.vscode-fhs;
     profiles = { default = withBase { }; } // lib.genAttrs profiles loadProfile;
   };
 }

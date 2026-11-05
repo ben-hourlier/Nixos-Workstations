@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, hyprland }:
 
 # Creates a script to dynamically toggle between light and dark themes.
 # This script updates GTK settings via gsettings, symlinks appropriate 
@@ -42,7 +42,7 @@ pkgs.writeShellScriptBin "theme-switch" ''
   ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface icon-theme "$ICON"
   ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme "$SCHEME"
   
-  ${pkgs.hyprland}/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"
+  ${hyprland}/bin/hyprctl hyprpaper wallpaper ",$WALLPAPER"
 
   pkill -SIGUSR1 kitty
   # The Quickshell bar follows theme_state by itself: only start it if needed.

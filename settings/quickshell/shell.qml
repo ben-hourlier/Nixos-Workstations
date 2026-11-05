@@ -9,9 +9,8 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-// FocusOS shell: one bar, its panels, the OSD, the launcher, the screen
-// arrangement and the lock screen. No notification server: mako keeps
-// filtering notifications out.
+// FocusOS shell: one bar, its panels, the OSD, the notifications, the
+// launcher, the screen arrangement and the lock screen.
 ShellRoot {
     LazyLoader {
         active: Displays.barScreen !== null
@@ -24,6 +23,8 @@ ShellRoot {
     Osd {
         id: osd
     }
+
+    Notifications {}
 
     Launcher {}
 
