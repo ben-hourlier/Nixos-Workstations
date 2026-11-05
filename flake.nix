@@ -14,13 +14,11 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
 
     hyprland.url = "github:hyprwm/Hyprland/f68ac7ef7589e1536d438f7fbfb3ad987538fe0f";
-    antigravity.url = "github:jacopone/antigravity-nix";
 
-    focus.url = "github:bhr-tools/Focus";
-
-    workspace-manager.url = "github:bhr-tools/Workspace-Manager";
     capture.url = "github:bhr-tools/Capture";
     drill.url = "github:bhr-tools/Drill";
+    focus.url = "github:bhr-tools/Focus";
+    workspace-manager.url = "github:bhr-tools/Workspace-Manager";
   };
 
 
