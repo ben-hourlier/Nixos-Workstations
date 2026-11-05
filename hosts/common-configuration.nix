@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, unstable, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # ====================================================================
@@ -143,6 +143,13 @@
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
+  hardware.graphics = let
+    hyprlandPkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  in {
+    package = hyprlandPkgs.mesa;
+    package32 = hyprlandPkgs.pkgsi686Linux.mesa;
+  };
+
   services.displayManager.ly = {
     enable = true;
     settings = {
@@ -247,14 +254,14 @@
 
   # --- N7 VPN Configuration ---
 
-  environment.etc."vpnc/n7-vpn.conf".text = ''
-    IPSec secret REDACTED
-    IPSec ID inpxagn
-    IPSec gateway gpvpn.enseeiht.fr
-    IKE DH Group dh2
-    IKE Authmode psk
-    Xauth username REDACTED
-  '';
+  sops = {
+    defaultSopsFile = ../secrets/secrets.yaml;
+    age.keyFile = "/home/ben/.config/sops/age/keys.txt";
+    secrets.n7-vpn = {
+      path = "/etc/vpnc/n7-vpn.conf";
+      mode = "0400";
+    };
+  };
 
 
   # ====================================================================
@@ -264,4 +271,9 @@
   fonts.packages = with pkgs; [
     corefonts # Contient Times New Roman, Arial, Courier New, etc.
   ];
+
+  fonts.fontconfig.defaultFonts = {
+    sansSerif = [ "Inter" ];
+    monospace = [ "JetBrainsMono Nerd Font" ];
+  };
 }

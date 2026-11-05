@@ -9,7 +9,7 @@ let
     hash = "sha256-BdisAHsLHNqtuDu8rtBZZaqiTeL60pQOWKsRct35VZM="; 
   };
 in {  
-  home.packages = (with pkgs; [
+  home.packages = (with pkgs.stable; [
     
     # ====================================================================
     # --- Stable ---
@@ -17,12 +17,10 @@ in {
     
     # --- System ---
 
-    bluez # bluetooth protocol
     brightnessctl
     ddcutil # per-screen brightness of external monitors
     fuse # allows complex mount system
     libnotify
-    playerctl
     socat
     vpnc
     
@@ -42,10 +40,8 @@ in {
 
     # --- Tools ---
 
-    cliphist
     fastfetch
     fd
-    fzf
     gnumake
     jq
     parted
@@ -59,7 +55,7 @@ in {
     zip unzip
     zoxide
 
-  ]) ++ (with pkgs.unstable; [
+  ]) ++ (with pkgs; [
 
     # ====================================================================
     # --- Unstable ---

@@ -27,40 +27,6 @@
 
 
   # ====================================================================
-  # --- Notifications ---
-  # ====================================================================
-
-  # Configures Mako, a lightweight Wayland notification daemon.
-  services.mako = {
-    enable = true;
-    
-    # Applies the "Rosé Pine" aesthetic theme for the notification popups.
-    settings = {
-      background-color = "#191724";
-      text-color = "#e0def4";
-      border-color = "#eb6f92";
-      border-radius = 5;
-      border-size = 2;
-      font = "Cantarell 11";
-      padding = "15";
-      default-timeout = 5000; # Dismisses notifications automatically after 5 seconds.
-    };
-
-    # Defines advanced filtering rules.
-    # By default, all standard notifications are hidden (invisible=1) to prevent distractions.
-    # Only critical "system_alert" are permitted to show on screen.
-    extraConfig = ''
-      # Hide everything by default
-      invisible=1
-
-      # Whitelist specific critical categories
-      [category="system_alert"]
-      invisible=0
-    '';
-  };
-
-
-  # ====================================================================
   # --- Other Background Services ---
   # ====================================================================
 

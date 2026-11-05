@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, system, lib, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   # ====================================================================
@@ -54,6 +54,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = null; # prevent home manager from installing the same package as configuration.nix
+    configType = "hyprlang";
     extraConfig = ''
       source = ~/.config/hypr/hyprland.conf
     '';
