@@ -124,6 +124,9 @@ in {
 
     python3
 
+    # Claude Code CLI (`claude`); the VS Code extension ships its own copy
+    claude-code
+
   ]) ++ ([
     pkgs.eclipse-java-429
     pkgs.focus
