@@ -73,6 +73,14 @@ in
       categories = [ "Utility" "Office" ];
     };
 
+    assistant = {
+      name = "Assistant";
+      genericName = "Power-user assistant";
+      url = "https://assistant.bhr-sys.com";
+      icon = "assistant";
+      categories = [ "Utility" "Office" ];
+    };
+
     deezer = {
       name = "Deezer";
       genericName = "Music Player";
