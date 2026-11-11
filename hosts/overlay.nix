@@ -12,6 +12,10 @@
         inherit (prev.stdenv.hostPlatform) system;
       }).eclipses.eclipse-modeling;
 
+      yazi = (import inputs.nixpkgs-yazi {
+        inherit (prev.stdenv.hostPlatform) system;
+      }).yazi;
+
       focus = inputs.focus.packages.${prev.stdenv.hostPlatform.system}.default;
       drill = inputs.drill.packages.${prev.stdenv.hostPlatform.system}.default;
     })

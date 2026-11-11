@@ -35,7 +35,6 @@ in {
     kitty
     polkit_gnome
     waypipe
-    yazi
 
 
     # --- Tools ---
@@ -129,6 +128,7 @@ in {
 
   ]) ++ ([
     pkgs.eclipse-java-429
+    pkgs.yazi
     pkgs.focus
     pkgs.drill
   ]);
