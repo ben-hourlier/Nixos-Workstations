@@ -77,7 +77,7 @@ in
       name = "Assistant";
       genericName = "Power-user assistant";
       url = "https://assistant.bhr-sys.com";
-      icon = "assistant";
+      icon = "power-assistant";
       categories = [ "Utility" "Office" ];
     };
 
