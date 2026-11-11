@@ -37,6 +37,15 @@
   services.cliphist.enable = true;
   services.whisper-dictate.enable = true;
 
+  # When the compositor restarts, wl-paste loses its connection and systemd restarts it
+  # before the new Wayland socket exists. With no delay, the restarts hit the start limit
+  # and systemd gives up, so the clipboard history silently stops recording.
+  # Wait between restarts and never give up.
+  systemd.user.services.cliphist.Unit.StartLimitIntervalSec = 0;
+  systemd.user.services.cliphist.Service.RestartSec = 2;
+  systemd.user.services.cliphist-images.Unit.StartLimitIntervalSec = 0;
+  systemd.user.services.cliphist-images.Service.RestartSec = 2;
+
   # Using udisks2 to automatically mount external drives when pluged
   services.udiskie = {
     enable = true;
