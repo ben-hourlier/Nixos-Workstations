@@ -74,10 +74,10 @@ in
     };
 
     assistant = {
-      name = "Assistant";
-      genericName = "Power-user assistant";
-      url = "https://assistant.bhr-sys.com";
-      icon = "power-assistant";
+      name = "Project";
+      genericName = "Power-user projects manager";
+      url = "https://project.bhr-sys.com";
+      icon = "project";
       categories = [ "Utility" "Office" ];
     };
 
