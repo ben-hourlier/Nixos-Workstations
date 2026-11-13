@@ -1,13 +1,14 @@
 import qs.common
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Wayland
 import QtQuick
 
-// Hosts the open panel. A transparent layer covers the whole screen and takes
-// the keyboard while shown, for Escape and Wi-Fi passwords. Hyprland then only
-// sends clicks to this layer, so it handles the bar area itself: a click on a
-// bar item switches to (or closes) its panel, any other click closes it, and
-// clicks inside the panel stay there.
+// Hosts the open panel. A transparent layer covers the bar's screen and holds
+// a focus grab while shown, which gives it the keyboard (Escape, Wi-Fi
+// passwords). It covers the bar too, so it handles that area itself: a click
+// on a bar item switches to (or closes) its panel, any other click closes it,
+// and clicks inside the panel stay there.
 PanelWindow {
     id: layer
 
@@ -37,7 +38,7 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "quickshell-panel"
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
     color: "transparent"
     visible: current !== ""
 
@@ -61,6 +62,7 @@ PanelWindow {
 
         function onPanelChanged(): void {
             layer.current = Ui.panel;
+            grab.active = Ui.panel !== "";
         }
     }
 
@@ -73,6 +75,16 @@ PanelWindow {
             else
                 Ui.close();
         }
+    }
+
+    // A click outside the grabbed layer, on another screen, ends the grab:
+    // the panel closes there too. An exclusive keyboard grab would not do,
+    // Hyprland then sends no pointer event outside the layer.
+    HyprlandFocusGrab {
+        id: grab
+
+        windows: [layer]
+        onCleared: Ui.close()
     }
 
     Item {
