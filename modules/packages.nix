@@ -33,6 +33,7 @@ in {
     hyprpaper
     hyprpicker
     kitty
+    localsend
     polkit_gnome
     waypipe
 
@@ -91,7 +92,6 @@ in {
     gimp
     google-chrome
     kdePackages.okular
-    localsend
     loupe
     ly
     obsidian
