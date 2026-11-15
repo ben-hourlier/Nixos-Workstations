@@ -75,6 +75,7 @@ in {
     git-filter-repo
     man-pages
     pre-commit
+    rmpc
     sshfs
     steam-run
     wol
