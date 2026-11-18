@@ -4,7 +4,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
-// Replaces hyprlock: one lock surface per screen, all sharing the same
+// One lock surface per screen, all sharing the same
 // password field. hypridle calls `qs ipc call lock lock` on
 // `loginctl lock-session` and before sleep.
 Scope {

@@ -56,7 +56,7 @@
     package = null; # prevent home manager from installing the same package as configuration.nix
     configType = "hyprlang";
     extraConfig = ''
-      source = ~/.config/hypr/hyprland.conf
+      source = ~/.config/hypr/main.conf
     '';
   };
 

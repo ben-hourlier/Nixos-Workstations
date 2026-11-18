@@ -12,7 +12,6 @@ let
   };
 
   loudGainScript = import ../scripts/loudgain.nix { inherit pkgs; };
-  ncmpcppWrapper = import ../scripts/ncmpcpp-wrapper.nix { inherit pkgs config; };
 
 in
 {
@@ -27,7 +26,6 @@ in
     loudgain
     loudGainScript
     mpc
-    ncmpcppWrapper
     picard
     python313Packages.deemix
   ];

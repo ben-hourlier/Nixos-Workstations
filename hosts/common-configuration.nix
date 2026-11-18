@@ -15,7 +15,7 @@
   # Enables Flakes and the modern nix command-line tool, which are required for this setup.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
-  # Allows the installation of proprietary software, such as the NVIDIA drivers.
+  # Allows the installation of proprietary software.
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
@@ -139,15 +139,13 @@
 
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    package = pkgs.stable.hyprland;
+    portalPackage = pkgs.stable.xdg-desktop-portal-hyprland;
   };
 
-  hardware.graphics = let
-    hyprlandPkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  in {
-    package = hyprlandPkgs.mesa;
-    package32 = hyprlandPkgs.pkgsi686Linux.mesa;
+  hardware.graphics = {
+    package = pkgs.stable.mesa;
+    package32 = pkgs.stable.pkgsi686Linux.mesa;
   };
 
   services.displayManager.ly = {
@@ -160,7 +158,10 @@
     };
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableGlobalCompInit = false;
+  };
 
 
   # --- Audio & Sound (PipeWire) ---
@@ -206,9 +207,6 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-    ];
     config = {
       common = {
         default = [ "gtk" ];

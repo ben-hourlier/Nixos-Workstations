@@ -9,7 +9,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-// FocusOS shell: one bar, its panels, the OSD, the notifications, the
+// FocusOS shell: the wallpaper, one bar, its panels, the OSD, the notifications, the
 // launcher, the screen arrangement and the lock screen.
 ShellRoot {
     LazyLoader {
@@ -20,9 +20,9 @@ ShellRoot {
         }
     }
 
-    Osd {
-        id: osd
-    }
+    Wallpaper {}
+
+    Osd {}
 
     Notifications {}
 
@@ -32,12 +32,16 @@ ShellRoot {
 
     Arrange {}
 
-    // qs ipc call osd brightness
+    // qs ipc call brightness up|down
     IpcHandler {
-        target: "osd"
+        target: "brightness"
 
-        function brightness(): void {
-            osd.showBrightness();
+        function up(): void {
+            Displays.stepBrightness(1);
+        }
+
+        function down(): void {
+            Displays.stepBrightness(-1);
         }
     }
 

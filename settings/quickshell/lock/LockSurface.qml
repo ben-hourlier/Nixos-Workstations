@@ -7,7 +7,7 @@ import QtQuick
 import QtQuick.Layouts
 
 // Lock screen of one monitor: wallpaper, clock, date and the password field,
-// as hyprlock drew them, plus the running focus session and the current track
+// plus the running focus session and the current track
 // with its controls. Every key and pointer motion counts as activity, so the
 // screens stay on while someone is typing.
 WlSessionLockSurface {
@@ -17,7 +17,7 @@ WlSessionLockSurface {
 
     Image {
         anchors.fill: parent
-        source: "file://" + Quickshell.env("HOME") + "/.config/hypr/current_wallpaper.png"
+        source: Theme.wallpaper
         fillMode: Image.PreserveAspectCrop
         asynchronous: true
         cache: false

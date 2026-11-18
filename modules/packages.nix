@@ -1,40 +1,27 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
-let
-  # Fetches additional plugins for the Yazi file manager directly from GitHub.
-  yazi-plugins = pkgs.fetchFromGitHub {
-    owner = "yazi-rs";
-    repo = "plugins";
-    rev = "c2c16c83dd6c754c38893030848a162bb2422ca2";
-    hash = "sha256-BdisAHsLHNqtuDu8rtBZZaqiTeL60pQOWKsRct35VZM="; 
-  };
-in {  
+{
   home.packages = (with pkgs.stable; [
-    
+
     # ====================================================================
     # --- Stable ---
     # ====================================================================
-    
+
     # --- System ---
 
     brightnessctl
     ddcutil # per-screen brightness of external monitors
     fuse # allows complex mount system
     libnotify
-    socat
     vpnc
-    
+
 
     # --- Desktop Environment ---
 
-    fuzzel
     hypridle
-    hyprlock
-    hyprpaper
     hyprpicker
     kitty
     localsend
-    polkit_gnome
     waypipe
 
 
@@ -48,9 +35,7 @@ in {
     readline
     ripdrag
     sops
-    timewarrior
     trash-cli
-    uair
     wl-clipboard
     zip unzip
     zoxide
@@ -60,11 +45,6 @@ in {
     # ====================================================================
     # --- Unstable ---
     # ====================================================================
-
-    # --- Desktop Environment ---
-
-    quickshell
-
 
     # --- Shell ---
 
@@ -83,7 +63,7 @@ in {
 
 
     # --- GUI Applications ---
-    
+
     anki-bin
     appimage-run
     audacity
@@ -94,7 +74,6 @@ in {
     google-chrome
     kdePackages.okular
     loupe
-    ly
     obsidian
     onlyoffice-desktopeditors
     pdfarranger
@@ -111,7 +90,7 @@ in {
     gcc
 
     jdk21_headless
-    
+
 
     # OCaml
     dune_3
@@ -139,11 +118,17 @@ in {
   # --- Program Configurations ---
   # ====================================================================
 
+  programs.quickshell = {
+    enable = true;
+    package = pkgs.stable.quickshell;
+    systemd.enable = true;
+  };
+
   programs.btop = {
     enable = true;
     settings = {
       color_theme = "user-theme";
-      theme_background = false; 
+      theme_background = false;
       vim_keys = true;
     };
   };

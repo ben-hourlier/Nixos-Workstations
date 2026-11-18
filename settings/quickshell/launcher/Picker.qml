@@ -77,7 +77,7 @@ Rectangle {
         return total;
     }
 
-    // Entry text with the query's letters in rose, as fuzzel shows matches:
+    // Entry text with the query's letters in rose:
     // the substring when there is one, else the letters in order.
     function highlight(text: string): string {
         const escape = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

@@ -32,9 +32,6 @@
   # Enables the I2C bus hardware to allow communication with the monitors.
   hardware.i2c.enable = true;
 
-  # Configures X11/Wayland to use "amdgpu" and/or "nvidia"
-  services.xserver.videoDrivers = ["amdgpu"];
-
 
   # --- Wake On Lan ---
 

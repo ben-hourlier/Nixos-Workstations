@@ -3,8 +3,6 @@
 let
   # compInventory = import ../scripts/inventory.nix { inherit pkgs; };
   trashScript = import ../scripts/trash.nix { inherit pkgs; };
-  brightnessScript = import ../scripts/brightness.nix { inherit pkgs; };
-  displayNamesScript = import ../scripts/display-names.nix { inherit pkgs; };
 
 in
 {
@@ -12,11 +10,8 @@ in
   # --- System Packages ---
   # ====================================================================
   
-  home.packages = [ 
-    # compInventory
+  home.packages = [
     trashScript
-    brightnessScript
-    displayNamesScript
   ];
 
   # ====================================================================
@@ -64,12 +59,5 @@ in
       icon = "usb";
       categories = [ "System" ];
     };
-
-    # inventory = {
-    #   name = "Components Inventory";
-    #   exec = "comp-inventory";
-    #   terminal = true;
-    #   icon = "tools";
-    # };
   };
 }

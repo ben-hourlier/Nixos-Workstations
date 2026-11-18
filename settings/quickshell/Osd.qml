@@ -25,15 +25,6 @@ Scope {
         hide.restart();
     }
 
-    function showBrightness(): void {
-        const desc = Displays.barMonitor?.description ?? "";
-        Displays.refreshBrightness(() => {
-            const value = Displays.brightness[desc];
-            if (value !== undefined)
-                root.show("light_mode", value / 100);
-        });
-    }
-
     Timer {
         id: hide
 
@@ -46,6 +37,14 @@ Scope {
         interval: 2000
         running: true
         onTriggered: root.armed = true
+    }
+
+    Connections {
+        target: Displays
+
+        function onBrightnessStepped(value: int): void {
+            root.show("light_mode", value / 100);
+        }
     }
 
     Connections {

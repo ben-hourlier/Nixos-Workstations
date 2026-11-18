@@ -1,13 +1,7 @@
-{ pkgs, osConfig, ... }:
+{ pkgs, ... }:
 
 let  
-  themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; hyprland = osConfig.programs.hyprland.package; };
-  themesDir = ../themes;
-
-  setConfigMedia = pkgs.writeShellScriptBin "set-config-media" ''
-    #!/usr/bin/env bash
-    ln -sf "${themesDir}/deepwork-alarm.mp3" "$HOME/.config/deepwork-alarm.mp3"
-  '';
+  themeSwitchScript = import ../scripts/theme-switch.nix { inherit pkgs; };
 in
 {
   # ====================================================================
@@ -62,17 +56,19 @@ in
   # --- Packages ---
   # ====================================================================
   
+  xdg.configFile."quickshell/wallpapers/dark.png".source = ../themes/wallpaper-dark.png;
+  xdg.configFile."quickshell/wallpapers/light.png".source = ../themes/wallpaper-light.png;
+
   home.packages = with pkgs; [
     adw-gtk3
     adwaita-qt
     adwaita-qt6
     gsettings-desktop-schemas   # Required for theme-switch schema validation
-    inter                       # Interface font (GTK, Quickshell, fuzzel, hyprlock)
+    inter                       # Interface font (GTK, Quickshell)
     lmodern
     material-symbols            # Quickshell bar icons
     nerd-fonts.jetbrains-mono
     papirus-icon-theme
-    setConfigMedia
     themeSwitchScript
   ];
 

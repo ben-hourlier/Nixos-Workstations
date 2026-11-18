@@ -6,7 +6,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
-// Replaces fuzzel: application launcher (with a calculator), clipboard
+// Application launcher (with a calculator), clipboard
 // history and USB eject, all through the same picker, on the focused screen.
 // A transparent layer covers the screen and takes the keyboard; a click
 // outside the card closes.

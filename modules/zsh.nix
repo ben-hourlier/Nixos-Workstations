@@ -96,6 +96,9 @@
 
     oh-my-zsh = {
       enable = true;
+      extraConfig = ''
+        ZSH_DISABLE_COMPFIX=true
+      '';
       plugins = [ 
         "git"   # Provides numerous git aliases and prompt functions.
         "sudo"  # Allows prepending 'sudo' to the current command by quickly pressing ESC twice.

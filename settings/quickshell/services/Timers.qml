@@ -137,7 +137,7 @@ Singleton {
                 state.countEnd = 0;
                 state.countLeft = 0;
                 state.ringing = true;
-                Quickshell.execDetached(["pw-play", Quickshell.env("HOME") + "/.config/deepwork-alarm.mp3"]);
+                Quickshell.execDetached(["pw-play", Quickshell.env("HOME") + "/.config/quickshell/sounds/deepwork-alarm.mp3"]);
             }
         }
     }

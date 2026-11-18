@@ -145,6 +145,45 @@ Singleton {
         applyBrightness.restart();
     }
 
+    signal brightnessStepped(int value)
+
+    function nextBrightness(current: int, direction: int, step: int): int {
+        return Math.max(step, Math.min(100, Math.round((current + direction * step) / step) * step));
+    }
+
+    // Brightness keys: the laptop panel by steps of 5; external screens by
+    // steps of 10, from the first screen's value, all set to the same value.
+    function stepBrightness(direction: int): void {
+        const internal = live.find(m => isInternal(m.name));
+        if (internal) {
+            Cmd.run(["brightnessctl", "-m", "-c", "backlight"], text => {
+                const current = parseInt(text.split(",")[3]);
+                if (isNaN(current))
+                    return;
+                const value = root.nextBrightness(current, direction, 5);
+                Quickshell.execDetached(["brightnessctl", "-c", "backlight", "set", value + "%"]);
+                root.brightness = Object.assign({}, root.brightness, { [internal.description]: value });
+                root.brightnessStepped(value);
+            });
+            return;
+        }
+
+        const descs = Object.keys(buses);
+        if (descs.length === 0)
+            return;
+        Cmd.run(["ddcutil", "getvcp", "10", "--bus", buses[descs[0]], "--terse"], text => {
+            const current = parseInt(text.trim().split(/\s+/)[3]);
+            const value = root.nextBrightness(isNaN(current) ? 50 : current, direction, 10);
+            const all = {};
+            for (const desc of descs) {
+                all[desc] = value;
+                Quickshell.execDetached(["ddcutil", "setvcp", "10", String(value), "--bus", root.buses[desc]]);
+            }
+            root.brightness = Object.assign({}, root.brightness, all);
+            root.brightnessStepped(value);
+        });
+    }
+
 
     // --- State file ---
 
@@ -264,11 +303,11 @@ Singleton {
                     found[monitor.description] = bus[1];
             }
             root.buses = found;
-            root.refreshBrightness(null);
+            root.refreshBrightness();
         });
     }
 
-    function refreshBrightness(done: var): void {
+    function refreshBrightness(): void {
         for (const m of live) {
             const desc = m.description;
             if (isInternal(m.name)) {
@@ -276,16 +315,12 @@ Singleton {
                     const value = parseInt(text.split(",")[3]);
                     if (!isNaN(value))
                         root.brightness = Object.assign({}, root.brightness, { [desc]: value });
-                    if (done)
-                        done();
                 });
             } else if (buses[desc]) {
                 Cmd.run(["ddcutil", "getvcp", "10", "--bus", buses[desc], "--terse"], text => {
                     const value = parseInt(text.trim().split(/\s+/)[3]);
                     if (!isNaN(value))
                         root.brightness = Object.assign({}, root.brightness, { [desc]: value });
-                    if (done)
-                        done();
                 });
             }
         }

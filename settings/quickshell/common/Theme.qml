@@ -32,6 +32,8 @@ Singleton {
 
     readonly property color accent: pine
 
+    readonly property string wallpaper: "file://" + Quickshell.env("HOME") + "/.config/quickshell/wallpapers/" + (dark ? "dark" : "light") + ".png"
+
 
     // --- Typography ---
 

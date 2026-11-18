@@ -6,7 +6,7 @@ import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 
-// Album art, track, progress and transport controls. The library stays in ncmpcpp.
+// Album art, track, progress and transport controls.
 Panel {
     id: root
 

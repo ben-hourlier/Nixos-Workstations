@@ -14,15 +14,15 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    hyprland.url = "github:hyprwm/Hyprland/f68ac7ef7589e1536d438f7fbfb3ad987538fe0f";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     capture.url = "github:bhr-tools/Capture";
+    capture.inputs.nixpkgs.follows = "nixpkgs-stable";
     drill.url = "github:bhr-tools/Drill";
     focus.url = "github:bhr-tools/Focus";
     workspace-manager.url = "github:bhr-tools/Workspace-Manager";
+    workspace-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
 

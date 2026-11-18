@@ -6,7 +6,7 @@ import qs.services
 import QtQuick
 import QtQuick.Layouts
 
-// Replaces GNOME Clocks: a stopwatch and a countdown, nothing else.
+// A stopwatch and a countdown, nothing else.
 Panel {
     id: root
 

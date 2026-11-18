@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   # ====================================================================
@@ -8,7 +8,6 @@
   # The 'recursive = true' option ensures that individual files within these directories 
   # are symlinked individually rather than replacing the entire target directory.
   xdg.configFile = {
-    "fuzzel" = { source = ../settings/fuzzel; recursive = true; };
     "hypr" = { source = ../settings/hypr; recursive = true; };
     "kitty" = { source = ../settings/kitty; recursive = true; };
     "nvim" = { source = ../settings/nvim; recursive = true; };
@@ -46,11 +45,15 @@
     name = "Yazi";
     # A dedicated class tells yazi's window apart from other kitty windows
     # and ties it to this entry (name, icon).
-    exec = "kitty --class yazi -e yazi %u";
+    exec = "kitty -1 --class yazi -e yazi %u";
     # Set to false because the 'exec' command already wraps the process in a terminal (kitty).
     terminal = false;
     icon = "system-file-manager";
     mimeType = [ "inode/directory" ];
     settings.StartupWMClass = "yazi";
   };
+
+  xdg.dataFile."applications/kitty.desktop".source = pkgs.runCommand "kitty.desktop" { } ''
+    sed 's/^Exec=kitty$/Exec=kitty -1/' ${pkgs.stable.kitty}/share/applications/kitty.desktop > $out
+  '';
 }

@@ -60,7 +60,7 @@ desc = "Go to USB keys"
 
 [[mgr.prepend_keymap]]
 on   = [ "T" ]
-run  = 'shell "kitty --detach &" --block'
+run  = 'shell "kitty -1 --detach &" --block'
 desc = "Open terminal here"
 
 
