@@ -26,10 +26,9 @@ Singleton {
     function launch(app: DesktopEntry): void {
         launches = Object.assign({}, launches, { [app.id]: (launches[app.id] ?? 0) + 1 });
         state.setText(JSON.stringify(launches, null, 2));
-        if (app.runInTerminal)
-            Quickshell.execDetached(["kitty", "-1", "-e", ...app.command]);
-        else
-            app.execute();
+        const command = app.runInTerminal ? ["kitty", "-1", "-e", ...app.command] : app.command;
+        const dir = app.workingDirectory ? ["env", "-C", app.workingDirectory] : [];
+        Quickshell.execDetached(["systemd-run", "--user", "--scope", "--collect", "--quiet", ...dir, ...command]);
     }
 
     FileView {

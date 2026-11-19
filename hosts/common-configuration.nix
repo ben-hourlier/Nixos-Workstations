@@ -134,8 +134,13 @@
   # Polkit is required for GUI applications to request elevated privileges
   security.polkit.enable = true;
 
-  # PAM service checked by the Quickshell lock screen.
-  security.pam.services.quickshell = {};
+  # PAM service checked by the Quickshell lock screen. Quickshell comes from
+  # stable and cannot load modules built against the newer glibc of unstable.
+  security.pam.services.quickshell.text = let pam = "${pkgs.stable.linux-pam}/lib/security"; in ''
+    account required ${pam}/pam_unix.so
+    auth sufficient ${pam}/pam_unix.so likeauth try_first_pass
+    auth required ${pam}/pam_deny.so
+  '';
 
   programs.hyprland = {
     enable = true;
