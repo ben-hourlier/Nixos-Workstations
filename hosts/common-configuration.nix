@@ -231,6 +231,10 @@
   # Enabling it here ensures GTK themes and settings (often set via Home Manager) apply correctly.
   programs.dconf.enable = true;
 
+  # nix-ld fournit un loader /lib64/ld-linux-x86-64.so.2 pour les binaires
+  # génériques Linux (ex. le node de VS Code Server lors d'un Remote-SSH).
+  programs.nix-ld.enable = true;
+
   programs.git = {
     enable = true;
     config = {

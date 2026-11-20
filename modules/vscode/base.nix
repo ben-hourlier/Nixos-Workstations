@@ -7,6 +7,7 @@
     # Global
     anthropic.claude-code
     tomoki1207.pdf
+    ms-vscode-remote.remote-ssh
 
     # Theme
     mvllow.rose-pine
