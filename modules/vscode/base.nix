@@ -41,6 +41,7 @@
     "github.copilot.enable" = {
       "*" = false;
     };
+    "claudeCode.hideOnboarding" = "true";
   };
 
   keybindings = [ ];

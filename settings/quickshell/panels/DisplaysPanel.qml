@@ -22,6 +22,10 @@ Panel {
     title: "Displays"
     panelWidth: 400
 
+    // A screen still waking up at login does not answer DDC/CI, and its
+    // brightness stays unknown: each opening detects and reads again.
+    Component.onCompleted: Displays.detectBuses()
+
     header: Button {
         Layout.fillWidth: false
         visible: root.multi
