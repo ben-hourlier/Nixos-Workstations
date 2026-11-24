@@ -112,9 +112,16 @@ PanelWindow {
                     bluetooth: bluetooth,
                     displays: displays,
                     keyboard: keyboard,
-                    clock: clockPanel
+                    clock: clockPanel,
+                    health: healthPanel
                 })[layer.current] ?? null
         }
+    }
+
+    Component {
+        id: healthPanel
+
+        HealthPanel {}
     }
 
     Component {

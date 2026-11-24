@@ -59,6 +59,7 @@ PanelWindow {
         anchors.verticalCenter: parent.verticalCenter
         spacing: 2
 
+        HealthItem {}
         PrivacyItem {}
         FocusItem {}
         NetworkItem {}

@@ -15,14 +15,6 @@
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 
-  xdg.dataFile."icons/hicolor/scalable/apps/focus.svg".source = ../settings/icons/focus.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/getdone.svg".source = ../settings/icons/getdone.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/mail.svg".source = ../settings/icons/mail.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/web-calendar.svg".source = ../settings/icons/calendar.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/inventory.svg".source = ../settings/icons/inventory.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/meals.svg".source = ../settings/icons/meals.svg;
-  xdg.dataFile."icons/hicolor/scalable/apps/project.svg".source = ../settings/icons/project.svg;
-
   # The whole Claude config lives in Sync; machine-specific files are excluded in daemons.nix.
   home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Sync/.claude-sync/claude";
 
