@@ -117,11 +117,20 @@ Singleton {
     }
 
     // Positions of the connected screens: the saved arrangement of this set,
-    // else left to right, top-aligned.
+    // else the smallest saved arrangement including them all, else left to
+    // right, top-aligned.
+    //
+    // A screen waking from standby drops off the bus for a moment. Moving the
+    // others left to right meanwhile would put one of them where it comes
+    // back, overlapping it: they keep their places instead.
     function positions(current: var): var {
+        const covers = map => current.every(m => map[m.description]);
         const saved = arrangements[setKey(current)];
-        if (saved && current.every(m => saved[m.description]))
+        if (saved && covers(saved))
             return saved;
+        const wider = Object.values(arrangements).filter(covers).sort((a, b) => Object.keys(a).length - Object.keys(b).length);
+        if (wider.length > 0)
+            return wider[0];
         const result = {};
         let x = 0;
         for (const m of [...current].sort((a, b) => a.x - b.x)) {
