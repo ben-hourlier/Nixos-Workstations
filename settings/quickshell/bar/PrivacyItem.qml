@@ -4,9 +4,12 @@ import qs.services
 import QtQuick
 import QtQuick.Layouts
 
-// Shown only while something captures: dictation, microphone, camera or screen.
+// Shown only while something captures: dictation, microphone, camera,
+// screen sharing or recording.
+// Its panel lists which applications do.
 BarItem {
-    visible: Privacy.dictating || Privacy.microphone || Privacy.video || Privacy.screenRecording
+    panel: "privacy"
+    visible: Privacy.dictating || Privacy.microphone || Privacy.video || Privacy.screenSharing || Privacy.screenRecording
 
     Icon {
         visible: Privacy.dictating
@@ -24,6 +27,13 @@ BarItem {
     Icon {
         visible: Privacy.video
         name: "videocam"
+        filled: true
+        color: Theme.love
+    }
+
+    Icon {
+        visible: Privacy.screenSharing
+        name: "screen_share"
         filled: true
         color: Theme.love
     }

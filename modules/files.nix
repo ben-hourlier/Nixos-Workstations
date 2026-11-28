@@ -12,6 +12,7 @@
     "kitty" = { source = ../settings/kitty; recursive = true; };
     "nvim" = { source = ../settings/nvim; recursive = true; };
     "quickshell" = { source = ../settings/quickshell; recursive = true; };
+    "rmpc" = { source = ../settings/rmpc; recursive = true; };
     "yazi" = { source = ../settings/yazi; recursive = true; };
   };
 

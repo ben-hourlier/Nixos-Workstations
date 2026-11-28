@@ -113,9 +113,16 @@ PanelWindow {
                     displays: displays,
                     keyboard: keyboard,
                     clock: clockPanel,
-                    health: healthPanel
+                    health: healthPanel,
+                    privacy: privacyPanel
                 })[layer.current] ?? null
         }
+    }
+
+    Component {
+        id: privacyPanel
+
+        PrivacyPanel {}
     }
 
     Component {
